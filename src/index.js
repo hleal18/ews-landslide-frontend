@@ -34,9 +34,6 @@ import mqttClient from "./mqtt/config";
 
 const hist = createBrowserHistory();
 
-
-//mqttClient.publish('topic', 'wsssecureconnection demo...');
-
 ReactDOM.render(
     <Router history={hist}>
         <Switch>

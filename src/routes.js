@@ -34,6 +34,7 @@ import Icons from "views/Icons/Icons.js";
 import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
+import Devices from "views/Devices/Devices";
 // core components/views for RTL layout
 import RTLPage from "views/RTLPage/RTLPage.js";
 
@@ -52,6 +53,13 @@ const dashboardRoutes = [
         rtlName: "لوحة القيادة",
         icon: Dashboard,
         component: Dashboard2,
+        layout: "/admin"
+    },
+    {
+        path: "/devices",
+        name: "Dispositivos",
+        icon: Person,
+        component: Devices,
         layout: "/admin"
     },
     {
