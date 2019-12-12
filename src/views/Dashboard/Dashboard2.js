@@ -28,13 +28,14 @@ class Dashboard2 extends React.Component {
         }
 
         mqttClient.on('message', (topic, payload, packet) => {
+            const payloadJson = JSON.parse(payload);
             const newEntry = {
-                name: new Date(Date.now()).toUTCString(), measure: Number(payload)
+                name: new Date(Date.now()).toUTCString(), measure: payloadJson.x
             }
 
             const newVisEntry = {
                 x: this.state.entriesCount,
-                y: Number(payload)
+                y: payloadJson.y
             }
             this.setState({ entriesCount: this.state.entriesCount + 1 });
             this.addMeasureEntry(newEntry);
@@ -57,15 +58,21 @@ class Dashboard2 extends React.Component {
         return (
             <div>
                 <GridContainer>
-                    <GridItem xs={12} sm={12} md={12}>
+                    <GridItem xs={12} sm={12} md={6}>
                         <Card>
                             <LineChartStatic data={this.state.data}></LineChartStatic>
-
                         </Card>
                         <Card>
                             <LineChartDynamic data={this.state.visData}></LineChartDynamic>
                         </Card>
-
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={6}>
+                        <Card>
+                            <LineChartStatic data={this.state.data}></LineChartStatic>
+                        </Card>
+                        <Card>
+                            <LineChartDynamic data={this.state.visData}></LineChartDynamic>
+                        </Card>
                     </GridItem>
                 </GridContainer>
             </div>

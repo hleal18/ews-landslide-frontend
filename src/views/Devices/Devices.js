@@ -2,6 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 // @material-ui/core
 import { withStyles } from "@material-ui/core/styles";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import Chip from "@material-ui/core/Chip";
+import FormControl from "@material-ui/core/FormControl";
 // charts
 //import { XYPlot, VerticalGridLines, HorizontalGridLines, LineSeries, XAxis, YAxis } from "react-vis";
 import LineChartStatic from "components/Charts/LineChartStatic.js";
@@ -42,19 +48,27 @@ const styles = {
 class Devices extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            criticalSpot: '',
+            variables: []
+        }
     }
 
-    addMeasureEntry(entry) {
-        this.setState({ data: [...this.state.data, entry] }, (state) => console.log('New state: ', state));
+    handleChange = (event) => {
+        this.setState({ ...this.state, criticalSpot: event.target.value });
     }
 
-    addVisEntry(entry) {
-        this.setState({ visData: [...this.state.visData, entry] }, (state) => console.log('New state: ', this.state.visData));
+    handleMultipleChange = (event) => {
+        this.setState({ ...this.state, variables: event.target.value });
     }
 
     render() {
         const { classes } = this.props;
-
+        const variables = [
+            'Humedad de suelo',
+            'Nivel de lluvia'
+        ];
         console.log('Classes: ', classes);
         return (
             <div>
@@ -71,16 +85,75 @@ class Devices extends React.Component {
                                         <CustomInput
                                             labelText="Nombre de dispositivo"
                                             id="device-name"
-                                            formControlprops={{
+                                            formControlProps={{
                                                 fullWidth: true
-                                            }}
-                                            inputProps={{
-                                                disabled: true
                                             }}
                                         />
                                     </GridItem>
+                                    <GridItem>
+                                        <CustomInput
+                                            labelText="Descripcion"
+                                            id="device-description"
+                                            formControlProps={{
+                                                fullWidth: true
+                                            }}
+                                        />
+                                    </GridItem>
+                                    <GridItem>
+                                        <CustomInput
+                                            labelText="Variables"
+                                            id="device-variables"
+                                            formControlProps={{
+                                                fullWidth: true
+                                            }}
+                                        />
+                                    </GridItem>
+                                    <GridItem>
+                                        <FormControl>
+                                            <InputLabel id="critical-spot-label" >Variables</InputLabel>
+                                            <Select
+                                                labelid="critical-spot-label"
+                                                id="critical-spot-select"
+                                                multiple
+                                                value={this.state.variables}
+                                                onChange={this.handleMultipleChange}
+                                                input={<Input id="select-multiple-id" />}
+                                                renderValue={selected => (
+                                                    <div >
+                                                        {selected.map(value => (
+                                                            <Chip key={value} label={value} />
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            >
+                                                {
+                                                    variables.map(variable => (
+                                                        <MenuItem key={variable} value={variable}>
+                                                            {variable}
+                                                        </MenuItem>
+                                                    ))
+                                                }
+                                            </Select>
+                                        </FormControl>
+                                    </GridItem>
+                                    <GridItem>
+                                        <InputLabel id="demo-example">
+                                            Punto Crítico
+                                        </InputLabel>
+                                        <Select
+                                            labelid="demo-example"
+                                            id="demo-example-select"
+                                            value={this.state.criticalSpot}
+                                            onChange={this.handleChange}
+                                        >
+                                            <MenuItem value={10}>Hola</MenuItem>
+                                            <MenuItem value={10}>Adios</MenuItem>
+                                            <MenuItem value={10}>Buenitas</MenuItem>
+                                        </Select>
+                                    </GridItem>
                                 </GridContainer>
                             </CardBody>
+
                         </Card>
                     </GridItem>
                 </GridContainer>
