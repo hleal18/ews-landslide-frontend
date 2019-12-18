@@ -181,7 +181,7 @@ class Dashboard extends React.Component {
 
                                                     <Grid item xs={6} >
                                                         {
-                                                            (!['acceleration', 'rotationRate'].includes(variable.type)) ?
+                                                            (!['acceleration', 'rotationRate', 'inclination'].includes(variable.type)) ?
                                                                 <LineChartStatic data={this.transformValuesToStaticChart(values)}></LineChartStatic>
                                                                 : <AxisLineChartStatic data={this.transformValuesToAxisStaticChart(values)}></AxisLineChartStatic>
                                                         }
