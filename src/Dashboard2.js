@@ -8,6 +8,7 @@ import DateFnsUtils from '@date-io/date-fns';
 
 import LineChartStatic from "./Charts/LineChartStatic.js";
 import LineChartDynamic from "./Charts/LineChartDynamic.js";
+import AxisLineChartStatic from "./Charts/AxisLineChartStatic";
 import ewsApi from "./Api/ewsApi";
 
 import PaperSheet from "./PaperSheet";
@@ -79,13 +80,26 @@ class Dashboard extends React.Component {
     }
 
     transformValuesToStaticChart(values) {
-        const suitableValues = []
+        const suitableValues = [];
         for (const value of values) {
             suitableValues.push({
                 name: value.timestamp,
                 measure: value.value
             });
         }
+
+        return suitableValues;
+    }
+
+    // Expects Array[{timestamp: Date, values: {x, y, z}}]
+    // Produces: Array[{timestamp: Date, x, y, z}]
+    transformValuesToAxisStaticChart(values) {
+        const suitableValues = [];
+        values.forEach(({ timestamp, value: { x, y, z } }) => {
+            suitableValues.push({
+                timestamp, x, y, z
+            });
+        });
 
         return suitableValues;
     }
@@ -144,11 +158,13 @@ class Dashboard extends React.Component {
                 <Grid container spacing={3} direction='row' justify='center' alignItems='center'>
                     {
                         this.state.variablesConfig.map((variable, index) => {
+                            console.log('Evaluando: ', variable.device);
+                            console.log('Evaluando: ', variable.variableId);
                             const variableFromDevice = this.state.variablesData[variable.device];
                             const values = (variableFromDevice && variableFromDevice[variable.variableId]) ?
                                 variableFromDevice[variable.variableId] : [];
                             const dateState = this.state.selectedDates[index];
-                            if (values.length == 0) return;
+                            if (values.length === 0) return;
                             return (
                                 <Grid item xs={6} key={index} >
                                     <Paper>
@@ -164,7 +180,11 @@ class Dashboard extends React.Component {
                                                 <div>
 
                                                     <Grid item xs={6} >
-                                                        <LineChartStatic data={this.transformValuesToStaticChart(values)}></LineChartStatic>
+                                                        {
+                                                            (!['acceleration', 'rotationRate'].includes(variable.type)) ?
+                                                                <LineChartStatic data={this.transformValuesToStaticChart(values)}></LineChartStatic>
+                                                                : <AxisLineChartStatic data={this.transformValuesToAxisStaticChart(values)}></AxisLineChartStatic>
+                                                        }
                                                     </Grid>
                                                     <Grid container spacing={3} direction='row' alignItems='center'>
                                                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
