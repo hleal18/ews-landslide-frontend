@@ -109,7 +109,7 @@ class Dashboard extends React.Component {
     async queryVariables(varConf) {
         const variablesData = [];
 
-        const variables = (await ewsApi.getVariables(varConf.device, { type: varConf.type, limit: 400 })).variables_records.variables;
+        const variables = (await ewsApi.getVariables(varConf.device, { idSensor: varConf.variableId, type: varConf.type, limit: 400 })).variables_records.variables;
 
         for (const variable of variables) {
             variablesData.push({
