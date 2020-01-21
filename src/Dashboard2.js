@@ -109,7 +109,7 @@ class Dashboard extends React.Component {
     async queryVariables(varConf) {
         const variablesData = [];
 
-        const variables = (await ewsApi.getVariables(varConf.device, { type: varConf.type, limit: 100 })).variables_records.variables;
+        const variables = (await ewsApi.getVariables(varConf.device, { type: varConf.type, limit: 400 })).variables_records.variables;
 
         for (const variable of variables) {
             variablesData.push({
@@ -122,6 +122,7 @@ class Dashboard extends React.Component {
 
         this.setState({
             variablesData: {
+                ...this.state.variablesData,
                 [varConf.device]: {
                     ...this.state.variablesData[varConf.device],
                     [varConf.variableId]: variablesData
@@ -164,7 +165,7 @@ class Dashboard extends React.Component {
                             const values = (variableFromDevice && variableFromDevice[variable.variableId]) ?
                                 variableFromDevice[variable.variableId] : [];
                             const dateState = this.state.selectedDates[index];
-                            if (values.length === 0) return;
+                            if (values.length === 0) return ("");
                             return (
                                 <Grid item xs={6} key={index} >
                                     <Paper>
@@ -191,7 +192,7 @@ class Dashboard extends React.Component {
                                                             <Grid item xs={6}>
                                                                 <KeyboardDatePicker
                                                                     margin="normal"
-                                                                    id="date-picker-dialog"
+                                                                    id={"date-picker-dialog" + index + 1}
                                                                     label="Fecha inicial"
                                                                     format="dd/MM/yyyy"
                                                                     value={(dateState && dateState.start) ? dateState.start : undefined}
@@ -210,7 +211,7 @@ class Dashboard extends React.Component {
                                                             <Grid item xs={6}>
                                                                 <KeyboardDatePicker
                                                                     margin="normal"
-                                                                    id="date-picker-dialog"
+                                                                    id={"date-picker-dialog" + index}
                                                                     label="Fecha final"
                                                                     format="dd/MM/yyyy"
                                                                     value={(dateState && dateState.end) ? dateState.end : undefined}
