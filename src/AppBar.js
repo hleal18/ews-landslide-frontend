@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import DatePicker from './DatePicker';
+import { Link, NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -30,11 +31,13 @@ export default function AppUpperBar() {
                     {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                         <MenuIcon />
                     </IconButton> */}
-                    <Typography variant="h6" className={classes.title}>
-                        Monitoreo de Montañitas, Corre!
-                    </Typography>
-                    <Button color="inherit">Login</Button>
-                    <Button color="inherit">Dashboard</Button>
+                    <NavLink to="/dashboard" activeClassName={classes.title} style={{ textDecoration: 'none' }}>
+                        <Typography variant="h6">
+                            Monitoreo de Montañitas, Corre!
+                        </Typography>
+                    </NavLink>
+                    <Button color="primary" variant="contained" component={Link} to="/login">Login</Button>
+                    <Link to="/dashboard"><Button variant="contained" color="primary">Dashboard</Button></Link>
                 </Toolbar>
             </AppBar>
         </div>

@@ -18,7 +18,7 @@ export default function AxisLineChartStatic({ data }) {
         <div>
             <LineChart data={data} margin={{
                 top: 30, right: 30, left: 20, bottom: 5,
-            }} height={350} width={750}>
+            }} height={350} width={500}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="timestamp" />
                 <YAxis domain={[-15, 15]} />
