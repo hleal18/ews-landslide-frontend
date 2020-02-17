@@ -1,5 +1,7 @@
 import React from 'react';
 import SignUpPresentation from '../Presentational/Forms/SignUp';
+import EwsApi from '../Api/ewsApi';
+import { Redirect } from 'react-router-dom';
 
 class SignUp extends React.Component {
   constructor(props) {
@@ -33,6 +35,7 @@ class SignUp extends React.Component {
         password: undefined,
         email: undefined,
       },
+      redirect: false
     };
   }
 
@@ -92,7 +95,7 @@ class SignUp extends React.Component {
     });
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
 
     const { input } = this.state;
@@ -106,19 +109,36 @@ class SignUp extends React.Component {
     });
 
     this.setState({ ...input, errorState: { ...validationResults } });
+    
+    if (!validationResults.firstName && 
+        !validationResults.lastName && 
+        !validationResults.email && 
+        !validationResults.password) {
+        const result = await EwsApi.signUp(firstName, lastName, email, password);
+        
+        if (result.message) console.log(`Hubo un error ${result.message}`);
+        else {
+            console.log(`Autneticacion exitosa: ${result.user}`);
+            console.log(`Redireccionando`);
+            this.setState({redirect: true});
+        }
+    }
   }
 
   render() {
     const { input, errorState } = this.state;
     const errorMessage = this.errorMessage;
     return (
-      <SignUpPresentation 
-        input = {input}
-        errorState = {errorState}
-        errorMessage = {errorMessage}
-        handleChange = {this.handleChange}
-        handleSubmit = {this.handleSubmit}
-      />
+        <div>
+        { this.state.redirect && <Redirect to='/dashboard'/> }
+        <SignUpPresentation 
+            input = {input}
+            errorState = {errorState}
+            errorMessage = {errorMessage}
+            handleChange = {this.handleChange}
+            handleSubmit = {this.handleSubmit}
+        />
+      </div>
     );
   }
 }

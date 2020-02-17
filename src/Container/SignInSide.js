@@ -1,5 +1,7 @@
 import React from 'react';
 import SignInSidePresentation from '../Presentational/Forms/SignInSide';
+import { Redirect } from 'react-router-dom';
+import EwsApi from '../Api/ewsApi';
 
 class SignInSide extends React.Component {
   constructor(props) {
@@ -27,6 +29,7 @@ class SignInSide extends React.Component {
         password: undefined,
         email: undefined,
       },
+      redirect: false
     };
   }
 
@@ -75,7 +78,7 @@ class SignInSide extends React.Component {
     });
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
 
     const {
@@ -91,22 +94,31 @@ class SignInSide extends React.Component {
     });
 
     this.setState({ ...input, errorState: { ...validationResults } });
+    
+    if (!validationResults.email && 
+        !validationResults.password) {
+        const result = await EwsApi.login(email, password);
+        
+        if (result.message) { console.log(`There was an error: ${result.message}`); }
+        else this.setState({ redirect: true });
+    }
   }
 
 
   render() {
-    const { input, errorState } = this.state;
+    const { input, errorState, redirect } = this.state;
     const errorMessage = this.errorMessage;
     return (
-    
-        <SignInSidePresentation 
-            errorState ={errorState}
-            input = {input}
-            errorMessage = {errorMessage}
-            handleChange = {this.handleChange}
-            handleSubmit = {this.handleSubmit}
-        />
-        
+        <div>
+            {redirect && <Redirect to='/dashboard' />}
+            <SignInSidePresentation 
+                errorState ={errorState}
+                input = {input}
+                errorMessage = {errorMessage}
+                handleChange = {this.handleChange}
+                handleSubmit = {this.handleSubmit}
+            />
+        </div>
     );
   }
 }
