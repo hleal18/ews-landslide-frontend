@@ -9,7 +9,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
+import Snackbar from '@material-ui/core/Snackbar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,14 +42,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignInSide(props) {
+export default function SignUp(props) {
   const classes = useStyles();
   const {
     input,
     errorState,
-    errorMessage,
     handleSubmit,
     handleChange,
+  } = props;
+  
+  const {
+    submitErrorMessage,
+    submitErrorOpen,
+    handleClickSubmitError
   } = props;
 
   return (
@@ -57,6 +62,15 @@ export default function SignInSide(props) {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
+            {
+                submitErrorMessage && 
+                <Snackbar 
+                    open={submitErrorOpen} 
+                    autoHideDuration={4000} 
+                    onClose={handleClickSubmitError} 
+                    message={submitErrorMessage}
+                />                    
+            }
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>

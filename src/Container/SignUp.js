@@ -33,7 +33,11 @@ class SignUp extends React.Component {
         firstName: undefined,
         lastName: undefined,
         password: undefined,
-        email: undefined,
+        email: undefined
+      },
+      submitError: {
+        submitErrorMessage: undefined,
+        submitErrorOpen: false  
       },
       redirect: false
     };
@@ -94,6 +98,13 @@ class SignUp extends React.Component {
       input: { ...input, [e.target.id]: e.target.value },
     });
   }
+  
+  handleClickSubmitError = (e, r) => {
+    if (r === 'clickaway')
+       return;
+    
+    this.setState({ submitError: { ...this.state.submitError, submitErrorOpen: false } });
+  }
 
   handleSubmit = async (e) => {
     e.preventDefault();
@@ -116,17 +127,31 @@ class SignUp extends React.Component {
         !validationResults.password) {
         const result = await EwsApi.signUp(firstName, lastName, email, password);
         
-        if (result.message) console.log(`Hubo un error ${result.message}`);
+        if (result.message) {
+            console.log('Error: ', result.message);
+            this.setState({ 
+            submitError: { 
+                submitErrorOpen: true, submitErrorMessage: result.message 
+            }});
+        }
         else {
-            console.log(`Autneticacion exitosa: ${result.user}`);
-            console.log(`Redireccionando`);
-            this.setState({redirect: true});
+           console.log(`Autneticacion exitosa: ${result.user}`);
+           console.log(`Redireccionando`);
+           this.setState({redirect: true});
         }
     }
   }
 
   render() {
-    const { input, errorState } = this.state;
+    const { 
+        input, 
+        errorState, 
+        submitError: { 
+            submitErrorMessage, 
+            submitErrorOpen 
+        } 
+    } = this.state;
+    
     const errorMessage = this.errorMessage;
     return (
         <div>
@@ -135,8 +160,11 @@ class SignUp extends React.Component {
             input = {input}
             errorState = {errorState}
             errorMessage = {errorMessage}
+            submitErrorMessage = {submitErrorMessage}
+            submitErrorOpen = {submitErrorOpen}
             handleChange = {this.handleChange}
             handleSubmit = {this.handleSubmit}
+            handleClickSubmitError = {this.handleClickSubmitError}
         />
       </div>
     );
