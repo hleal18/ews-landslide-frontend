@@ -4,24 +4,25 @@ import SignInSidePresentation from '../Presentational/Forms/SignInSide';
 class SignInSide extends React.Component {
   constructor(props) {
     super(props);
+    
+    this.errorMessage = {
+            empty: {
+              email: 'Email no puede estar vacio',
+              password: 'Contraseña no puede estar vacia',
+            },
+            minLength: {
+              password: 'Contraseña no puede tener menos de 6 caracteres',
+            },
+            invalid: {
+              email: 'Correo debe tener el formato: direccion@proveedor.dominio',
+            }
+    }
 
     this.state = {
       input: {
         email: '',
         password: '',
-      },
-      errorMessage: {
-        empty: {
-          email: 'Email no puede estar vacio',
-          password: 'Contraseña no puede estar vacia',
-        },
-        minLength: {
-          password: 'Contraseña no puede tener menos de 6 caracteres',
-        },
-        invalid: {
-          email: 'Correo debe tener el formato: direccion@proveedor.dominio',
-        },
-      },
+      },      
       errorState: {
         password: undefined,
         email: undefined,
@@ -52,7 +53,7 @@ class SignInSide extends React.Component {
       password: undefined,
     };
 
-    const { errorMessage } = this.state;
+    const errorMessage = this.errorMessage;
 
     let error = this.validateEmptyField(email) || this.validateEmail(email);
 
@@ -66,10 +67,9 @@ class SignInSide extends React.Component {
   }
 
   handleChange = (e) => {
-    const { errorMessage, errorState, input } = this.state;
+    const { errorState, input } = this.state;
 
     this.setState({
-      ...errorMessage,
       ...errorState,
       input: { ...input, [e.target.id]: e.target.value },
     });
@@ -79,8 +79,7 @@ class SignInSide extends React.Component {
     e.preventDefault();
 
     const {
-      input,
-      errorMessage,
+      input
     } = this.state;
 
     const {
@@ -91,13 +90,13 @@ class SignInSide extends React.Component {
       email, password,
     });
 
-    this.setState({ ...input, ...errorMessage, errorState: { ...validationResults } });
+    this.setState({ ...input, errorState: { ...validationResults } });
   }
 
 
   render() {
-    const { input, errorState, errorMessage } = this.state;
-
+    const { input, errorState } = this.state;
+    const errorMessage = this.errorMessage;
     return (
     
         <SignInSidePresentation 

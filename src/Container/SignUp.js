@@ -5,26 +5,27 @@ class SignUp extends React.Component {
   constructor(props) {
     super(props);
 
+    this.errorMessage = {
+        empty: {
+            firstName: 'Nombre no debe estar vacio',
+            lastName: 'Apellidos no debe estar vacio',
+            email: 'Email no puede estar vacio',
+            password: 'Contraseña no puede estar vacia',
+          },
+          minLength: {
+            password: 'Contraseña no puede tener menos de 6 caracteres',
+          },
+          invalid: {
+            email: 'Correo debe tener el formato: direccion@proveedor.dominio',
+          }
+    }
+    
     this.state = {
       input: {
         firstName: '',
         lastName: '',
         email: '',
         password: '',
-      },
-      errorMessage: {
-        empty: {
-          firstName: 'Nombre no debe estar vacio',
-          lastName: 'Apellidos no debe estar vacio',
-          email: 'Email no puede estar vacio',
-          password: 'Contraseña no puede estar vacia',
-        },
-        minLength: {
-          password: 'Contraseña no puede tener menos de 6 caracteres',
-        },
-        invalid: {
-          email: 'Correo debe tener el formato: direccion@proveedor.dominio',
-        },
       },
       errorState: {
         firstName: undefined,
@@ -59,8 +60,8 @@ class SignUp extends React.Component {
       email: undefined,
       password: undefined,
     };
-
-    const { errorMessage } = this.state;
+    
+    const errorMessage = this.errorMessage;
 
     let error = this.validateEmptyField(firstName);
 
@@ -94,10 +95,7 @@ class SignUp extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const {
-      input,
-      errorMessage,
-    } = this.state;
+    const { input } = this.state;
 
     const {
       firstName, lastName, password, email,
@@ -107,11 +105,12 @@ class SignUp extends React.Component {
       firstName, lastName, email, password,
     });
 
-    this.setState({ ...input, ...errorMessage, errorState: { ...validationResults } });
+    this.setState({ ...input, errorState: { ...validationResults } });
   }
 
   render() {
-    const { input, errorState, errorMessage } = this.state;
+    const { input, errorState } = this.state;
+    const errorMessage = this.errorMessage;
     return (
       <SignUpPresentation 
         input = {input}
