@@ -1,7 +1,41 @@
 const url = 'http://localhost:3002/api/';
 export default class EwsApi {
 
-
+    static async signUp(firstName, lastName, email, password) {
+        const result = await fetch(url + 'users/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify({
+                user: {
+                firstName,
+                lastName,
+                email,
+                password
+                }
+            })
+        });
+        
+        return await result.json();
+    }
+    
+    static async login(user, pass) {
+        const result = await fetch(url + 'users/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: user, 
+                password: pass
+            })
+        });
+        
+        return await result.json();
+    }
+    
     static async getDevice(deviceId) {
         const result = await fetch(url + 'devices/' + deviceId, { method: 'GET', mode: 'cors' });
 
