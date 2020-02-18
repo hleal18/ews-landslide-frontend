@@ -11,6 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import Snackbar from '@material-ui/core/Snackbar';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -47,14 +48,34 @@ const useStyles = makeStyles((theme) => ({
 export default function SignInSide(props) {
   const classes = useStyles();
   const {
-    errorState, errorMessage, input, handleChange, handleSubmit,
+    errorState, 
+    input, 
+    handleChange, 
+    handleSubmit,
   } = props;
+  
+  const {
+      submitErrorOpen,
+      submitErrorMessage,
+      handleClickSubmitError
+  } = props;
+  
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
+            {
+                submitErrorMessage && 
+                <Snackbar 
+                    open={submitErrorOpen} 
+                    onClose={handleClickSubmitError} 
+                    message={submitErrorMessage}
+                    autoHideDuration={4000}
+                    anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                />
+            }
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>

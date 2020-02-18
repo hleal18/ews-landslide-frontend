@@ -29,6 +29,10 @@ class SignInSide extends React.Component {
         password: undefined,
         email: undefined,
       },
+      submitError: {
+          submitErrorMessage: undefined,
+          submitErrorOpen: false
+      },
       redirect: false
     };
   }
@@ -99,14 +103,36 @@ class SignInSide extends React.Component {
         !validationResults.password) {
         const result = await EwsApi.login(email, password);
         
-        if (result.message) { console.log(`There was an error: ${result.message}`); }
+        if (result.message) { 
+            this.setState({ 
+                submitError: {
+                    submitErrorOpen: true, 
+                    submitErrorMessage: result.message
+                } 
+            });
+        }
         else this.setState({ redirect: true });
     }
+  }
+  
+  handleClickSubmitError = (e, r) => {
+    if (r === 'clickaway') 
+       return;
+        
+    this.setState({ submitError: { submitErrorOpen: false, submitErrorMessage: undefined } });
   }
 
 
   render() {
-    const { input, errorState, redirect } = this.state;
+    const { input, 
+        errorState, 
+        redirect, 
+        submitError: { 
+            submitErrorMessage, 
+            submitErrorOpen 
+        } 
+    } = this.state;
+    
     const errorMessage = this.errorMessage;
     return (
         <div>
@@ -115,8 +141,12 @@ class SignInSide extends React.Component {
                 errorState ={errorState}
                 input = {input}
                 errorMessage = {errorMessage}
+                submitErrorMessage={submitErrorMessage}
+                submitErrorOpen={submitErrorOpen}
+                handleClickSubmitError={this.handleClickSubmitError}
                 handleChange = {this.handleChange}
                 handleSubmit = {this.handleSubmit}
+                
             />
         </div>
     );
