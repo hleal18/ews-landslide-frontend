@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,13 +44,20 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  loading: {
+        display: 'flex',
+        '& > * + *': {
+            marginLeft: theme.spacing(2)
+        }
+    }
 }));
 
 export default function SignInSide(props) {
   const classes = useStyles();
   const {
-    errorState, 
+    errorState,
     input, 
+    isLoading,
     handleChange, 
     handleSubmit,
   } = props;
@@ -126,7 +134,18 @@ export default function SignInSide(props) {
             >
               Iniciar Sesión
             </Button>
-            <Grid container>
+            
+            {
+                isLoading &&
+                <Grid container justify="center" spacing={2}>
+                    <Grid item >
+                        <div className={classes.loading}>
+                            <CircularProgress />
+                        </div>
+                    </Grid>
+                </Grid>
+            }
+            <Grid container spacing={2}>
               <Grid item xs>
                 <Link href="#" variant="body2">
                   Olvidó contraseña?

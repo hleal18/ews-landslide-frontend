@@ -24,7 +24,8 @@ class SignInSide extends React.Component {
       input: {
         email: '',
         password: '',
-      },      
+      },
+      isLoading: false,
       errorState: {
         password: undefined,
         email: undefined,
@@ -101,7 +102,10 @@ class SignInSide extends React.Component {
     
     if (!validationResults.email && 
         !validationResults.password) {
+        
+            this.setState({isLoading: true});
         const result = await EwsApi.login(email, password);
+        this.setState({isLoading: false});
         
         if (result.message) { 
             this.setState({ 
@@ -124,7 +128,9 @@ class SignInSide extends React.Component {
 
 
   render() {
-    const { input, 
+    const { 
+        input, 
+        isLoading,
         errorState, 
         redirect, 
         submitError: { 
@@ -140,6 +146,7 @@ class SignInSide extends React.Component {
             <SignInSidePresentation 
                 errorState ={errorState}
                 input = {input}
+                isLoading = {isLoading}
                 errorMessage = {errorMessage}
                 submitErrorMessage={submitErrorMessage}
                 submitErrorOpen={submitErrorOpen}
