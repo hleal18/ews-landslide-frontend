@@ -35,6 +35,7 @@ class SignUp extends React.Component {
         password: undefined,
         email: undefined
       },
+      isLoading: false,
       submitError: {
         submitErrorMessage: undefined,
         submitErrorOpen: false  
@@ -125,8 +126,10 @@ class SignUp extends React.Component {
         !validationResults.lastName && 
         !validationResults.email && 
         !validationResults.password) {
-        const result = await EwsApi.signUp(firstName, lastName, email, password);
         
+            this.setState({ isLoading: true });
+        const result = await EwsApi.signUp(firstName, lastName, email, password);
+        this.setState({ isLoading: false });
         if (result.message) {
             console.log('Error: ', result.message);
             this.setState({ 
@@ -145,7 +148,8 @@ class SignUp extends React.Component {
   render() {
     const { 
         input, 
-        errorState, 
+        errorState,
+        isLoading,
         submitError: { 
             submitErrorMessage, 
             submitErrorOpen 
@@ -158,6 +162,7 @@ class SignUp extends React.Component {
         { this.state.redirect && <Redirect to='/dashboard'/> }
         <SignUpPresentation 
             input = {input}
+            isLoading={isLoading}
             errorState = {errorState}
             errorMessage = {errorMessage}
             submitErrorMessage = {submitErrorMessage}

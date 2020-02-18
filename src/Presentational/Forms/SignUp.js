@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Snackbar from '@material-ui/core/Snackbar';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,6 +41,12 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  loading: {
+      display: 'flex',
+      '& > * + *': {
+          marginLeft: theme.spacing(2)
+      }
+  }
 }));
 
 export default function SignUp(props) {
@@ -47,6 +54,7 @@ export default function SignUp(props) {
   const {
     input,
     errorState,
+    isLoading,
     handleSubmit,
     handleChange,
   } = props;
@@ -151,7 +159,16 @@ export default function SignUp(props) {
             >
               Registrarse
             </Button>
-            <Grid container justify="flex-end">
+            { isLoading &&  
+                <Grid container justify="center" spacing={2}>
+                    <Grid item >
+                        <div className={classes.loading}>
+                            <CircularProgress />
+                        </div>
+                    </Grid>
+                </Grid>
+            }
+            <Grid container justify="flex-end" spacing={2}>
               <Grid item>
                 <Link href="signin" variant="body2">
                   Ya posee una cuenta? Inicie sesión
