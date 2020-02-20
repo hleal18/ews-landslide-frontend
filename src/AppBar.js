@@ -12,6 +12,7 @@ import { Link, NavLink } from 'react-router-dom';
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
+        paddingBottom: 24
     },
     menuButton: {
         marginRight: theme.spacing(2)
