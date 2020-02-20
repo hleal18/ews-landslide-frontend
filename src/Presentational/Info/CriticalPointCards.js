@@ -12,7 +12,7 @@ const renderInfoComponent = ({ind}) => (
 export default ({ criticalPoints }) => (
     <div>
         <Container maxWidth={false}>
-            <Grid container spacing={3} direction="row">
+            <Grid container spacing={3} direction="row" justify="center">
                 {criticalPoints.map((el, ind) => (renderInfoComponent({ind})))}
             </Grid>
         </Container>
