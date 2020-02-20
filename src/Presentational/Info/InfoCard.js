@@ -59,7 +59,7 @@ export default function InfoCard() {
         </Typography>
       </CardContent>
       <CardActions>
-        <Grid container spacing={3}justify="center" direction="row">
+        <Grid container spacing={2}justify="center" direction="row">
             <Grid item><Button size="small" color="primary">Ver Nodos</Button></Grid>
             <Grid item><Button size="small" color="primary">Ver Mapa de Referencia</Button></Grid>
         </Grid>

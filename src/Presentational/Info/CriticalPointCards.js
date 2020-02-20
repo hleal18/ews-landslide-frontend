@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import InfoCard from "./InfoCard";
 
 const renderInfoComponent = ({ind}) => (
-    <Grid item xs={3} key={ind}>
+    <Grid item xs={12} sm={6} md={4} lg={3} xl={3}  key={ind}>
         <InfoCard />
     </Grid>
 );
