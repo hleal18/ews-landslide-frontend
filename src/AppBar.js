@@ -4,7 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { Link, NavLink } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -19,25 +19,23 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function AppUpperBar() {
+const AppUpperBar = ({ routeToLogin, routeToDashboard, history }) => {
     const classes = useStyles();
+    console.log('History from appbar: ', history);
 
     return (
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
-                    {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                        <MenuIcon />
-                    </IconButton> */}
-                    {/* <NavLink to="/dashb" activeClassName={classes.title} style={{ textDecoration: 'none' }}> */}
-                        <Typography variant="h6" className={classes.title}>
-                            Monitoreo de Montañitas, Corre!
-                        </Typography>
-                    {/* </NavLink> */}
-                    <Button color="primary" variant="contained" component={Link} to="/login">Login</Button>
-                    <Link to="/dashboard"><Button variant="contained" color="primary">Dashboard</Button></Link>
+                    <Typography variant="h6" className={classes.title}>
+                        Monitoreo de Montañitas, Corre!
+                    </Typography>
+                    <Button color="inherit" onClick={() => history.push('/login')}>Login</Button>
+                    <Button color="inherit" onClick={() => history.push('/dashboard')}>Dashboard</Button>
                 </Toolbar>
             </AppBar>
         </div>
     );
 }
+
+export default withRouter(AppUpperBar);
