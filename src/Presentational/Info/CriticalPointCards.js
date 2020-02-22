@@ -2,6 +2,7 @@ import React from "react";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import CriticalPointCard from "./CriticalPointCard";
+import BreadCrumbs from './BreadCrumbs';
 import { withRouter } from 'react-router-dom';
 
 const renderInfoComponent = ({ind, history}) => (
@@ -13,8 +14,11 @@ const renderInfoComponent = ({ind, history}) => (
 const CriticalPointCards = ({ criticalPoints, history }) => (
     <div>
         <Container maxWidth={false}>
-            <Grid container  spacing={3} direction="row" justify="center">
-                {criticalPoints.map((el, ind) => (renderInfoComponent({ind, history})))}
+            <Grid container spacing ={3}direction="column" >
+                <Grid item xs={12}> <BreadCrumbs /></Grid>
+                <Grid container  spacing={3} direction="row" justify="center">
+                    {criticalPoints.map((el, ind) => (renderInfoComponent({ind, history})))}
+                </Grid>
             </Grid>
         </Container>
     </div>
