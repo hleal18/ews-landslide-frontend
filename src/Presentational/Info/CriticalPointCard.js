@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import { Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
@@ -20,6 +19,9 @@ const useStyles = makeStyles({
     marginBottom: 12,
     fontSize: 12
   },
+  watch_node_button: {
+      marginRight: 25
+  }
 });
 
 export default function CriticalPointCard({ redirect }) {
@@ -59,8 +61,8 @@ export default function CriticalPointCard({ redirect }) {
       </CardContent>
       <CardActions>
         <Grid container item spacing={1}justify="center" direction="row">
-            <Button size="small" color="primary" onClick={redirect}>Ver Nodos</Button>
-            <Button size="small" color="primary">Ver Mapa de Referencia</Button>
+            <Button size="small" color="primary" onClick={redirect} className={classes.watch_node_button}>Ver Nodos</Button>
+            <Button size="small" color="primary">Ver Mapa</Button>
         </Grid>
       </CardActions>
     </Card>
