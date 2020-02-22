@@ -33,14 +33,14 @@ export default function CriticalPointCard({ redirect }) {
         <Typography variant="h5" component="h2">
           Salto del Cabron
         </Typography>
-            <Grid container spacing={0}  direction="column" className={classes.pos}>
+            <Grid container direction="column" className={classes.pos}>
                 <Grid item >
                     <Typography className={classes.pos} color="textSecondary">
                         Numero de nodos: 5 
                     </Typography>
                 </Grid>
                 <Grid container direction="row">
-                    <Grid item xs={1}>
+                    <Grid item xs={3}>
                         <Typography className={classes.pos} color="textSecondary">
                             Variables:
                         </Typography>

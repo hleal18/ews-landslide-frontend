@@ -19,6 +19,12 @@ const useStyles = makeStyles({
     marginBottom: 12,
     fontSize: 12
   },
+  chip: {
+      marginBottom: 4
+  },
+  secondTitle: {
+      marginBottom: 8
+  }
 });
 
 export default function DeviceCard() {
@@ -30,17 +36,17 @@ export default function DeviceCard() {
         <Typography className={classes.title} color="textSecondary" >
           Nodo sensor
         </Typography>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h5" component="h2" className={classes.secondTitle}>
           t-beam-sf10
         </Typography>
             <Grid container spacing={0}  direction="column" className={classes.pos}>
-                <Grid container spacing={3} direction="row">
+                <Grid container direction="row">
                     <Grid item xs={3}>
                         <Typography className={classes.pos} color="textSecondary">
                             Umbrales:
                         </Typography>
                     </Grid>
-                    <Grid container item xs spacing={3} direction="column">
+                    <Grid container item xs spacing={1} className={classes.chip} direction="column">
                         <Grid item xs><Chip label="Humedad de suelo x1" size="small"  /></Grid>
                         <Grid item xs> <Chip label="Inclinación x2" size="small"  /></Grid>
                     </Grid>
@@ -51,7 +57,7 @@ export default function DeviceCard() {
                             Variables:
                         </Typography>
                     </Grid>
-                    <Grid container item xs spacing={3} direction="column">
+                    <Grid container item xs spacing={1} direction="column">
                         <Grid item xs><Chip label="Humedad de suelo" size="small"  /></Grid>
                         <Grid item xs> <Chip label="Inclinación" size="small"  /></Grid>
                     </Grid>
