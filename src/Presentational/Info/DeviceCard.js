@@ -21,7 +21,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function InfoCard() {
+export default function DeviceCard() {
   const classes = useStyles();
 
   return (

@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function InfoCard({ redirect }) {
+export default function CriticalPointCard({ redirect }) {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
