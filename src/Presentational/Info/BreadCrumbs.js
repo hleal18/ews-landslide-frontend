@@ -2,10 +2,9 @@ import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Typography from '@material-ui/core/Typography';
-import gLink from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -13,14 +12,33 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const BreadCrumbs = ({ history }) => {
+const ButtonRoute = ({ route, content, history }) => {
     const classes = useStyles();
+    return (
+        <Button 
+            color="inherit" 
+            onClick={() => history.push(`/${route}`)} 
+            className={classes.button}
+        >
+            {content}
+        </Button>
+    )
+}
+
+const BreadCrumbs = ({ history, routes, currentContent, contents }) => {
     return (
     <div>
         <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-        <Button color="inherit" onClick={() => history.push('/dashboard')} className={classes.button}>Dashboard</Button>
-        <Button color="inherit" onClick={() => history.push('/critical_points')} className={classes.button} >Puntos Críticos</Button>
-        <Typography color="textPrimary">Dispositivos</Typography>
+        {
+            routes.map((route, ind) => 
+                    <ButtonRoute 
+                        route={route} 
+                        content={contents[ind]}
+                        history={history}
+                        key={ind}
+                    />)
+        }
+        <Typography color="textPrimary">{currentContent}</Typography>
       </Breadcrumbs>
     </div>)
 }
