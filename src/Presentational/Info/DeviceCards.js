@@ -5,8 +5,8 @@ import DeviceCard from "./DeviceCard";
 import BreadCrumbs from "./BreadCrumbs";
 import AddButton from "../AddButton";
 
-const renderInfoComponent = ({ind}) => (
-    <Grid item xs={12} sm={6} md={4} lg={3} xl={2}  key={ind}>
+const InfoComponent = () => (
+    <Grid item xs={12} sm={6} md={4} lg={3} xl={2} >
         <DeviceCard />
     </Grid>
 );
@@ -14,12 +14,18 @@ const renderInfoComponent = ({ind}) => (
 export default ({ devices }) => (
     <div>
         <Container maxWidth={false}>
-            <Grid container spacing={3} direction="row">
-                <Grid container direction="row">
-                    <Grid item xs={12} ><BreadCrumbs /></Grid>                    
-                </Grid>                
+            <Grid container spacing={3} direction="column">
+                <Grid item >
+                    <BreadCrumbs 
+                        routes={['dashboard', 'critical_points']} 
+                        currentContent="Dispositivos"
+                        contents={['Dashboard', 'Puntos Críticos']}
+                    />
+                </Grid>
                 <Grid container spacing={3} direction="row" justify="flex-start">
-                    {devices.map((el, ind) => (renderInfoComponent({ind})))}
+                    {
+                        devices.map((el, ind) => <InfoComponent key={ind} />)
+                    }
                     <Grid container item xs={12} sm={6} md={4} lg={3} xl={2} alignItems="center" justify="center">
                         <AddButton />
                     </Grid>
