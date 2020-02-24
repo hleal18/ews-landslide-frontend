@@ -11,10 +11,15 @@ import {
 
 export default function LineChartStatic({ data }) {
     return (
-        <div>
+        // width should be in 99%, so that the responsive container
+        // resizes the chart component accordingly. Otherwise
+        // the chart might be rendered out of the external grid.
+        // Defining an aspect is essential, otherwise, child components
+        // from the ResponsiveContainer will not be rendered.
+        <ResponsiveContainer aspect={1.6} width='99%'>
             <LineChart data={data} margin={{
                 top: 30, right: 30, left: 20, bottom: 5,
-            }} height={350} width={500}>
+            }} >
                 <CartesianGrid strokeDasharray="3 3" />
 
                 <XAxis dataKey="name" />
@@ -28,7 +33,6 @@ export default function LineChartStatic({ data }) {
                     isAnimationActive={false}
                 />
             </LineChart>
-
-        </div>
+        </ResponsiveContainer>
     );
 }
