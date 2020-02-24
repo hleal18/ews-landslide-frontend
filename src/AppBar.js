@@ -28,10 +28,15 @@ const AppUpperBar = ({ routeToLogin, routeToDashboard, history }) => {
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>
-                        Monitoreo de Montañitas, Corre!
+                        La Popita
                     </Typography>
-                    <Button color="inherit" onClick={() => history.push('/login')}>Login</Button>
+                    {/* <Button color="inherit" onClick={() => history.push('/login')}>Login</Button> */}
                     <Button color="inherit" onClick={() => history.push('/dashboard')}>Dashboard</Button>
+                    <Button color="inherit" onClick={() => history.push('/dashboard')}>Alertas</Button>
+                    <Button color="inherit" onClick={() => history.push('/dashboard')}>Umbrales</Button>
+                    <Button color="inherit" onClick={() => history.push('/devices')}>Dispositivos</Button>
+                    <Button color="inherit" onClick={() => history.push('/critical_points')}>Puntos Críticos</Button>
+                    <Button color="inherit" onClick={() => history.push('/dashboard')}>Zonas de Estudio</Button>
                 </Toolbar>
             </AppBar>
         </div>
