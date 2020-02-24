@@ -104,7 +104,7 @@ class SignUp extends React.Component {
     if (r === 'clickaway')
        return;
     
-    this.setState({ submitError: { ...this.state.submitError, submitErrorOpen: false } });
+    this.setState({ submitError: { submitErrorMessage: undefined, submitErrorOpen: false } });
   }
 
   handleSubmit = async (e) => {
@@ -127,7 +127,7 @@ class SignUp extends React.Component {
         !validationResults.email && 
         !validationResults.password) {
         
-            this.setState({ isLoading: true });
+        this.setState({ isLoading: true });
         const result = await EwsApi.signUp(firstName, lastName, email, password);
         this.setState({ isLoading: false });
         if (result.message) {
