@@ -15,10 +15,15 @@ import {
 export default function AxisLineChartStatic({ data }) {
     console.log('Data: ', data);
     return (
-        <div>
+        // width should be in 99%, so that the responsive container
+        // resizes the chart component accordingly. Otherwise
+        // the chart might be rendered out of the external grid.
+        // Defining an aspect is essential, otherwise, child components
+        // from the ResponsiveContainer will not be rendered.
+        <ResponsiveContainer width='99%' aspect={1.6}>
             <LineChart data={data} margin={{
                 top: 30, right: 30, left: 20, bottom: 5,
-            }} height={350} width={500}>
+            }}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="timestamp" />
                 <YAxis domain={[-15, 15]} />
@@ -53,6 +58,6 @@ export default function AxisLineChartStatic({ data }) {
                 <Legend />
             </LineChart>
 
-        </div>
+        </ResponsiveContainer >
     );
 }
