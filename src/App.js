@@ -3,48 +3,67 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
+  withRouter
 } from 'react-router-dom';
+
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import DatePicker from './DatePicker';
-import logo from './logo.svg';
 import './App.css';
 import AppBar from './AppBar';
-import Dashboard2 from './Dashboard2';
 
-import SignIn from './SignInSide';
-import SignUp from './SignUp';
-import PrivateRoute from './PrivateRoute';
-
+import SignIn from './Container/SignInSide';
+import SignUp from './Container/SignUp';
+import DeviceCards from './Presentational/Info/DeviceCards';
+import CriticalPointCards from './Presentational/Info/CriticalPointCards';
+import Dashboard from './Dashboard2';
+import LineChartStatic from './Presentational/Charts/LineChartStatic';
 
 function App() {
   return (
     <Router>
       <Switch>
         <Route path="/dashboard">
-          <CssBaseline>
-            <div>
-              <Grid container spacing={3}>
-                <Grid item xs={12}>
-                  <AppBar />
+            <Grid container direction="column">
+                <Grid item xs>
+                    <AppBar />
                 </Grid>
-                <Grid item xs={12}>
-                  <Dashboard2 />
+                <Grid item xs>
+                    <Dashboard />
                 </Grid>
-              </Grid>
-            </div>
-          </CssBaseline>
+            </Grid>
         </Route>
-        <Route path="/login">
+        <Route path="/critical_points">
+            <Grid container direction="column">
+                <Grid item xs>
+                    <AppBar />
+                </Grid>
+                <Grid item xs>
+                    <CriticalPointCards criticalPoints={[1, 2, 3, 4, 5, 6, 7, ]}/>
+                </Grid>
+            </Grid>
+        </Route>
+        <Route path="/devices">
+            <Grid container direction="column">
+                <Grid item xs>
+                    <AppBar />
+                </Grid>
+                <Grid item xs>
+                    <DeviceCards devices={[1, 2, 3, 4, 5, 6, 7]} />
+                </Grid>
+            </Grid>
+        </Route>
+        <Route path="/login" exact>
           <SignIn />
         </Route>
-        <Route path="/signup">
+        <Route path="/signup" exact>
           <SignUp />
         </Route>
+        
+        
         <Route path="/">
           <SignIn />
         </Route>
+        
       </Switch>
 
     </Router>
