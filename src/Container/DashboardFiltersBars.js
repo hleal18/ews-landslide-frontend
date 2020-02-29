@@ -1,31 +1,7 @@
 import React from 'react';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { grey } from '@material-ui/core/colors';
 import DashboardFilterBar from '../Presentational/Forms/DashboardFiltersBar';
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        backgroundColor: grey[100]
-    },
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-        maxWidth: 300,
-      },
-      chips: {
-        display: 'flex',
-        flexWrap: 'wrap',
-      },
-      chip: {
-        margin: 2,
-      },
-      noLabel: {
-        marginTop: theme.spacing(3),
-      },
-}));
-
-
-class DashboardFilters extends React.Component {
+export default class DashboardFilters extends React.Component {
     
     constructor(props) {
         super(props);
@@ -107,5 +83,3 @@ class DashboardFilters extends React.Component {
         )
     }
 }
-
-export default withStyles(useStyles)(DashboardFilters);
