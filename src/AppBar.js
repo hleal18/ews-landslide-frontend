@@ -9,7 +9,7 @@ import { withRouter } from 'react-router-dom';
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
-        paddingBottom: 24
+        // paddingBottom: 24
     },
     menuButton: {
         marginRight: theme.spacing(2)
