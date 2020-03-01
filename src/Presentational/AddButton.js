@@ -13,13 +13,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Icons() {
+export default function AddButton({ handleClick }) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       {/* <Icon color="primary" style={{fontSize: 50 }}>add_circle</Icon> */}
-      <IconButton color="primary" >
+      <IconButton color="primary" onClick={handleClick}>
           <AddCircleIcon style={{ fontSize: 100 }}/>
       </IconButton>
     </div>
