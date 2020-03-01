@@ -26,7 +26,8 @@ export default function DialogForm({
     handleClose, 
     handleSubmit,
     handleMapClick,
-    handleText
+    handleText,
+    children
 }) {
   return (
     <div>
@@ -35,56 +36,17 @@ export default function DialogForm({
         onClose={handleClose} 
         aria-labelledby="form-dialog-title"
         TransitionComponent={Transition}
+        maxWidth="lg"
+        fullWidth={true}
         >
         <DialogTitle id="form-dialog-title">Agregar Punto Crítico a INSERTE ZONA</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Introduzca cada uno de los campos.
           </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            variant="outlined"
-            id="name"
-            label="Nombre"
-            fullWidth
-            required={true}
-            value={nameContent}
-            onChange={handleText}
-            
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            variant="outlined"
-            id="description"
-            label="Descripción"
-            type="text"
-            fullWidth
-            required={true}
-            multiline
-            rows={6}
-            value={descriptionContent}
-            onChange={handleText}
-          />
-          <Typography component="p" color="textSecondary">
-              Seleccione ubicación de referencia
-          </Typography>
-          <Map 
-            position={{
-                lat: mapContent.lat,
-                lng: mapContent.lng
-            }}
-            handleClick={handleMapClick}
-          />
-          
-          
-            <p>
-                lat: {mapContent.lat}   lng: {mapContent.lng}
-            </p>
+          {children}
         </DialogContent>
-        
-        
+            
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancelar
