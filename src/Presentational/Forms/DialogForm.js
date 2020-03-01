@@ -8,7 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Typography from '@material-ui/core/Typography';
 import Slide from '@material-ui/core/Slide';
-import Map from './Map';
+import Map from '../Info/Map/Map';
 
 // Transition for when the dialog appears, sliding up.
 const Transition = React.forwardRef(function Transition(props, ref) {

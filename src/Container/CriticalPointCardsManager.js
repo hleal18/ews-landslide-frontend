@@ -1,10 +1,10 @@
 import React from 'react';
 import CriticalPointCards from '../Presentational/Info/CriticalPointCards';
-import DialogForm from '../Playground/DialogForm';
+import DialogForm from '../Presentational/Forms/DialogForm';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
-import Map from '../Playground/Map';
+import Map from '../Presentational/Info/Map/Map';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
