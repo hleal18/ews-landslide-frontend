@@ -27,7 +27,7 @@ export default ({ devices }) => (
                         devices.map((el, ind) => <InfoComponent key={ind} />)
                     }
                     <Grid container item xs={12} sm={6} md={4} lg={3} xl={2} alignItems="center" justify="center">
-                        <AddButton />
+                        <AddButton handleClick={(e) => console.log('Button Pressed')}/>
                     </Grid>
                 </Grid>
             </Grid>

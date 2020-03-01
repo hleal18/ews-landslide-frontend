@@ -5,6 +5,7 @@ import CriticalPointCard from "./CriticalPointCard";
 import BreadCrumbs from './BreadCrumbs';
 import { withRouter } from 'react-router-dom';
 import AddButton from '../AddButton'
+import DialogForm from '../../Playground/DialogForm';
 
 const InfoComponent = ({ history }) => (
     <Grid item xs={12} sm={6} md={4} lg={3} xl={2} >
@@ -12,7 +13,7 @@ const InfoComponent = ({ history }) => (
     </Grid>
 );
 
-const CriticalPointCards = ({ criticalPoints, history }) => (
+const CriticalPointCards = ({ criticalPoints, history, handleOpenAddMenu }) => (
     <div>
         <Container maxWidth={false}>
             <Grid container spacing={3} direction="column" >
@@ -29,8 +30,8 @@ const CriticalPointCards = ({ criticalPoints, history }) => (
                             <InfoComponent key={ind} history={history} />)
                     }
                     <Grid container item xs={12} sm={6} md={4} lg={3} xl={2} alignItems="center" justify="center">
-                        <AddButton />
-                    </Grid>                    
+                        <AddButton handleClick={handleOpenAddMenu}/>
+                    </Grid>
                 </Grid>
             </Grid>
         </Container>
