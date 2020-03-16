@@ -15,18 +15,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function DialogForm({ 
-    nameContent = '',
-    descriptionContent = '',
-    mapContent = {
-      lat: 0,
-      lng: 0  
-    },
+export default function DialogForm({
     showDialog, 
     handleClose, 
     handleSubmit,
-    handleMapClick,
-    handleText,
     children
 }) {
   return (
