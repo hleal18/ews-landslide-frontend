@@ -5,7 +5,6 @@ import CriticalPointCard from "./CriticalPointCard";
 import BreadCrumbs from './BreadCrumbs';
 import { withRouter } from 'react-router-dom';
 import AddButton from '../AddButton'
-import DialogForm from '../Forms/DialogForm';
 
 const InfoComponent = ({ history }) => (
     <Grid item xs={12} sm={6} md={4} lg={3} xl={2} >

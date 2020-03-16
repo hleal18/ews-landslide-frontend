@@ -27,7 +27,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function DeviceCard() {
+export default function DeviceCard({ redirect }) {
   const classes = useStyles();
 
   return (
@@ -36,7 +36,7 @@ export default function DeviceCard() {
         <Typography className={classes.title} color="textSecondary" >
           Nodo sensor
         </Typography>
-        <Typography variant="h5" component="h2" className={classes.secondTitle}>
+        <Typography variant="h5" component="h2" className={classes.secondTitle} color='primary'>
           t-beam-sf10
         </Typography>
             <Grid container spacing={0}  direction="column" className={classes.pos}>
@@ -69,7 +69,7 @@ export default function DeviceCard() {
       </CardContent>
       <CardActions>
         <Grid container spacing={2}justify="center" direction="row">
-            <Grid item><Button size="small" color="primary">Ver Variables</Button></Grid>
+            <Grid item><Button size="small" color="primary" onClick={redirect}>Ver Variables</Button></Grid>
         </Grid>
       </CardActions>
     </Card>

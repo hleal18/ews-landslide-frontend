@@ -32,7 +32,7 @@ export default function CriticalPointCard({ redirect }) {
         <Typography className={classes.title} color="textSecondary" >
           Punto Crítico
         </Typography>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h5" component="h2" color='primary'>
           Salto del Cabron
         </Typography>
             <Grid container direction="column" className={classes.pos}>

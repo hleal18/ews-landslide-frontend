@@ -4,14 +4,15 @@ import Grid from "@material-ui/core/Grid";
 import DeviceCard from "./DeviceCard";
 import BreadCrumbs from "./BreadCrumbs";
 import AddButton from "../AddButton";
+import { withRouter } from 'react-router-dom';
 
-const InfoComponent = () => (
+const InfoComponent = ({ history }) => (
     <Grid item xs={12} sm={6} md={4} lg={3} xl={2} >
-        <DeviceCard />
+        <DeviceCard redirect={() => history.push('/variables')}/>
     </Grid>
 );
 
-export default ({ devices, handleOpenAddMenu }) => (
+const DeviceCards = ({ devices, handleOpenAddMenu, history }) => (
     <div>
         <Container maxWidth={false}>
             <Grid container spacing={3} direction="column">
@@ -24,7 +25,7 @@ export default ({ devices, handleOpenAddMenu }) => (
                 </Grid>
                 <Grid container spacing={3} direction="row" justify="flex-start">
                     {
-                        devices.map((el, ind) => <InfoComponent key={ind} />)
+                        devices.map((el, ind) => <InfoComponent key={ind} history={history} />)
                     }
                     <Grid container item xs={12} sm={6} md={4} lg={3} xl={2} alignItems="center" justify="center">
                         <AddButton handleClick={handleOpenAddMenu}/>
@@ -34,3 +35,5 @@ export default ({ devices, handleOpenAddMenu }) => (
         </Container>
     </div>
 )
+
+export default withRouter(DeviceCards);
