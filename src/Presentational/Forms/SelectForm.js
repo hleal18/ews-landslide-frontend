@@ -7,39 +7,40 @@ import Select from '@material-ui/core/Select';
 
 const useStyles = makeStyles(theme => ({
     formControl: {
-        margin: theme.spacing(1),
+        // margin: theme.spacing(1),
         minWidth: '50%',
         maxWidth: '100%',
-      }
+    }
 }));
 
 export default function SelectForm({
     id = "default",
-    label = "default", 
-    names = [], 
-    value = "", 
+    label = "default",
+    names = [],
+    value = "",
     options = [],
-    handleChange
+    handleChange,
+    fullWidth
 }) {
     const classes = useStyles();
-    
     return (
-        <FormControl className={classes.formControl}>
+        <FormControl className={classes.formControl} fullWidth={fullWidth}>
             <InputLabel >{label}</InputLabel>
             <Select
-              value={value}
-              onChange={(e) => {e.target.id = id; handleChange(e);}}
-              id={id}
-              name={label}
+                value={value}
+                onChange={(e) => { e.target.id = id; handleChange(e); }}
+                id={id}
+                name={label}
+                fullWidth={fullWidth}
             >
                 {
                     names.map((name, ind) => (
                         <MenuItem key={name} value={options[ind]} >
                             {name}
                         </MenuItem>
-                        ))
+                    ))
                 }
             </Select>
-        </FormControl>              
+        </FormControl>
     )
 }
