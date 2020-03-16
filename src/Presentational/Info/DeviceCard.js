@@ -69,7 +69,7 @@ export default function DeviceCard() {
       </CardContent>
       <CardActions>
         <Grid container spacing={2}justify="center" direction="row">
-            <Grid item><Button size="small" color="primary">Configurar</Button></Grid>
+            <Grid item><Button size="small" color="primary">Ver Variables</Button></Grid>
         </Grid>
       </CardActions>
     </Card>
