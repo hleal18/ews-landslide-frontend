@@ -28,7 +28,7 @@ const useStyles = makeStyles({
     }
 });
 
-export default function VariableCard() {
+export default function VariableCard({ handleOpenConfigureMenu }) {
     const classes = useStyles();
 
     return (
@@ -78,7 +78,11 @@ export default function VariableCard() {
             </CardContent>
             <CardActions>
                 <Grid container spacing={2} justify="center" direction="row">
-                    <Grid item><Button size="small" color="primary">Configurar</Button></Grid>
+                    <Grid item>
+                        <Button size="small" color="primary" onClick={handleOpenConfigureMenu}>
+                            Configurar
+                        </Button>
+                    </Grid>
                 </Grid>
             </CardActions>
         </Card>

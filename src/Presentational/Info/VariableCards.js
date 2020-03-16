@@ -5,13 +5,13 @@ import VariableCard from "./VariableCard";
 import BreadCrumbs from "./BreadCrumbs";
 import AddButton from "../AddButton";
 
-const InfoComponent = () => (
+const InfoComponent = ({ handleOpenConfigureMenu }) => (
     <Grid item xs={12} sm={6} md={4} lg={3} xl={2} >
-        <VariableCard />
+        <VariableCard handleOpenConfigureMenu={handleOpenConfigureMenu} />
     </Grid>
 );
 
-export default ({ variables, handleOpenAddMenu }) => (
+export default ({ variables, handleOpenAddMenu, handleOpenConfigureMenu }) => (
     <div>
         <Container maxWidth={false}>
             <Grid container spacing={3} direction="column">
@@ -24,7 +24,7 @@ export default ({ variables, handleOpenAddMenu }) => (
                 </Grid>
                 <Grid container spacing={3} direction="row" justify="flex-start">
                     {
-                        variables.map((el, ind) => <InfoComponent key={ind} />)
+                        variables.map((el, ind) => <InfoComponent key={ind} handleOpenConfigureMenu={handleOpenConfigureMenu} />)
                     }
                     <Grid container item xs={12} sm={6} md={4} lg={3} xl={2} alignItems="center" justify="center">
                         <AddButton handleClick={handleOpenAddMenu}/>
