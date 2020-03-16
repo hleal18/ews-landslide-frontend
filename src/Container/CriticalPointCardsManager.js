@@ -1,6 +1,6 @@
 import React from 'react';
 import CriticalPointCardsPresentation from '../Presentational/Info/CriticalPointCards';
-import CriticalPointCardsAddFormManager from './CriticalPointCardsAddFormManager';
+import CriticalPointCardsAddFormManager from './CriticalPointAddFormManager';
 
 export default class CriticalPointCardsManager extends React.Component {
     constructor(props) {

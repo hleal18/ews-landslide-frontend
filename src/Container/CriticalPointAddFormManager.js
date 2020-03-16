@@ -1,13 +1,6 @@
 import React from 'react';
-// import DialogForm from '../Presentational/Forms/DialogForm';
-// import TextField from '@material-ui/core/TextField';
-// import Typography from '@material-ui/core/Typography';
 
-// import Map from '../Presentational/Info/Map/Map';
-// import Grid from '@material-ui/core/Grid';
-// import CircularProgress from '@material-ui/core/CircularProgress';
-
-import CriticalPointsAddForm from '../Presentational/Forms/CriticalPointsAddForm';
+import CriticalPointsAddForm from '../Presentational/Forms/CriticalPointAddForm';
 
 export default class CriticalPointCardsAddFormManager extends React.Component {
     constructor(props) {

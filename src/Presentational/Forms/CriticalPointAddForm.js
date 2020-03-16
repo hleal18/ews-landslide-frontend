@@ -14,14 +14,6 @@ export default (props) => (
             showDialog={props.showAddForm}
             handleClose={props.handleClose}
             handleSubmit={props.handleSubmit}
-            nameContent={props.input.name}
-            descriptionContent={props.input.description}
-            mapContent={{
-                lat: props.input.lat,
-                lng: props.input.lng
-            }}
-            handleMapClick={props.handleMapClick}
-            handleText={props.handleText}
         >
             <TextField
                 autoFocus
