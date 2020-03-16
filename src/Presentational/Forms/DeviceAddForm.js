@@ -45,9 +45,6 @@ export default (props) => (
                     />
                 </Grid>
                 <Grid item >
-                <Typography component="p" color="textSecondary">
-                    Posteriormente podrá configurar variables y umbrales para este dispositivo
-                </Typography>
                 </Grid>
                 {
                     props.isLoading &&
