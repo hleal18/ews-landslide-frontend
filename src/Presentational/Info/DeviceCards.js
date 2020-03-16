@@ -11,7 +11,7 @@ const InfoComponent = () => (
     </Grid>
 );
 
-export default ({ devices }) => (
+export default ({ devices, handleOpenAddMenu }) => (
     <div>
         <Container maxWidth={false}>
             <Grid container spacing={3} direction="column">
@@ -27,7 +27,7 @@ export default ({ devices }) => (
                         devices.map((el, ind) => <InfoComponent key={ind} />)
                     }
                     <Grid container item xs={12} sm={6} md={4} lg={3} xl={2} alignItems="center" justify="center">
-                        <AddButton handleClick={(e) => console.log('Button Pressed')}/>
+                        <AddButton handleClick={handleOpenAddMenu}/>
                     </Grid>
                 </Grid>
             </Grid>
