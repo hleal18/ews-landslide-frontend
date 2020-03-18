@@ -20,7 +20,8 @@ export default function SelectForm({
     value = "",
     options = [],
     handleChange,
-    fullWidth
+    fullWidth,
+    error = false
 }) {
     const classes = useStyles();
     return (
@@ -32,6 +33,7 @@ export default function SelectForm({
                 id={id}
                 name={label}
                 fullWidth={fullWidth}
+                error={error}
             >
                 {
                     names.map((name, ind) => (

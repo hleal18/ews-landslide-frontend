@@ -26,6 +26,7 @@ export default (props) => (
                         options={['soilMoisture', 'inclination']}
                         fullWidth={true}
                         value={props.input.variable}
+                        error={!!props.errorState.variable}
                     />
                     {
                         !!props.errorState.variable &&

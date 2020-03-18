@@ -2,21 +2,21 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  withRouter
+  Route
 } from 'react-router-dom';
 
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import './App.css';
 import AppBar from './AppBar';
-
 import SignIn from './Container/SignInSide';
 import SignUp from './Container/SignUp';
 import DeviceCards from './Presentational/Info/DeviceCards';
-import CriticalPointCards from './Presentational/Info/CriticalPointCards';
 import Dashboard from './Dashboard2';
-import LineChartStatic from './Presentational/Charts/LineChartStatic';
+import DashboardFilters from './Container/DashboardFiltersBars';
+import { grey } from '@material-ui/core/colors';
+import CriticalPointCardsManager from './Container/CriticalPointCardsManager';
+import DeviceCardsManager from './Container/DeviceCardsManager';
+import VariableCardsManager from './Container/VariableCardsManager';
 
 function App() {
   return (
@@ -24,10 +24,13 @@ function App() {
       <Switch>
         <Route path="/dashboard">
             <Grid container direction="column">
-                <Grid item xs>
+                <Grid item xs={12}>
                     <AppBar />
+                <Grid item xs={12}>
+                    <DashboardFilters/>
                 </Grid>
-                <Grid item xs>
+                </Grid>
+                <Grid item xs color={grey[900]}>
                     <Dashboard />
                 </Grid>
             </Grid>
@@ -38,7 +41,7 @@ function App() {
                     <AppBar />
                 </Grid>
                 <Grid item xs>
-                    <CriticalPointCards criticalPoints={[1, 2, 3, 4, 5, 6, 7, ]}/>
+                    <CriticalPointCardsManager />
                 </Grid>
             </Grid>
         </Route>
@@ -48,7 +51,17 @@ function App() {
                     <AppBar />
                 </Grid>
                 <Grid item xs>
-                    <DeviceCards devices={[1, 2, 3, 4, 5, 6, 7]} />
+                    <DeviceCardsManager />
+                </Grid>
+            </Grid>
+        </Route>
+        <Route path="/variables">
+            <Grid container direction="column">
+                <Grid item xs>
+                    <AppBar />
+                </Grid>
+                <Grid item xs>
+                    <VariableCardsManager />
                 </Grid>
             </Grid>
         </Route>
@@ -58,8 +71,6 @@ function App() {
         <Route path="/signup" exact>
           <SignUp />
         </Route>
-        
-        
         <Route path="/">
           <SignIn />
         </Route>

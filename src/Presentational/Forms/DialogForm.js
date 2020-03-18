@@ -16,7 +16,9 @@ export default function DialogForm({
     showDialog, 
     handleClose, 
     handleSubmit,
-    children
+    children,
+    maxWidth = 'lg',
+    contextText = ''
 }) {
   return (
     <div>
@@ -25,13 +27,13 @@ export default function DialogForm({
         onClose={handleClose} 
         aria-labelledby="form-dialog-title"
         TransitionComponent={Transition}
-        maxWidth="lg"
+        maxWidth={maxWidth}
         fullWidth={true}
         >
         <DialogTitle id="form-dialog-title">Agregar Punto Crítico a INSERTE ZONA</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Introduzca cada uno de los campos.
+            {contextText}
           </DialogContentText>
           {children}
         </DialogContent>
