@@ -1,13 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
 
-const AuthContext = React.createContext({
-    token: undefined,
-    setToken: () => {}
-});
+const AuthContext = React.createContext(null);
 
 export const AuthProvider = (props) => {
     const [token, setToken] = useState(localStorage.getItem('token'));
-    
     useEffect(() => {
         if (token && token !== 'null') {
             localStorage.setItem('token', token);
@@ -21,8 +17,8 @@ export const AuthProvider = (props) => {
     )
 }
 
-// Custom hook used to know in a simple manner
-// if there is a token un the provider.
+// Custom hook used to know if the is an auth
+// token in the the app.
 export const useAuthenticated = () => {
     const { token } = useContext(AuthContext);
     return (!token || token === 'null') ? false : true;
