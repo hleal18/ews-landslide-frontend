@@ -3,19 +3,18 @@ import AuthContext from './AuthContext';
 import ewsApi from '../Api/ewsApi';
 
 const RiskZonesContext = React.createContext({
-    token: undefined,
-    setToken: () => {}
+    riskZones: [],
+    setRiskZones: () => {}
 });
 
 export const RiskZonesProvider = (props) => {
-    const [riskZones, setRiskZones] = useState({});
+    const [riskZones, setRiskZones] = useState([]);
+    
     const { token } = useContext(AuthContext);
-    console.log(`Token: `, token);
     
     useEffect(() => {
         const getRiskZones = async () => {
             const { riskZones } = await ewsApi.getRiskZones(token);
-            console.log('Riskzones received: ', riskZones);
             setRiskZones(riskZones);
         }
         getRiskZones();
