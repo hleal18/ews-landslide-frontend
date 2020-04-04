@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 
-const AuthContext = React.createContext(null);
+const AuthContext = React.createContext({});
 
 export const AuthProvider = (props) => {
     const [token, setToken] = useState(localStorage.getItem('token'));
