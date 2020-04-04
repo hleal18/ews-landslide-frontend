@@ -1,9 +1,6 @@
 import React from 'react';
 import SignInSidePresentation from '../Presentational/Forms/SignInSide';
-import { Redirect } from 'react-router-dom';
 import EwsApi from '../Api/ewsApi';
-import AuthContext from '../Contexts/AuthContext';
-import UserContext from '../Contexts/UserContext';
 
 class SignInSide extends React.Component {
     constructor(props) {
@@ -35,8 +32,7 @@ class SignInSide extends React.Component {
             submitError: {
                 submitErrorMessage: undefined,
                 submitErrorOpen: false
-            },
-            redirect: false
+            }
         };
     }
 
@@ -119,7 +115,6 @@ class SignInSide extends React.Component {
             }
             else {
                 this.props.context.setToken(result.auth.token);
-                this.setState({ redirect: true });
             }
         }
     }
@@ -137,7 +132,6 @@ class SignInSide extends React.Component {
             input,
             isLoading,
             errorState,
-            redirect,
             submitError: {
                 submitErrorMessage,
                 submitErrorOpen
@@ -147,7 +141,6 @@ class SignInSide extends React.Component {
         const errorMessage = this.errorMessage;
         return (
             <div>
-                {redirect && <Redirect to='/dashboard' />}
                 <SignInSidePresentation
                     errorState={errorState}
                     input={input}
