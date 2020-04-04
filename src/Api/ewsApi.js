@@ -1,4 +1,5 @@
 const url = 'http://localhost:3002/api/';
+
 export default class EwsApi {
 
     static async signUp(firstName, lastName, email, password) {
@@ -21,41 +22,142 @@ export default class EwsApi {
         return await result.json();
     }
     
-    static async login(user, pass) {
+    static async login(email, pass) {
         const result = await fetch(url + 'users/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                email: user, 
+                email: email, 
                 password: pass
             })
         });
         
-        return await result.json();
+        const resultJson = await result.json();
+        
+        console.log('Result json: ', resultJson);
+        return resultJson;
     }
     
-    static async getDevice(deviceId) {
-        const result = await fetch(url + 'devices/' + deviceId, { method: 'GET', mode: 'cors' });
+    static async getUser(token) {
+        const result = await fetch(url + 'users', {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        
+        const resultJson = await result.json();
+        
+        return resultJson;
+    }
+    
+    static async addRiskZone(name, description, adminId, token) {
+        const result = await fetch(url + 'riskzones', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `BEARER ${token}`
+            },
+            body: JSON.stringify({
+                name,
+                description,
+                adminId
+            })
+        });
+        
+        const resultJson = await result;
+        
+        if (result.status === 200) {
+            const riskZone = resultJson.riskZone;
+            
+            console.log(`Riskzone received: `, riskZone);
+            return riskZone;
+        } else throw new Error(`Error on request: ${result.status} with message: ${resultJson.message}`);
+    }
+    
+    static async getRiskZones(token) {
+        const result = await fetch(url + 'riskzones', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `BEARER ${token}`
+            }
+        });
+        
+        const resultJson = await result.json();
+        
+        return resultJson;
+    }
+    
+    static async addCriticalSpot(name, riskZoneId, token, description = '', latitude = 0, longitude = 0) {
+        const result = await fetch(url + 'criticalspots', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `BEARER ${token}`
+            },
+            body: JSON.stringify({
+                name,
+                riskZoneId,
+                token,
+                description,
+                latitude,
+                longitude
+            })
+        });
+        
+        const resultJson = await result.json();
+        
+        if (result.status === 200) {
+            const criticalSpot = resultJson.criticalSpot;
+            
+            console.log('Critical spot received: ', criticalSpot);
+            return criticalSpot;
+        } else throw new Error(`Error on request: ${result.status} with message: ${resultJson.message}`);
+    }
+    
+    static async addDevice() {
+        
+    }
+    
+    static async addVariable() {
+        
+    }
+    
+    static async getDevice(deviceId, token) {
+        const result = await fetch(url + 'devices/' + deviceId, { 
+            method: 'GET', 
+            mode: 'cors',
+            headers: {
+                Authorization: `BEARER ${token}`
+            }
+        });
 
         const resultJson = await result.json();
 
         return resultJson;
     }
 
-    static async getDevices() {
-        const devicesResponse = await fetch(url + 'devices', { method: 'GET', mode: 'cors' });
+    static async getDevices(token) {
+        const devicesResponse = await fetch(url + 'devices', { 
+            method: 'GET', 
+            mode: 'cors',
+            headers: {
+                Authorization: `BEARER ${token}`
+            }
+        });
         console.log('Response: ', devicesResponse);
         const devicesResponseJson = await devicesResponse.json();
-        console.log('Transformation: ', devicesResponseJson);
+        //console.log('Transformation: ', devicesResponseJson);
 
         const deviceRecords = devicesResponseJson.devices;
         return deviceRecords;
     }
 
     // static async getVariables(deviceId, { type = undefined, limit = 20, offset = 0, start = new Date(0), end = new Date() }) {
-    static async getVariables(deviceId, { idSensor = undefined, type = undefined, limit = 20, offset = 0, start = new Date(0), end = new Date() } = {}) {
+    static async getVariables(deviceId, { idSensor = undefined, type = undefined, limit = 20, offset = 0, start = new Date(0), end = new Date() } = {}, token) {
         const newUrl = new URL(url + 'variables/' + deviceId);
         if (idSensor) newUrl.searchParams.append('idSensor', idSensor);
         if (type) newUrl.searchParams.append('type', type);
@@ -67,7 +169,7 @@ export default class EwsApi {
         const result = await fetch(newUrl, {
             method: 'GET',
             headers: {
-                'Contenty-Type': 'application/json'
+                Authorization: `BEARER ${token}`
             }
         });
 
