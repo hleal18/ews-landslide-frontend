@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 
 const AppUpperBar = ({ routeToLogin, routeToDashboard, history }) => {
     const classes = useStyles();
-    console.log('History from appbar: ', history);
+    //console.log('History from appbar: ', history);
 
     return (
         <div className={classes.root}>
@@ -36,7 +36,7 @@ const AppUpperBar = ({ routeToLogin, routeToDashboard, history }) => {
                     <Button color="inherit" onClick={() => history.push('/dashboard')}>Umbrales</Button>
                     <Button color="inherit" onClick={() => history.push('/devices')}>Dispositivos</Button>
                     <Button color="inherit" onClick={() => history.push('/critical_points')}>Puntos Críticos</Button>
-                    <Button color="inherit" onClick={() => history.push('/dashboard')}>Zonas de Estudio</Button>
+                    <Button color="inherit" onClick={() => history.push('/riskzones')}>Zonas de Estudio</Button>
                 </Toolbar>
             </AppBar>
         </div>
