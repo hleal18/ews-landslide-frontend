@@ -18,9 +18,9 @@ const CriticalPointCards = ({ criticalPoints, history, handleOpenAddMenu }) => (
             <Grid container spacing={3} direction="column" >
                 <Grid item > 
                     <BreadCrumbs 
-                        routes={['dashboard']}
+                        routes={['riskzones']}
                         currentContent="Puntos Críticos"
-                        contents={['Dashboard']}
+                        contents={['Zonas de riesgo']}
                     />
                 </Grid>
                 <Grid container  spacing={3} direction="row" justify="flex-start">
