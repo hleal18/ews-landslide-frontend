@@ -9,8 +9,6 @@ export default () => {
     const { token } = useContext(AuthContext);
     const [showingAddMenu, setShowingAddMenu] = useState(false);
     
-    console.log(`riskZones: `, riskZones);
-    console.log(`showingAddmenu: `, riskZones);
     return (
         <div>
             <RiskZoneCards riskZones={riskZones}  handleOpenAddMenu={() => (setShowingAddMenu(true))} />

@@ -26,8 +26,7 @@ const useStyles = makeStyles({
 
 export default function RiskZoneCard({ redirect, name, description }) {
     const classes = useStyles();
-    console.log(`Name received: ${name}`);
-    console.log(`Description received: ${description}`);
+    
     return (
         <Card className={classes.root}>
             <CardContent>
