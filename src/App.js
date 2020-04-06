@@ -44,7 +44,7 @@ function App() {
                             </Grid>
                         </Grid>
                     </Route>
-                    <Route path="/riskzones/:riskZoneId/criticalspots/:criticalSpotId/sensornodes/:sensorNodeId/variables">
+                    <Route path="/riskzones/:riskZoneId/criticalspots/:criticalSpotId/sensornodes/:sensorNodeId/variables" exact>
                         <Grid container direction="column">
                             <Grid item xs>
                                 <AppBar />
@@ -54,7 +54,7 @@ function App() {
                             </Grid>
                         </Grid>
                     </Route>
-                    <Route path="/riskzones/:riskZoneId/criticalspots/:criticalSpotId/sensornodes">
+                    <Route path="/riskzones/:riskZoneId/criticalspots/:criticalSpotId/sensornodes" exact>
                         <Grid container direction="column">
                             <Grid item xs>
                                 <AppBar />
@@ -64,7 +64,7 @@ function App() {
                             </Grid>
                         </Grid>
                     </Route>
-                    <Route path="/riskzones/:riskZoneId/criticalspots">
+                    <Route path="/riskzones/:riskZoneId/criticalspots" exact>
                         <Grid container direction="column">
                             <Grid item xs>
                                 <AppBar />
@@ -80,7 +80,7 @@ function App() {
                             </Grid>
                         </Grid>
                     </Route>
-                    <Route path="/riskzones">
+                    <Route path="/riskzones" exact>
                         <Grid container direction="column">
                             <Grid item xs>
                                 <AppBar />
