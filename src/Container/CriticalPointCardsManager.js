@@ -8,7 +8,7 @@ export default class CriticalPointCardsManager extends React.Component {
         
         this.state = {
             showAddForm: false,
-            criticalPoints: [1, 2, 3, 4, 5, 6, 7, ]
+            criticalPoints: [{_id: 1}, {_id: 2},{_id: 3}, {_id: 4} ]
         }
     }
     
