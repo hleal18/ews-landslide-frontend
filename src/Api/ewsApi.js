@@ -53,7 +53,7 @@ export default class EwsApi {
         return resultJson;
     }
     
-    static async addRiskZone(name, description, adminId, token) {
+    static async addRiskZone(name, description, token) {
         const result = await fetch(url + 'riskzones', {
             method: 'POST',
             headers: {
@@ -62,17 +62,14 @@ export default class EwsApi {
             },
             body: JSON.stringify({
                 name,
-                description,
-                adminId
+                description
             })
         });
         
-        const resultJson = await result;
+        const resultJson = await result.json();
         
         if (result.status === 200) {
             const riskZone = resultJson.riskZone;
-            
-            console.log(`Riskzone received: `, riskZone);
             return riskZone;
         } else throw new Error(`Error on request: ${result.status} with message: ${resultJson.message}`);
     }
