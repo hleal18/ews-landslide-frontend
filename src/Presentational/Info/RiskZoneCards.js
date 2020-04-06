@@ -10,7 +10,7 @@ import AddButton from '../AddButton'
 
 const InfoComponent = (props) => (
     <Grid item xs={12} sm={6} md={4} lg={3} xl={2} >
-        <RiskZoneCard {...props} redirect={() => props.history.push('/critical_points')} />
+        <RiskZoneCard {...props} redirect={() => props.history.push(props.route)} />
     </Grid>
 );
 
@@ -22,6 +22,8 @@ const useStyles = makeStyles(theme => ({
 
 const RiskZoneCards = ({ riskZones, history, handleOpenAddMenu }) => {
     const classes = useStyles();
+    const { location:  { pathname: currentLocation } } = history;
+    
     return (
         <div className={classes.root}>
             <Container maxWidth={false}>
@@ -29,7 +31,7 @@ const RiskZoneCards = ({ riskZones, history, handleOpenAddMenu }) => {
                     <Grid container spacing={3} direction="row" justify="flex-start">
                         {
                             riskZones.map((riskZone, ind) =>
-                                <InfoComponent key={ind} history={history} {...riskZone} />)
+                                <InfoComponent key={ind} history={history} {...riskZone} route={`${currentLocation}/${riskZone._id}/criticalspots`}/>)
                         }
                         <Grid container item xs={12} sm={6} md={4} lg={3} xl={2} alignItems="center" justify="center">
                             <AddButton handleClick={handleOpenAddMenu} />
