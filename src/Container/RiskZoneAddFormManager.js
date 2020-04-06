@@ -1,17 +1,18 @@
 import React from 'react';
 
 import RiskZoneAddForm from '../Presentational/Forms/RiskZoneAddForm';
+import ewsApi from '../Api/ewsApi';
 
 export default class RiskZoneAddFormManager extends React.Component {
     constructor(props) {
         super(props);
-        
+
         this.errorMessage = {
             empty: {
                 name: 'Nombre de la zona de riesgo no debe estar vacía'
             }
         }
-        
+
         this.state = {
             input: {
                 name: '',
@@ -27,44 +28,54 @@ export default class RiskZoneAddFormManager extends React.Component {
             }
         }
     }
-    
+
     validateEmptyField = (field) => {
         if (typeof field !== 'string') throw new Error(`Field ${field} must be a string`);
         return field.length === 0 ? 'empty' : false;
     }
-    
+
     validateFields = ({ name, description }) => {
         const results = {
             name: undefined,
             description: undefined
         }
-        
+
         let error = this.validateEmptyField(name);
-        
+
         if (error) results.name = this.errorMessage[error].name;
-        
+
         return results;
     }
-    
-    handleSubmit = () => {
+
+    handleSubmit = async () => {
         const { input } = this.state;
         const { name, description } = input;
-        
+
         const validationResults = this.validateFields({ name, description });
-        
-        this.setState({ errorState: {...validationResults} });
-        
+
+        this.setState({ errorState: { ...validationResults } });
+
         if (!validationResults.name &&
             !validationResults.description) {
             
-            this.setState({ isLoading: true });
+            try {
+                this.setState({ isLoading: true });
+                const riskZone = await ewsApi.addRiskZone(name, description, this.props.token);
+                this.setState({ isLoading: false, input: { name: '', description: '' } });
+                const riskZones = this.props.riskZones;
+                riskZones.push(riskZone);
+                this.props.setRiskZones(riskZones);
+                this.props.handleClose();
+            } catch(e) {
+                console.log(e.message);
+            }
         }
     }
-    
+
     handleText = (e) => {
         const id = e.target.id;
         const value = e.target.value;
-        
+
         this.setState((prevState) => ({
             input: {
                 ...prevState.input,
@@ -72,7 +83,7 @@ export default class RiskZoneAddFormManager extends React.Component {
             }
         }));
     }
-    
+
     render() {
         return (
             <div>

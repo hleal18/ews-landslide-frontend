@@ -38,7 +38,7 @@ export default function RiskZoneCard({ redirect, name, description }) {
                     {name}
                 </Typography>
                 <Typography variant="body2" component="p">
-                    {description}
+                    {description ? description : <i>Sin descripción especificada</i>}
                 </Typography>
             </CardContent>
             <CardActions>
