@@ -24,7 +24,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function CriticalPointCard({ redirect }) {
+export default function CriticalPointCard({ redirect, name, description }) {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
@@ -33,7 +33,7 @@ export default function CriticalPointCard({ redirect }) {
           Punto Crítico
         </Typography>
         <Typography variant="h5" component="h2" color='primary'>
-          Salto del Cabron
+          {name}
         </Typography>
             <Grid container direction="column" className={classes.pos}>
                 <Grid item >
@@ -56,7 +56,7 @@ export default function CriticalPointCard({ redirect }) {
             </Grid>
         
         <Typography variant="body2" component="p">
-          Consta de suelo árido, de arcilla. Se observan componentes rocosos.
+          {description ? description : <i>Sin descripción</i>}
         </Typography>
       </CardContent>
       <CardActions>
