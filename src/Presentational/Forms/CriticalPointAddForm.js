@@ -29,7 +29,6 @@ export default (props) => (
                 error={!!props.errorState.name}
             />
             <TextField
-                autoFocus
                 margin="dense"
                 variant="outlined"
                 id="description"
