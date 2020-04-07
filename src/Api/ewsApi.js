@@ -90,7 +90,6 @@ export default class EwsApi {
             const { riskZones } = resultJson;
             return riskZones;
         } else throw new Error(`Error while getting risk zones: ${result.status} with message: ${resultJson.message}`);
-        return resultJson;
     }
     
     static async addCriticalSpot(name, riskZoneId, token, description = '', latitude = 0, longitude = 0) {
@@ -103,7 +102,6 @@ export default class EwsApi {
             body: JSON.stringify({
                 name,
                 riskZoneId,
-                token,
                 description,
                 latitude,
                 longitude
