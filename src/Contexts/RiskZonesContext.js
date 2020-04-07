@@ -41,6 +41,21 @@ export const RiskZonesProvider = (props) => {
     )
 }
 
+export const useCriticalSpotUpdater = () => {
+    const { riskZones, setRiskZones } = useContext(RiskZonesContext);
+    
+    // Function to add a new critical spot to a specified riskZone.
+    return (criticalSpot) => {
+        const { riskZoneId } = criticalSpot;
+        const riskZoneIndex = riskZones.findIndex((riskZone) => riskZone._id === riskZoneId);
+        setRiskZones((prevState) => {
+            const newState = [...prevState]
+            newState[riskZoneIndex].criticalSpots.push(criticalSpot);
+            return newState;
+        });
+    }
+}
+
 
 export const RiskZonesConsumer = RiskZonesContext.Consumer;
 export default RiskZonesContext;
