@@ -85,6 +85,11 @@ export default class EwsApi {
         
         const resultJson = await result.json();
         
+        
+        if (result.status === 200) {
+            const { riskZones } = resultJson;
+            return riskZones;
+        } else throw new Error(`Error while getting risk zones: ${result.status} with message: ${resultJson.message}`);
         return resultJson;
     }
     
@@ -113,6 +118,24 @@ export default class EwsApi {
             console.log('Critical spot received: ', criticalSpot);
             return criticalSpot;
         } else throw new Error(`Error on request: ${result.status} with message: ${resultJson.message}`);
+    }
+    
+    static async getCriticalSpots(token) {
+        const result = await fetch(url + 'criticalspots', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `BEARER ${token}`
+            }
+        });
+        
+        const resultJson = await result.json();
+        
+        if (result.status === 200) {
+            const { criticalSpots } = resultJson;
+            console.log(`CriticalSpots received: `, criticalSpots);
+            return criticalSpots;
+        } else throw new Error (`Error on request: ${result.status} with message: ${resultJson.message}`);
     }
     
     static async addDevice() {
