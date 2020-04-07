@@ -1,17 +1,18 @@
 import React from 'react';
 
 import CriticalPointsAddForm from '../Presentational/Forms/CriticalPointAddForm';
+import ewsApi from '../Api/ewsApi';
 
 export default class CriticalPointCardsAddFormManager extends React.Component {
     constructor(props) {
         super(props);
-        
+
         this.errorMessage = {
             empty: {
                 name: 'Nombre del punto crítico no debe estar vacío'
             }
         }
-        
+
         this.state = {
             input: {
                 name: '',
@@ -29,12 +30,12 @@ export default class CriticalPointCardsAddFormManager extends React.Component {
             }
         }
     }
-    
+
     validateEmptyField = (field) => {
         if (typeof field !== 'string') throw new Error(`Field ${field} must be a string`);
         return field.length === 0 ? 'empty' : false;
     }
-    
+
     validateFields = ({ name, description, lat, lng }) => {
         const results = {
             name: undefined,
@@ -42,35 +43,63 @@ export default class CriticalPointCardsAddFormManager extends React.Component {
             lat: undefined,
             lng: undefined
         }
-        
+
         let error = this.validateEmptyField(name);
-        
+
         if (error) results.name = this.errorMessage[error].name;
-        
+
         return results;
     }
-    
-    handleSubmit = () => {
+
+    handleSubmit = async () => {
         const { input } = this.state;
         const { name, description, lat, lng } = input;
-        
+
         const validationResults = this.validateFields({ name, description, lat, lng });
-        
-        this.setState({ errorState: {...validationResults} });
-        
+
+        this.setState({ errorState: { ...validationResults } });
+
         if (!validationResults.name &&
             !validationResults.description &&
             !validationResults.lat &&
             !validationResults.lng) {
-            
-            this.setState({ isLoading: true });
+
+
+            try {
+                this.setState({ isLoading: true });
+                const criticalSpot = await ewsApi.addCriticalSpot(
+                    name,
+                    this.props.riskZoneId,
+                    this.props.token,
+                    description,
+                    lat,
+                    lng
+                );
+                
+                this.props.setCriticalSpot(criticalSpot);
+                
+                this.setState({
+                    isLoading: false,
+                    input: {
+                        name: '',
+                        description: '',
+                        lat: 0,
+                        lng: 0
+                    }
+                });
+                
+                this.props.handleClose();
+            } catch (e) {
+                console.log(e.message);
+                this.setState({ isLoading: false });
+            }
         }
     }
-    
+
     handleText = (e) => {
         const id = e.target.id;
         const value = e.target.value;
-        
+
         this.setState((prevState) => ({
             input: {
                 ...prevState.input,
@@ -78,7 +107,7 @@ export default class CriticalPointCardsAddFormManager extends React.Component {
             }
         }));
     }
-    
+
     handleMapClick = (e) => {
         console.log('Map click: ', e);
         this.setState((prevState) => ({
@@ -89,11 +118,11 @@ export default class CriticalPointCardsAddFormManager extends React.Component {
             }
         }));
     }
-    
+
     render() {
         return (
             <div>
-                <CriticalPointsAddForm 
+                <CriticalPointsAddForm
                     {...this.props}
                     {...this.state}
                     {...this.errorMessage}
