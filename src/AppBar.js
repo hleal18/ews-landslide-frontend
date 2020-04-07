@@ -30,12 +30,9 @@ const AppUpperBar = ({ routeToLogin, routeToDashboard, history }) => {
                     <Typography variant="h6" className={classes.title}>
                         La Popita
                     </Typography>
-                    {/* <Button color="inherit" onClick={() => history.push('/login')}>Login</Button> */}
                     <Button color="inherit" onClick={() => history.push('/dashboard')}>Dashboard</Button>
                     <Button color="inherit" onClick={() => history.push('/dashboard')}>Alertas</Button>
                     <Button color="inherit" onClick={() => history.push('/dashboard')}>Umbrales</Button>
-                    <Button color="inherit" onClick={() => history.push('/devices')}>Dispositivos</Button>
-                    <Button color="inherit" onClick={() => history.push('/critical_points')}>Puntos Críticos</Button>
                     <Button color="inherit" onClick={() => history.push('/riskzones')}>Zonas de Estudio</Button>
                 </Toolbar>
             </AppBar>
