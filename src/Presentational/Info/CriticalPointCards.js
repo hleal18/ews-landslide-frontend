@@ -6,15 +6,15 @@ import BreadCrumbs from './BreadCrumbs';
 import { withRouter } from 'react-router-dom';
 import AddButton from '../AddButton'
 
-const InfoComponent = ({ history, route }) => (
+const InfoComponent = (props) => (
     <Grid item xs={12} sm={6} md={4} lg={3} xl={2} >
-        <CriticalPointCard redirect={() => history.push(route)}/>
+        <CriticalPointCard {...props} redirect={() => props.history.push(props.route)}/>
     </Grid>
 );
 
 const CriticalPointCards = ({ criticalPoints, history, handleOpenAddMenu }) => {
     const { location: { pathname: currentLocation } } = history;
-    
+    console.log(`criticalPoints in cards: `, criticalPoints);
     return (<div>
         <Container maxWidth={false}>
             <Grid container spacing={3} direction="column" >
@@ -28,7 +28,7 @@ const CriticalPointCards = ({ criticalPoints, history, handleOpenAddMenu }) => {
                 <Grid container  spacing={3} direction="row" justify="flex-start">
                     {
                         criticalPoints.map((criticalPoint, ind) => 
-                            <InfoComponent key={ind} history={history} route={`${currentLocation}/${criticalPoint._id}/sensornodes`}/>)
+                            <InfoComponent key={ind} history={history} {...criticalPoint} route={`${currentLocation}/${criticalPoint._id}/sensornodes`}/>)
                     }
                     <Grid container item xs={12} sm={6} md={4} lg={3} xl={2} alignItems="center" justify="center">
                         <AddButton handleClick={handleOpenAddMenu}/>
