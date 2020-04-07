@@ -26,84 +26,80 @@ import { AuthProvider, AuthConsumer, useAuthenticated } from './Contexts/AuthCon
 import { UserProvider, UserConsumer } from './Contexts/UserContext';
 import { RiskZonesProvider, RiskZonesConsumer } from './Contexts/RiskZonesContext';
 
-function App() {    
+function App() {
     return (
         <Router>
             <Switch>
                 <AuthProvider >
-                    <Route path="/dashboard">
-                        <Grid container direction="column">
-                            <Grid item xs={12}>
-                                <AppBar />
+                    <RiskZonesProvider>
+                        <Route path="/dashboard">
+                            <Grid container direction="column">
                                 <Grid item xs={12}>
-                                    <DashboardFilters />
+                                    <AppBar />
+                                    <Grid item xs={12}>
+                                        <DashboardFilters />
+                                    </Grid>
+                                </Grid>
+                                <Grid item xs color={grey[900]}>
+                                    <Dashboard />
                                 </Grid>
                             </Grid>
-                            <Grid item xs color={grey[900]}>
-                                <Dashboard />
+                        </Route>
+                        <Route path="/riskzones/:riskZoneId/criticalspots/:criticalSpotId/sensornodes/:sensorNodeId/variables" exact>
+                            <Grid container direction="column">
+                                <Grid item xs>
+                                    <AppBar />
+                                </Grid>
+                                <Grid item xs>
+                                    <VariableCardsManager />
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    </Route>
-                    <Route path="/riskzones/:riskZoneId/criticalspots/:criticalSpotId/sensornodes/:sensorNodeId/variables" exact>
-                        <Grid container direction="column">
-                            <Grid item xs>
-                                <AppBar />
+                        </Route>
+                        <Route path="/riskzones/:riskZoneId/criticalspots/:criticalSpotId/sensornodes" exact>
+                            <Grid container direction="column">
+                                <Grid item xs>
+                                    <AppBar />
+                                </Grid>
+                                <Grid item xs>
+                                    <DeviceCardsManager />
+                                </Grid>
                             </Grid>
-                            <Grid item xs>
-                                <VariableCardsManager />
+                        </Route>
+                        <Route path="/riskzones/:riskZoneId/criticalspots" exact>
+                            <Grid container direction="column">
+                                <Grid item xs>
+                                    <AppBar />
+                                </Grid>
+                                <Grid item xs>
+                                    <CriticalPointCardsManager />
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    </Route>
-                    <Route path="/riskzones/:riskZoneId/criticalspots/:criticalSpotId/sensornodes" exact>
-                        <Grid container direction="column">
-                            <Grid item xs>
-                                <AppBar />
-                            </Grid>
-                            <Grid item xs>
-                                <DeviceCardsManager />
-                            </Grid>
-                        </Grid>
-                    </Route>
-                    <Route path="/riskzones/:riskZoneId/criticalspots" exact>
-                        <Grid container direction="column">
-                            <Grid item xs>
-                                <AppBar />
-                            </Grid>
-                            <Grid item xs>
-                                <RiskZonesProvider>
-                                    <RiskZonesConsumer>
-                                        {
-                                            (context) => <CriticalPointCardsManager context={context} />
-                                        }
-                                    </RiskZonesConsumer>
-                                </RiskZonesProvider>
-                            </Grid>
-                        </Grid>
-                    </Route>
-                    <Route path="/riskzones" exact>
-                        <Grid container direction="column">
-                            <Grid item xs>
-                                <AppBar />
-                            </Grid>
-                            <Grid item xs>
-                                <RiskZonesProvider>
+                        </Route>
+                        <Route path="/riskzones" exact>
+                            <Grid container direction="column">
+                                <Grid item xs>
+                                    <AppBar />
+                                </Grid>
+                                <Grid item xs>
+
                                     <RiskZonesCardsManager />
-                                </RiskZonesProvider>
+
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    </Route>
-                    
-                    
-                    
-                    <Route path="/login" exact>
-                        <ConditionalLogin />
-                    </Route>
-                    <Route path="/signup" exact>
-                        <SignUp />
-                    </Route>
-                    <Route path="/" exact>
-                        <ConditionalLogin />
-                    </Route>
+                        </Route>
+
+
+
+                        <Route path="/login" exact>
+                            <ConditionalLogin />
+                        </Route>
+                        <Route path="/signup" exact>
+                            <SignUp />
+                        </Route>
+                        <Route path="/" exact>
+                            <ConditionalLogin />
+                        </Route>
+                    </RiskZonesProvider>
                 </AuthProvider>
             </Switch>
         </Router>
