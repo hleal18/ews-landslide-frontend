@@ -62,9 +62,7 @@ export default class RiskZoneAddFormManager extends React.Component {
                 this.setState({ isLoading: true });
                 const riskZone = await ewsApi.addRiskZone(name, description, this.props.token);
                 this.setState({ isLoading: false, input: { name: '', description: '' } });
-                const riskZones = this.props.riskZones;
-                riskZones.push(riskZone);
-                this.props.setRiskZones(riskZones);
+                this.props.setRiskZones((prevState) => ([...prevState, riskZone]));
                 this.props.handleClose();
             } catch(e) {
                 console.log(e.message);
