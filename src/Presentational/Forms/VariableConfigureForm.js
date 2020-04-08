@@ -36,7 +36,7 @@ export default (props) => (
                     display: 'flex',
                     alignItems: 'center'
                 }}>
-                    <Typography component='p' color='textPrimary' >{'<'} X {'<'}</Typography>
+                    <Typography component='p' color='textPrimary' >  {'<'} <i> X </i> {'<'} </Typography>
                 </Grid>
                 <Grid item >
                     <TextField
