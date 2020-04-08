@@ -21,7 +21,7 @@ export const RiskZonesProvider = (props) => {
                 riskZones = await ewsApi.getRiskZones(token);
                 criticalSpots = await ewsApi.getCriticalSpots(token);
                 sensorNodes = await ewsApi.getSensorNodes(token);
-            } catch(e) { console.log(`Error: ${e.message}`); }
+            } catch (e) { console.log(`Error: ${e.message}`); }
             console.log('Sensor Nodes on context: ', sensorNodes);
             // It modifies the original riskZone object from API to contain
             // composed objects with info about: criticalSpots->SensorNodes
@@ -35,10 +35,10 @@ export const RiskZonesProvider = (props) => {
                         sensorNodes: filteredSensorNodes
                     }
                 });
-                
-                const criticalSpotsForRiskZone = composedCriticalSpots.filter((criticalSpot) => 
+
+                const criticalSpotsForRiskZone = composedCriticalSpots.filter((criticalSpot) =>
                     riskZone._id === criticalSpot.riskZoneId);
-                
+
                 console.log('CriticalSpotsForRiskZone: ', criticalSpotsForRiskZone);
                 const composedRiskZone = {
                     ...riskZone,
@@ -46,7 +46,7 @@ export const RiskZonesProvider = (props) => {
                 }
                 return composedRiskZone;
             });
-            
+
             console.log('RiskZonesAppData: ', riskZonesAppData);
             setRiskZones(riskZonesAppData);
         }
@@ -80,26 +80,57 @@ export const useCriticalSpotUpdater = () => {
 
 export const useSensorNodeUpdater = () => {
     const { riskZones, setRiskZones } = useContext(RiskZonesContext);
-    
-    return (sensorNode) => {
-       const { criticalSpotId } = sensorNode;
-       let criticalSpotIndex = null;
 
-       const riskZoneIndex = riskZones.findIndex((riskZone) => {
-           criticalSpotIndex = riskZone.criticalSpots.findIndex(
-               (criticalSpot) => criticalSpot._id === criticalSpotId
+    return (sensorNode) => {
+        const { criticalSpotId } = sensorNode;
+        let criticalSpotIndex = null;
+
+        const riskZoneIndex = riskZones.findIndex((riskZone) => {
+            criticalSpotIndex = riskZone.criticalSpots.findIndex(
+                (criticalSpot) => criticalSpot._id === criticalSpotId
             );
-            
+
             if (criticalSpotIndex !== -1) return true;
-            
+
             return false;
-       });
-       
-       setRiskZones((prevState) => {
-           const newState = [...prevState];
-           newState[riskZoneIndex].criticalSpots[criticalSpotIndex].sensorNodes.push(sensorNode);
-           return newState;
-       });
+        });
+
+        setRiskZones((prevState) => {
+            const newState = [...prevState];
+            newState[riskZoneIndex].criticalSpots[criticalSpotIndex].sensorNodes.push(sensorNode);
+            return newState;
+        });
+    }
+}
+
+export const useVariableUpdater = () => {
+    const { riskZones, setRiskZones } = useContext(RiskZonesContext);
+
+    return (sensorNode, variable) => {
+        const { criticalSpotId } = sensorNode;
+        let sensorNodeIndex = null;
+        let criticalSpotIndex = null;
+
+        const riskZoneIndex = riskZones.findIndex((riskZone) => {
+            criticalSpotIndex = riskZone.criticalSpots.findIndex((criticalSpot) => { 
+                return criticalSpot._id === criticalSpotId;
+            });
+
+            if (criticalSpotIndex !== -1) {
+                sensorNodeIndex = riskZone.criticalSpots[criticalSpotIndex].sensorNodes.findIndex((sensorNodeContext) => {
+                    return sensorNodeContext._id === sensorNode._id;
+                });
+                return true;
+            }
+
+            return false;
+        });
+
+        setRiskZones((prevState) => {
+            const newState = [...prevState];
+            newState[riskZoneIndex].criticalSpots[criticalSpotIndex].sensorNodes[sensorNodeIndex].variables.push(variable);
+            return newState;
+        });
     }
 }
 
