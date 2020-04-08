@@ -4,17 +4,19 @@ import VariableCardsPresentation from '../Presentational/Info/VariableCards';
 import VariableAddFormManager from './VariableAddFormManager';
 import VariableConfigureFormManager from './VariableConfigureFormManager';
 import AuthContext from '../Contexts/AuthContext';
-import RiskZonesContext, { } from '../Contexts/RiskZonesContext';
+import RiskZonesContext, { useSensorNodeUpdater } from '../Contexts/RiskZonesContext';
 
 export default () => {
     const { riskZones } = useContext(RiskZonesContext);
     const { token } = useContext(AuthContext);
     const { riskZoneId, criticalSpotId, sensorNodeId } = useParams();
+    const setSensorNode = useSensorNodeUpdater();
     
     const [showingAddForm, setShowingAddForm] = useState(false);
     const [showingConfigureForm, setShowingConfigureForm] = useState(false);
     
     const [variables, setVariables] = useState([]);
+    const [idSensorsTaken, setIdSensorsTaken] = useState(new Set());
     
     
     
@@ -27,8 +29,12 @@ export default () => {
             const { sensorNodes } = criticalSpots.find((criticalSpot) => criticalSpot._id === criticalSpotId);
             
             const { variables } = sensorNodes.find((sensorNode) => sensorNode._id === sensorNodeId);
-            
-            setVariables(variables);
+            console.log('Variables in sensorNode: ', variables);
+            setVariables(variables);            
+            setIdSensorsTaken(variables.reduce((curSet, variable) => {
+                curSet.add(variable.idSensor);
+                return curSet;
+            }, new Set()))
         }    
     }, [riskZoneId, criticalSpotId, sensorNodeId, riskZones]);
     
@@ -45,6 +51,10 @@ export default () => {
                 handleClose={() => (setShowingConfigureForm(false))}
             />
             <VariableAddFormManager
+                token={token}
+                idSensorsTaken={idSensorsTaken}
+                sensorNodeId={sensorNodeId}
+                setSensorNode={setSensorNode}
                 showAddForm={showingAddForm}
                 handleClose={() => (setShowingAddForm(false))}
             />
