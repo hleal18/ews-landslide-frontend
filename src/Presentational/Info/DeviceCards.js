@@ -6,13 +6,13 @@ import BreadCrumbs from "./BreadCrumbs";
 import AddButton from "../AddButton";
 import { withRouter } from 'react-router-dom';
 
-const InfoComponent = ({ history, route }) => (
+const InfoComponent = (props) => (
     <Grid item xs={12} sm={6} md={4} lg={3} xl={2} >
-        <DeviceCard redirect={() => history.push(route)}/>
+        <DeviceCard {...props} redirect={() => props.history.push(props.route)}/>
     </Grid>
 );
 
-const DeviceCards = ({ devices, handleOpenAddMenu, history }) => {
+const DeviceCards = ({ sensorNodes, handleOpenAddMenu, history }) => {
     const { location: { pathname: currentLocation } } = history;
     
     return    (<div>
@@ -27,7 +27,7 @@ const DeviceCards = ({ devices, handleOpenAddMenu, history }) => {
                 </Grid>
                 <Grid container spacing={3} direction="row" justify="flex-start">
                     {
-                        devices.map((device, ind) => <InfoComponent key={ind} history={history} route={`${currentLocation}/${device._id}/variables`}/>)
+                        sensorNodes.map((sensorNode, ind) => <InfoComponent key={ind} {...sensorNodes} history={history} route={`${currentLocation}/${sensorNode._id}/variables`}/>)
                     }
                     <Grid container item xs={12} sm={6} md={4} lg={3} xl={2} alignItems="center" justify="center">
                         <AddButton handleClick={handleOpenAddMenu}/>
