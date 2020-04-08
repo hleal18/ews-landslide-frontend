@@ -38,10 +38,13 @@ export default (props) => (
                         label="Descripción"
                         type="text"
                         fullWidth
+                        required={true}
                         multiline
                         rows={6}
                         value={props.input.description}
                         onChange={props.handleText}
+                        helperText={props.errorState.description}
+                        error={!!props.errorState.description}
                     />
                 </Grid>
                 <Grid item >
