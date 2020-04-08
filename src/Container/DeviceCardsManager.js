@@ -1,22 +1,41 @@
 import React, { useContext, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import DeviceCardsPresentation from '../Presentational/Info/DeviceCards';
 import DeviceAddFormManager from './DeviceAddFormManager';
-import RiskZonesContext, { } from '../Contexts/RiskZonesContext';
-
+import RiskZonesContext, { useSensorNodeUpdater } from '../Contexts/RiskZonesContext';
+import AuthContext from '../Contexts/AuthContext';
 
 export default () => {
+    const { riskZones } = useContext(RiskZonesContext);
+    const { token } = useContext(AuthContext);
+    const { riskZoneId, criticalSpotId } = useParams();
+    const setSensorNode = useSensorNodeUpdater();
+    
     const [showingAddForm, setShowingAddForm] = useState(false);
     
-    const devices = [{_id: 1}, {_id: 2},{_id: 3}, {_id: 4} ];
+    const currentRiskZone = riskZones.find((riskZone) => riskZone._id === riskZoneId);
+    
+    let sensorNodes = [];
+    if (currentRiskZone) {
+        const currentCriticalSpot = currentRiskZone.criticalSpots.find(
+            (criticalSpot) => 
+                criticalSpot._id === criticalSpotId
+        );
+        sensorNodes = currentCriticalSpot.sensorNodes;
+    }
+        
     return (
         <div>
             <DeviceCardsPresentation
-                devices={devices}
+                sensorNodes={sensorNodes}
                 handleOpenAddMenu={() => (setShowingAddForm(true))}
             />
             <DeviceAddFormManager
+                criticalSpotId={criticalSpotId}
+                token={token}
                 showAddForm={showingAddForm}
                 handleClose={() => (setShowingAddForm(false))}
+                setSensorNode={setSensorNode}
             />
         </div>
     )
