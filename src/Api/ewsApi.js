@@ -159,8 +159,28 @@ export default class EwsApi {
         } else throw new Error(`Error occurred while addding a new sensor, status code ${result.status} with error message ${resultJson.message}`);
     }
     
-    static async addVariable() {
+    static async addVariable(name, description, idSensor, type, sensorNodeId, token) {
+        const result = await fetch(url + 'devices/' + sensorNodeId, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `BEARER ${token}`                
+            },
+            body: JSON.stringify({
+                name,
+                description,
+                idSensor,
+                type
+            })
+        });
         
+        const resultJson = await result.json();
+        
+        if (result.status === 200) {
+            const { device } = resultJson;
+            console.log('Modified device: ', device);
+            return device;
+        } else throw new Error(`Error while adding a new variable, status code ${result.status} with error code ${resultJson.message}`);
     }
     
     static async getSensorNode(deviceId, token) {
