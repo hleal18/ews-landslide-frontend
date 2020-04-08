@@ -91,6 +91,7 @@ export default class RiskZoneAddFormManager extends React.Component {
                     {...this.errorMessage}
                     handleSubmit={this.handleSubmit}
                     handleText={this.handleText}
+                    title={"Agregar nueva Zona de Riesgo"}
                 />
             </div>
         );
