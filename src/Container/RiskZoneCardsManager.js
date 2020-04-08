@@ -13,7 +13,6 @@ export default () => {
         <div>
             <RiskZoneCards riskZones={riskZones}  handleOpenAddMenu={() => (setShowingAddMenu(true))} />
             <RiskZoneAddFormManager 
-                riskZones={riskZones} 
                 setRiskZones={setRiskZones} 
                 showAddForm={showingAddMenu} 
                 handleClose={() => (setShowingAddMenu(false))} 
