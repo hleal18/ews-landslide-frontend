@@ -22,7 +22,7 @@ export default () => {
             (criticalSpot) => 
                 criticalSpot._id === criticalSpotId
         );
-        sensorNodes = currentCriticalSpot.sensorNodes;
+        sensorNodes = currentCriticalSpot.sensorNodes ? currentCriticalSpot.sensorNodes : [];
     }
         
     return (
