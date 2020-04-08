@@ -1,35 +1,23 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import DeviceCardsPresentation from '../Presentational/Info/DeviceCards';
 import DeviceAddFormManager from './DeviceAddFormManager';
+import RiskZonesContext, { } from '../Contexts/RiskZonesContext';
 
-export default class CriticalPointCardsManager extends React.Component {
-    constructor(props) {
-        super(props);
-        
-        this.state = {
-            showAddForm: false,
-            devices: [{_id: 1}, {_id: 2},{_id: 3}, {_id: 4} ]
-        }
-    }
+
+export default () => {
+    const [showingAddForm, setShowingAddForm] = useState(false);
     
-    handleAddButton = () => {
-        this.setState((prevState) => ({
-            showAddForm: !prevState.showAddForm
-        }));
-    }
-    
-    render() {
-        return (
-            <div>
-                <DeviceCardsPresentation
-                    devices={this.state.devices}
-                    handleOpenAddMenu={this.handleAddButton}
-                />
-                <DeviceAddFormManager 
-                    showAddForm={this.state.showAddForm}
-                    handleClose={this.handleAddButton}
-                />
-            </div>
-        )
-    }
+    const devices = [{_id: 1}, {_id: 2},{_id: 3}, {_id: 4} ];
+    return (
+        <div>
+            <DeviceCardsPresentation
+                devices={devices}
+                handleOpenAddMenu={() => (setShowingAddForm(true))}
+            />
+            <DeviceAddFormManager
+                showAddForm={showingAddForm}
+                handleClose={() => (setShowingAddForm(false))}
+            />
+        </div>
+    )
 }
