@@ -129,6 +129,7 @@ export default class CriticalPointCardsAddFormManager extends React.Component {
                     handleSubmit={this.handleSubmit}
                     handleText={this.handleText}
                     handleMapClick={this.handleMapClick}
+                    title={`Agregando nuevo punto crítico a ${this.props.riskZoneName}`}
                 />
             </div>
         );

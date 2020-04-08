@@ -26,6 +26,7 @@ export default () => {
                 showAddForm={showingAddForm}
                 handleClose={() => (setShowingAddForm(false))}
                 riskZoneId={riskZoneId}
+                riskZoneName={currentRiskZone ? currentRiskZone.name : ''}
                 token={token}
             />
         </div>)

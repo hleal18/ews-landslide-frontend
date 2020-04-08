@@ -11,6 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 export default (props) => (
     <div>
         <DialogForm
+            title={props.title}
             showDialog={props.showAddForm}
             handleClose={props.handleClose}
             handleSubmit={props.handleSubmit}
