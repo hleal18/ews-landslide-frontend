@@ -14,9 +14,14 @@ export const RiskZonesProvider = (props) => {
 
     useEffect(() => {
         const getRiskZones = async () => {
-            const riskZones = await ewsApi.getRiskZones(token);
-            const criticalSpots = await ewsApi.getCriticalSpots(token);
-            const sensorNodes = await ewsApi.getSensorNodes(token);
+            let riskZones = [];
+            let criticalSpots = [];
+            let sensorNodes = [];
+            try {
+                riskZones = await ewsApi.getRiskZones(token);
+                criticalSpots = await ewsApi.getCriticalSpots(token);
+                sensorNodes = await ewsApi.getSensorNodes(token);
+            } catch(e) { console.log(`Error: ${e.message}`); }
             console.log('Sensor Nodes on context: ', sensorNodes);
             // It modifies the original riskZone object from API to contain
             // composed objects with info about: criticalSpots->SensorNodes
@@ -24,7 +29,7 @@ export const RiskZonesProvider = (props) => {
             const riskZonesAppData = riskZones.map((riskZone) => {
                 const composedCriticalSpots = criticalSpots.map((criticalSpot) => {
                     const filteredSensorNodes = sensorNodes.filter((sensorNode) => criticalSpot._id === sensorNode.criticalSpotId)
-
+                    console.log('FilteredSensorNodes: ', filteredSensorNodes);
                     return {
                         ...criticalSpot,
                         sensorNodes: filteredSensorNodes
@@ -34,12 +39,15 @@ export const RiskZonesProvider = (props) => {
                 const criticalSpotsForRiskZone = composedCriticalSpots.filter((criticalSpot) => 
                     riskZone._id === criticalSpot.riskZoneId);
                 
+                console.log('CriticalSpotsForRiskZone: ', criticalSpotsForRiskZone);
                 const composedRiskZone = {
                     ...riskZone,
                     criticalSpots: criticalSpotsForRiskZone
                 }
                 return composedRiskZone;
             });
+            
+            console.log('RiskZonesAppData: ', riskZonesAppData);
             setRiskZones(riskZonesAppData);
         }
         getRiskZones();
@@ -57,6 +65,9 @@ export const useCriticalSpotUpdater = () => {
 
     // Function to add a new critical spot to a specified riskZone.
     return (criticalSpot) => {
+        // Every new criticalSpot to be added into the context
+        // should be initialized with an empty sensorNode array.
+        criticalSpot.sensorNodes = [];
         const { riskZoneId } = criticalSpot;
         const riskZoneIndex = riskZones.findIndex((riskZone) => riskZone._id === riskZoneId);
         setRiskZones((prevState) => {
@@ -71,16 +82,6 @@ export const useSensorNodeUpdater = () => {
     const { riskZones, setRiskZones } = useContext(RiskZonesContext);
     
     return (sensorNode) => {
-        /*
-        * Extract criticalSpotId.
-        * Find index of rizkZone that contains criticalSpotId.
-        * Find criticalSpotIndex within the riskZone that will
-        * contain the new sensorNode.
-        * Create function with prevState to update
-        * Access riskZone at index, criticalPoint at index and push
-        * new sensorNode.
-        * return newState.
-        */
        const { criticalSpotId } = sensorNode;
        let criticalSpotIndex = null;
 
