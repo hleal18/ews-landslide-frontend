@@ -27,7 +27,7 @@ const DeviceCards = ({ sensorNodes, handleOpenAddMenu, history }) => {
                 </Grid>
                 <Grid container spacing={3} direction="row" justify="flex-start">
                     {
-                        sensorNodes.map((sensorNode, ind) => <InfoComponent key={ind} {...sensorNodes} history={history} route={`${currentLocation}/${sensorNode._id}/variables`}/>)
+                        sensorNodes.map((sensorNode, ind) => <InfoComponent key={ind} {...sensorNode} history={history} route={`${currentLocation}/${sensorNode._id}/variables`}/>)
                     }
                     <Grid container item xs={12} sm={6} md={4} lg={3} xl={2} alignItems="center" justify="center">
                         <AddButton handleClick={handleOpenAddMenu}/>

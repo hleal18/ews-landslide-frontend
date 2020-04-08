@@ -9,69 +9,69 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-    fontSize: 12
-  },
-  chip: {
-      marginBottom: 4
-  },
-  secondTitle: {
-      marginBottom: 8
-  }
+    root: {
+        minWidth: 275,
+    },
+    title: {
+        fontSize: 14,
+    },
+    pos: {
+        marginBottom: 12,
+        fontSize: 12
+    },
+    chip: {
+        marginBottom: 4
+    },
+    secondTitle: {
+        marginBottom: 8
+    }
 });
 
-export default function DeviceCard({ redirect }) {
-  const classes = useStyles();
+export default function DeviceCard({ name, description, redirect }) {
+    const classes = useStyles();
 
-  return (
-    <Card className={classes.root}>
-      <CardContent>
-        <Typography className={classes.title} color="textSecondary" >
-          Nodo sensor
-        </Typography>
-        <Typography variant="h5" component="h2" className={classes.secondTitle} color='primary'>
-          t-beam-sf10
-        </Typography>
-            <Grid container spacing={0}  direction="column" className={classes.pos}>
-                <Grid container direction="row">
-                    <Grid item xs={3}>
-                        <Typography className={classes.pos} color="textSecondary">
-                            Umbrales:
+    return (
+        <Card className={classes.root}>
+            <CardContent>
+                <Typography className={classes.title} color="textSecondary" >
+                    Nodo sensor
+                </Typography>
+                <Typography variant="h5" component="h2" className={classes.secondTitle} color='primary'>
+                    {name}
+                </Typography>
+                <Grid container spacing={0} direction="column" className={classes.pos}>
+                    <Grid container direction="row">
+                        <Grid item xs={3}>
+                            <Typography className={classes.pos} color="textSecondary">
+                                Umbrales:
                         </Typography>
+                        </Grid>
+                        <Grid container item xs spacing={1} className={classes.chip} direction="column">
+                            <Grid item xs><Chip label="Humedad de suelo x1" size="small" /></Grid>
+                            <Grid item xs> <Chip label="Inclinación x2" size="small" /></Grid>
+                        </Grid>
                     </Grid>
-                    <Grid container item xs spacing={1} className={classes.chip} direction="column">
-                        <Grid item xs><Chip label="Humedad de suelo x1" size="small"  /></Grid>
-                        <Grid item xs> <Chip label="Inclinación x2" size="small"  /></Grid>
+                    <Grid container direction="row">
+                        <Grid item xs={3} >
+                            <Typography className={classes.pos} color="textSecondary">
+                                Variables:
+                        </Typography>
+                        </Grid>
+                        <Grid container item xs spacing={1} direction="column">
+                            <Grid item xs><Chip label="Humedad de suelo" size="small" /></Grid>
+                            <Grid item xs> <Chip label="Inclinación" size="small" /></Grid>
+                        </Grid>
                     </Grid>
                 </Grid>
-                <Grid container direction="row">
-                    <Grid item xs={3} >
-                        <Typography className={classes.pos} color="textSecondary">
-                            Variables:
-                        </Typography>
-                    </Grid>
-                    <Grid container item xs spacing={1} direction="column">
-                        <Grid item xs><Chip label="Humedad de suelo" size="small"  /></Grid>
-                        <Grid item xs> <Chip label="Inclinación" size="small"  /></Grid>
-                    </Grid>
+                <Typography variant="body2" component="p">
+                    {description ? description : <i>Sin descripción</i>}
+                </Typography>
+            </CardContent>
+            <CardActions>
+                <Grid container spacing={2} justify="center" direction="row">
+                    <Grid item><Button size="small" color="primary" onClick={redirect}>Ver Variables</Button></Grid>
                 </Grid>
-            </Grid>
-        <Typography variant="body2" component="p">
-          Medición de variables ricolinas y sabrosas para el usuario final.
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Grid container spacing={2}justify="center" direction="row">
-            <Grid item><Button size="small" color="primary" onClick={redirect}>Ver Variables</Button></Grid>
-        </Grid>
-      </CardActions>
-    </Card>
-  );
+            </CardActions>
+        </Card>
+    );
 }
