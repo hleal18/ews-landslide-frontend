@@ -144,7 +144,7 @@ export default class EwsApi {
         
     }
     
-    static async getDevice(deviceId, token) {
+    static async getSensorNode(deviceId, token) {
         const result = await fetch(url + 'devices/' + deviceId, { 
             method: 'GET', 
             mode: 'cors',
@@ -158,7 +158,7 @@ export default class EwsApi {
         return resultJson;
     }
 
-    static async getDevices(token) {
+    static async getSensorNodes(token) {
         const devicesResponse = await fetch(url + 'devices', { 
             method: 'GET', 
             mode: 'cors',
