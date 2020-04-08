@@ -4,19 +4,20 @@ import VariableCardsPresentation from '../Presentational/Info/VariableCards';
 import VariableAddFormManager from './VariableAddFormManager';
 import VariableConfigureFormManager from './VariableConfigureFormManager';
 import AuthContext from '../Contexts/AuthContext';
-import RiskZonesContext, { useSensorNodeUpdater } from '../Contexts/RiskZonesContext';
+import RiskZonesContext, { useVariableUpdater } from '../Contexts/RiskZonesContext';
 
 export default () => {
     const { riskZones } = useContext(RiskZonesContext);
     const { token } = useContext(AuthContext);
     const { riskZoneId, criticalSpotId, sensorNodeId } = useParams();
-    const setSensorNode = useSensorNodeUpdater();
+    const setVariable = useVariableUpdater();
     
     const [showingAddForm, setShowingAddForm] = useState(false);
     const [showingConfigureForm, setShowingConfigureForm] = useState(false);
     
     const [variables, setVariables] = useState([]);
     const [idSensorsTaken, setIdSensorsTaken] = useState(new Set());
+    const [sensorNodeName, setSensorNodeName] = useState('');
     
     
     
@@ -28,8 +29,9 @@ export default () => {
             
             const { sensorNodes } = criticalSpots.find((criticalSpot) => criticalSpot._id === criticalSpotId);
             
-            const { variables } = sensorNodes.find((sensorNode) => sensorNode._id === sensorNodeId);
+            const { variables, name } = sensorNodes.find((sensorNode) => sensorNode._id === sensorNodeId);
             console.log('Variables in sensorNode: ', variables);
+            setSensorNodeName(name);
             setVariables(variables);            
             setIdSensorsTaken(variables.reduce((curSet, variable) => {
                 curSet.add(variable.idSensor);
@@ -51,10 +53,11 @@ export default () => {
                 handleClose={() => (setShowingConfigureForm(false))}
             />
             <VariableAddFormManager
+                sensorNodeName={sensorNodeName}
                 token={token}
                 idSensorsTaken={idSensorsTaken}
                 sensorNodeId={sensorNodeId}
-                setSensorNode={setSensorNode}
+                setVariable={setVariable}
                 showAddForm={showingAddForm}
                 handleClose={() => (setShowingAddForm(false))}
             />

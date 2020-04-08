@@ -12,6 +12,7 @@ import Select from '../Forms/SelectForm';
 export default (props) => (
     <div>
         <DialogForm
+            title={props.title}
             showDialog={props.showAddForm}
             handleClose={props.handleClose}
             handleSubmit={props.handleSubmit}

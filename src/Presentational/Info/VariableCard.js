@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import variablesDefinition from '../../lib/variablesDefinition';
 
 const useStyles = makeStyles({
     root: {
@@ -28,7 +29,7 @@ const useStyles = makeStyles({
     }
 });
 
-export default function VariableCard({ handleOpenConfigureMenu }) {
+export default function VariableCard({ name, description, idSensor, type, handleOpenConfigureMenu }) {
     const classes = useStyles();
 
     return (
@@ -37,11 +38,14 @@ export default function VariableCard({ handleOpenConfigureMenu }) {
                 <Typography className={classes.title} color="textSecondary" >
                     Variable Ambiental
                 <Typography variant="h5" component="h2" className={classes.secondTitle} color='primary'>
-                    Humedad de Suelo
+                    {name}
                 </Typography>
                 </Typography>
                 <Typography className={classes.secondTitle} color="textSecondary" >
-                    Identificación: 01
+                    Identificación: {idSensor}
+                </Typography>
+                <Typography className={classes.secondTitle} color="textSecondary" >
+                    Tipo: {variablesDefinition[type]}
                 </Typography>
                 <Grid container spacing={0} direction="column" className={classes.pos}>
                     <Grid container direction="row">
@@ -73,7 +77,7 @@ export default function VariableCard({ handleOpenConfigureMenu }) {
                     </Grid>
                 </Grid>
                 <Typography variant="body2" component="p">
-                    Humedad de suelo profundidad 2m.
+                    {description}
                 </Typography>
             </CardContent>
             <CardActions>

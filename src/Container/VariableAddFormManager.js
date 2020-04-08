@@ -88,8 +88,11 @@ export default class VariableConfigureFormManager extends React.Component {
                     this.props.sensorNodeId,
                     this.props.token
                 );
-
-                this.props.setSensorNode(sensorNode);
+                
+                const newVariable = sensorNode.variables.find((variable) => variable.idSensor === idSensor);
+                console.log('Variable added: ', newVariable);
+                
+                this.props.setVariable(sensorNode, newVariable);
                 this.setState({
                     isLoading: false,
                     input: {
@@ -97,8 +100,7 @@ export default class VariableConfigureFormManager extends React.Component {
                         description: ''
                     }
                 });
-                this.props.handleClose();
-                
+                this.props.handleClose();                
             } catch (e) {
                 console.log(e.message);
             }
@@ -134,6 +136,7 @@ export default class VariableConfigureFormManager extends React.Component {
                     {...this.props}
                     {...this.state}
                     {...this.errorMessage}
+                    title={`Agregar nuevas variable a ${this.props.sensorNodeName}`}
                     handleSubmit={this.handleSubmit}
                     handleText={this.handleText}
                     handleChange={this.handleSelectChange}
