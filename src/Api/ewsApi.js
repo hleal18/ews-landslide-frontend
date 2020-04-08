@@ -171,7 +171,11 @@ export default class EwsApi {
         //console.log('Transformation: ', devicesResponseJson);
 
         const deviceRecords = devicesResponseJson.devices;
-        return deviceRecords;
+        
+        if (devicesResponse.status === 200) {
+            const { devices } = deviceRecords;
+            return devices;
+        } else throw new Error(`Error while fetching sensor nodes, error code ${devicesResponse.status} with message: ${devicesResponseJson.message}`);
     }
 
     // static async getVariables(deviceId, { type = undefined, limit = 20, offset = 0, start = new Date(0), end = new Date() }) {
