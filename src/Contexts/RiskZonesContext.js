@@ -67,6 +67,40 @@ export const useCriticalSpotUpdater = () => {
     }
 }
 
+export const useSensorNodeUpdater = () => {
+    const { riskZones, setRiskZones } = useContext(RiskZonesContext);
+    
+    return (sensorNode) => {
+        /*
+        * Extract criticalSpotId.
+        * Find index of rizkZone that contains criticalSpotId.
+        * Find criticalSpotIndex within the riskZone that will
+        * contain the new sensorNode.
+        * Create function with prevState to update
+        * Access riskZone at index, criticalPoint at index and push
+        * new sensorNode.
+        * return newState.
+        */
+       const { criticalSpotId } = sensorNode;
+       let criticalSpotIndex = null;
+
+       const riskZoneIndex = riskZones.findIndex((riskZone) => {
+           criticalSpotIndex = riskZone.criticalSpots.findIndex(
+               (criticalSpot) => criticalSpot._id === criticalSpotId
+            );
+            
+            if (criticalSpotIndex !== -1) return true;
+            
+            return false;
+       });
+       
+       setRiskZones((prevState) => {
+           const newState = [...prevState];
+           newState[riskZoneIndex].criticalSpots[criticalSpotIndex].sensorNodes.push(sensorNode);
+           return newState;
+       });
+    }
+}
 
 export const RiskZonesConsumer = RiskZonesContext.Consumer;
 export default RiskZonesContext;
