@@ -62,7 +62,15 @@ export default class RiskZoneAddFormManager extends React.Component {
                 this.setState({ isLoading: true });
                 const riskZone = await ewsApi.addRiskZone(name, description, this.props.token);
                 this.setState({ isLoading: false, input: { name: '', description: '' } });
-                this.props.setRiskZones((prevState) => ([...prevState, riskZone]));
+                this.props.setRiskZones((prevState) => ([...prevState, {
+                    ...riskZone,
+                    // Every riskZone should contain an array of criticalSpots.
+                    // The natural structure of a riskZone from the api does not
+                    // contain criticalSpots. But in the client app, it is required
+                    // in order for it to behave properly. In consequence,
+                    // criticalSpots is initialized as an empty array.
+                    criticalSpots: []
+                }]));
                 this.props.handleClose();
             } catch(e) {
                 console.log(e.message);
