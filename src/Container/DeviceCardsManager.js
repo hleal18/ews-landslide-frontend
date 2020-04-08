@@ -16,8 +16,9 @@ export default () => {
     const currentRiskZone = riskZones.find((riskZone) => riskZone._id === riskZoneId);
     
     let sensorNodes = [];
+    let currentCriticalSpot = undefined;
     if (currentRiskZone) {
-        const currentCriticalSpot = currentRiskZone.criticalSpots.find(
+        currentCriticalSpot = currentRiskZone.criticalSpots.find(
             (criticalSpot) => 
                 criticalSpot._id === criticalSpotId
         );
@@ -32,6 +33,7 @@ export default () => {
             />
             <DeviceAddFormManager
                 criticalSpotId={criticalSpotId}
+                criticalSpotName={currentCriticalSpot ? currentCriticalSpot.name : ''}
                 token={token}
                 showAddForm={showingAddForm}
                 handleClose={() => (setShowingAddForm(false))}

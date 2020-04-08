@@ -77,6 +77,7 @@ export default class DeviceAddFormManager extends React.Component {
                         description: ''
                     }
                 });
+                
                 this.props.setSensorNode(sensorNode);
                 this.props.handleClose();
             } catch (e) {
@@ -106,6 +107,7 @@ export default class DeviceAddFormManager extends React.Component {
                     {...this.errorMessage}
                     handleSubmit={this.handleSubmit}
                     handleText={this.handleText}
+                    title={`Agregar nuevo nodo sensor a ${this.props.criticalSpotName}`}
                 />
             </div>
         );
