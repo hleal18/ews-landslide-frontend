@@ -13,6 +13,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function DialogForm({
+    title,
     showDialog, 
     handleClose, 
     handleSubmit,
@@ -30,7 +31,7 @@ export default function DialogForm({
         maxWidth={maxWidth}
         fullWidth={true}
         >
-        <DialogTitle id="form-dialog-title">Agregar Punto Crítico a INSERTE ZONA</DialogTitle>
+        <DialogTitle id="form-dialog-title">{title}</DialogTitle>
         <DialogContent>
           <DialogContentText>
             {contextText}
