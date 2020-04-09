@@ -22,14 +22,13 @@ export const RiskZonesProvider = (props) => {
                 criticalSpots = await ewsApi.getCriticalSpots(token);
                 sensorNodes = await ewsApi.getSensorNodes(token);
             } catch (e) { console.log(`Error: ${e.message}`); }
-            console.log('Sensor Nodes on context: ', sensorNodes);
+            
             // It modifies the original riskZone object from API to contain
             // composed objects with info about: criticalSpots->SensorNodes
             // ->Variables.
             const riskZonesAppData = riskZones.map((riskZone) => {
                 const composedCriticalSpots = criticalSpots.map((criticalSpot) => {
                     const filteredSensorNodes = sensorNodes.filter((sensorNode) => criticalSpot._id === sensorNode.criticalSpotId)
-                    console.log('FilteredSensorNodes: ', filteredSensorNodes);
                     return {
                         ...criticalSpot,
                         sensorNodes: filteredSensorNodes
@@ -39,7 +38,6 @@ export const RiskZonesProvider = (props) => {
                 const criticalSpotsForRiskZone = composedCriticalSpots.filter((criticalSpot) =>
                     riskZone._id === criticalSpot.riskZoneId);
 
-                console.log('CriticalSpotsForRiskZone: ', criticalSpotsForRiskZone);
                 const composedRiskZone = {
                     ...riskZone,
                     criticalSpots: criticalSpotsForRiskZone
@@ -47,7 +45,6 @@ export const RiskZonesProvider = (props) => {
                 return composedRiskZone;
             });
 
-            console.log('RiskZonesAppData: ', riskZonesAppData);
             setRiskZones(riskZonesAppData);
         }
         getRiskZones();
