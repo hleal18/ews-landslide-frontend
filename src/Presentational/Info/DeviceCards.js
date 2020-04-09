@@ -17,8 +17,8 @@ const getCriticalSpotRoute = (path)  => {
 }
 
 const DeviceCards = ({ sensorNodes, handleOpenAddMenu, history, riskZoneName, criticalSpotName }) => {
-    const { location: { pathname: currentLocation } } = history;
-    const criticalSpotRoute = getCriticalSpotRoute(history.location.pathname);
+    const { location: { pathname: currentPath } } = history;
+    const criticalSpotRoute = getCriticalSpotRoute(currentPath);
     
     return    (<div>
         <Container maxWidth={false}>
@@ -32,7 +32,7 @@ const DeviceCards = ({ sensorNodes, handleOpenAddMenu, history, riskZoneName, cr
                 </Grid>
                 <Grid container spacing={3} direction="row" justify="flex-start">
                     {
-                        sensorNodes.map((sensorNode, ind) => <InfoComponent key={ind} {...sensorNode} history={history} route={`${currentLocation}/${sensorNode._id}/variables`}/>)
+                        sensorNodes.map((sensorNode, ind) => <InfoComponent key={ind} {...sensorNode} history={history} route={`${currentPath}/${sensorNode._id}/variables`}/>)
                     }
                     <Grid container item xs={12} sm={6} md={4} lg={3} xl={2} alignItems="center" justify="center">
                         <AddButton handleClick={handleOpenAddMenu}/>
