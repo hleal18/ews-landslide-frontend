@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import VariableCard from "./VariableCard";
 import BreadCrumbs from "./BreadCrumbs";
 import AddButton from "../AddButton";
+import { withRouter } from 'react-router-dom';
 
 const InfoComponent = (props) => (
     <Grid item xs={12} sm={6} md={4} lg={3} xl={2} >
@@ -11,15 +12,43 @@ const InfoComponent = (props) => (
     </Grid>
 );
 
-export default ({ variables, handleOpenAddMenu, handleOpenConfigureMenu }) => (
-    <div>
+const getCriticalSpotRoute = (path) => (
+    path
+    .split('/')
+    .slice(0, 4)
+    .join('/')
+    .slice(1)
+);
+
+const getSensorNodeRoute = (path) => (
+    path
+    .split('/')
+    .slice(0, 6)
+    .join('/')
+    .slice(1)
+);
+
+const VariableCards = ({ 
+    variables, 
+    history, 
+    handleOpenAddMenu, 
+    handleOpenConfigureMenu,
+    riskZoneName,
+    criticalSpotName,
+    sensorNodeName
+}) => {
+    const { location: { pathname: currentPath } } = history;
+    const criticalSpotRoute = getCriticalSpotRoute(currentPath);
+    const sensorNodeRoute = getSensorNodeRoute(currentPath);
+    
+    return (<div>
         <Container maxWidth={false}>
             <Grid container spacing={3} direction="column">
                 <Grid item >
                     <BreadCrumbs 
-                        routes={['dashboard', 'critical_points', 'devices']} 
-                        currentContent="Variables"
-                        contents={['Dashboard', 'Puntos Críticos', 'Dispositivos']}
+                        routes={['riskzones', criticalSpotRoute, sensorNodeRoute]} 
+                        currentContent={sensorNodeName}
+                        contents={['Zonas de riesgo', riskZoneName, criticalSpotName]}
                     />
                 </Grid>
                 <Grid container spacing={3} direction="row" justify="flex-start">
@@ -32,5 +61,7 @@ export default ({ variables, handleOpenAddMenu, handleOpenConfigureMenu }) => (
                 </Grid>
             </Grid>
         </Container>
-    </div>
-)
+    </div>)
+}
+
+export default withRouter(VariableCards);

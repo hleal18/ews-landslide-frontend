@@ -19,34 +19,51 @@ export default () => {
     const [idSensorsTaken, setIdSensorsTaken] = useState(new Set());
     const [sensorNodeName, setSensorNodeName] = useState('');
     
-    
+    const [currentRiskZone, setCurrentRiskZone] = useState(undefined);
+    const [currentCriticalSpot, setCurrentCriticalSpot] = useState(undefined);
+    const [currentSensorNode, setCurrentSensorNode] = useState(undefined);
     
     useEffect(() => {
-        const currentRiskZone = riskZones.find((riskZone) => riskZone._id === riskZoneId);
+        setCurrentRiskZone(riskZones.find((riskZone) => riskZone._id === riskZoneId));
         
         if (currentRiskZone) {
             const { criticalSpots } = currentRiskZone;
+            setCurrentCriticalSpot(criticalSpots.find((criticalSpot) => criticalSpot._id === criticalSpotId));
             
-            const { sensorNodes } = criticalSpots.find((criticalSpot) => criticalSpot._id === criticalSpotId);
-            
-            const { variables, name } = sensorNodes.find((sensorNode) => sensorNode._id === sensorNodeId);
-            console.log('Variables in sensorNode: ', variables);
-            setSensorNodeName(name);
-            setVariables(variables);            
-            setIdSensorsTaken(variables.reduce((curSet, variable) => {
-                curSet.add(variable.idSensor);
-                return curSet;
-            }, new Set()))
+
+            if (currentCriticalSpot) {
+                const { sensorNodes } = currentCriticalSpot;
+                setCurrentSensorNode(sensorNodes.find((sensorNode) => sensorNode._id === sensorNodeId));
+                
+                if (currentSensorNode) {
+                    const { variables, name } = currentSensorNode;
+                    
+                    setSensorNodeName(name);
+                    setVariables(variables);
+                    setIdSensorsTaken(variables.reduce((curSet, variable) => {
+                        curSet.add(variable.idSensor);
+                        return curSet;
+                    }, new Set()))
+                }
+            }
         }    
-    }, [riskZoneId, criticalSpotId, sensorNodeId, riskZones]);
-    
-    
+    }, [riskZoneId, 
+        criticalSpotId, 
+        sensorNodeId, 
+        riskZones, 
+        currentRiskZone, 
+        currentCriticalSpot, 
+        currentSensorNode]);
+
     return (
         <div>
             <VariableCardsPresentation
                 variables={variables}
                 handleOpenAddMenu={() => (setShowingAddForm(true))}
                 handleOpenConfigureMenu={() => (setShowingConfigureForm(true))}
+                riskZoneName={currentRiskZone ? currentRiskZone.name : ''}
+                criticalSpotName={currentCriticalSpot ? currentCriticalSpot.name : ''}
+                sensorNodeName={currentSensorNode ? currentSensorNode.name : ''}
             />
             <VariableConfigureFormManager
                 showDialog={showingConfigureForm}
