@@ -30,6 +30,8 @@ export default () => {
             <DeviceCardsPresentation
                 sensorNodes={sensorNodes}
                 handleOpenAddMenu={() => (setShowingAddForm(true))}
+                criticalSpotName={currentCriticalSpot ? currentCriticalSpot.name  : ''}
+                riskZoneName={currentRiskZone ? currentRiskZone.name : ''}
             />
             <DeviceAddFormManager
                 criticalSpotId={criticalSpotId}

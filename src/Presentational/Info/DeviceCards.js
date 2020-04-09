@@ -12,17 +12,22 @@ const InfoComponent = (props) => (
     </Grid>
 );
 
-const DeviceCards = ({ sensorNodes, handleOpenAddMenu, history }) => {
+const getCriticalSpotRoute = (path)  => {
+    return path.split('/').slice(0, 4).join('/').slice(1);
+}
+
+const DeviceCards = ({ sensorNodes, handleOpenAddMenu, history, riskZoneName, criticalSpotName }) => {
     const { location: { pathname: currentLocation } } = history;
+    const criticalSpotRoute = getCriticalSpotRoute(history.location.pathname);
     
     return    (<div>
         <Container maxWidth={false}>
             <Grid container spacing={3} direction="column">
                 <Grid item >
                     <BreadCrumbs 
-                        routes={['riskzones', 'criticalspots']} 
-                        currentContent="Dispositivos"
-                        contents={['Zonas de Riesgo', 'Puntos Críticos']}
+                        routes={['riskzones', criticalSpotRoute]} 
+                        currentContent={criticalSpotName}
+                        contents={['Zonas de Riesgo', riskZoneName]}
                     />
                 </Grid>
                 <Grid container spacing={3} direction="row" justify="flex-start">
