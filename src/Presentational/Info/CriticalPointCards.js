@@ -12,7 +12,7 @@ const InfoComponent = (props) => (
     </Grid>
 );
 
-const CriticalPointCards = ({ criticalPoints, history, handleOpenAddMenu }) => {
+const CriticalPointCards = ({ criticalPoints, history, handleOpenAddMenu, riskZoneName }) => {
     const { location: { pathname: currentLocation } } = history;
     console.log(`criticalPoints in cards: `, criticalPoints);
     return (<div>
@@ -21,7 +21,7 @@ const CriticalPointCards = ({ criticalPoints, history, handleOpenAddMenu }) => {
                 <Grid item > 
                     <BreadCrumbs 
                         routes={['riskzones']}
-                        currentContent="Puntos Críticos"
+                        currentContent={riskZoneName}
                         contents={['Zonas de riesgo']}
                     />
                 </Grid>

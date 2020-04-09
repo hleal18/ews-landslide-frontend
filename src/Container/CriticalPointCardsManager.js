@@ -20,6 +20,7 @@ export default () => {
             <CriticalPointCardsPresentation
                 criticalPoints={criticalSpots}                
                 handleOpenAddMenu={() => (setShowingAddForm(true))}
+                riskZoneName={currentRiskZone ? currentRiskZone.name : ''}
             />
             <CriticalPointCardsAddFormManager
                 setCriticalSpot={setCriticalSpot}
