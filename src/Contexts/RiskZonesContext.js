@@ -17,10 +17,13 @@ export const RiskZonesProvider = (props) => {
             let riskZones = [];
             let criticalSpots = [];
             let sensorNodes = [];
+            let thresholds = [];
             try {
                 riskZones = await ewsApi.getRiskZones(token);
                 criticalSpots = await ewsApi.getCriticalSpots(token);
                 sensorNodes = await ewsApi.getSensorNodes(token);
+                thresholds = await ewsApi.getThresholds(token);
+                console.log('Thresholds: ', thresholds);
             } catch (e) { console.log(`Error: ${e.message}`); }
             
             // It modifies the original riskZone object from API to contain
@@ -28,10 +31,24 @@ export const RiskZonesProvider = (props) => {
             // ->Variables.
             const riskZonesAppData = riskZones.map((riskZone) => {
                 const composedCriticalSpots = criticalSpots.map((criticalSpot) => {
-                    const filteredSensorNodes = sensorNodes.filter((sensorNode) => criticalSpot._id === sensorNode.criticalSpotId)
+                    //const filteredSensorNodes = sensorNodes.filter((sensorNode) => criticalSpot._id === sensorNode.criticalSpotId)
+                    const composedSensorNodes = sensorNodes.map((sensorNode) => {
+                        const composedVariables = sensorNode.variables.map((variable) => {
+                            const currentThreshold = thresholds.find(threshold => threshold.variableId === variable._id);
+                            return {
+                                ...variable,
+                                threshold: currentThreshold
+                            }
+                        });
+                        return {
+                            ...sensorNode,
+                            variables: composedVariables
+                        }
+                    });
+                    console.log('Composed sensor nodes: ', composedSensorNodes);
                     return {
                         ...criticalSpot,
-                        sensorNodes: filteredSensorNodes
+                        sensorNodes: composedSensorNodes
                     }
                 });
 
@@ -44,7 +61,7 @@ export const RiskZonesProvider = (props) => {
                 }
                 return composedRiskZone;
             });
-
+            
             setRiskZones(riskZonesAppData);
         }
         getRiskZones();
