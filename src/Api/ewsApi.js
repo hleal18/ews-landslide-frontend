@@ -237,4 +237,45 @@ export default class EwsApi {
         const resultJson = await result.json();
         return resultJson;
     }
+    
+    static async getThresholds(token) {
+        const result = await fetch(url + 'thresholds', {
+            method: 'GET',
+            headers: {
+                Authorization: `BEARER ${token}`
+            }
+        });
+        
+        const resultJson = await result.json();
+        
+        if (result.status === 200) {
+            const { thresholds } = resultJson;
+            return thresholds;
+        } else throw new Error(`Error while getting thresholds ${resultJson.message}`);
+    }
+    
+    static async addThreshold(token, variableId, { upperBound = undefined, lowerBound = undefined }) {
+        const requestBody = {
+            variableId
+        }
+        
+        if (upperBound) requestBody.upperBound = upperBound;
+        if (lowerBound) requestBody.lowerBound = lowerBound;
+        
+        const result = await fetch(url + 'thresholds', {
+            method: 'POST',
+            headers: {
+                Authorization: `BEARER ${token}`
+            },
+            body: JSON.stringify(requestBody)
+        });
+        
+        const resultJson = await result.json();
+        
+        if (result.status === 200) {
+            const { threshold } = resultJson;
+            console.log('New threshold: ', threshold);
+            return threshold;
+        } else throw new Error(`Error while getting thresholds ${resultJson.message}`);
+    }
 }
