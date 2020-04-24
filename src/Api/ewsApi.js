@@ -262,9 +262,12 @@ export default class EwsApi {
         if (upperBound) requestBody.upperBound = upperBound;
         if (lowerBound) requestBody.lowerBound = lowerBound;
         
+        console.log('Reuqest body to send: ', JSON.stringify(requestBody));
+        
         const result = await fetch(url + 'thresholds', {
             method: 'POST',
             headers: {
+                'Content-Type': 'application/json',
                 Authorization: `BEARER ${token}`
             },
             body: JSON.stringify(requestBody)
@@ -277,5 +280,30 @@ export default class EwsApi {
             console.log('New threshold: ', threshold);
             return threshold;
         } else throw new Error(`Error while getting thresholds ${resultJson.message}`);
+    }
+    
+    static async putThreshold(token, thresholdId, { upperBound = undefined, lowerBound = undefined }) {
+        const requestBody = {
+            
+        };
+        
+        if (upperBound) requestBody.upperBound = upperBound;
+        if (lowerBound) requestBody.lowerBound = lowerBound;
+        
+        const result = await fetch(url + `thresholds/${thresholdId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `BEARER ${token}`
+            },
+            body: JSON.stringify(requestBody)
+        });
+        
+        const resultJson = await result.json();
+        
+        if (result.status === 200) {
+            const { threshold } = resultJson;
+            return threshold;
+        } else throw new Error(`Error while putting threshold of id ${thresholdId} with message ${resultJson.message}`);
     }
 }
