@@ -23,7 +23,6 @@ export const RiskZonesProvider = (props) => {
                 criticalSpots = await ewsApi.getCriticalSpots(token);
                 sensorNodes = await ewsApi.getSensorNodes(token);
                 thresholds = await ewsApi.getThresholds(token);
-                console.log('Thresholds: ', thresholds);
             } catch (e) { console.log(`Error: ${e.message}`); }
             
             // It modifies the original riskZone object from API to contain
@@ -45,7 +44,6 @@ export const RiskZonesProvider = (props) => {
                             variables: composedVariables
                         }
                     });
-                    console.log('Composed sensor nodes: ', composedSensorNodes);
                     return {
                         ...criticalSpot,
                         sensorNodes: composedSensorNodes
@@ -143,6 +141,44 @@ export const useVariableUpdater = () => {
         setRiskZones((prevState) => {
             const newState = [...prevState];
             newState[riskZoneIndex].criticalSpots[criticalSpotIndex].sensorNodes[sensorNodeIndex].variables.push(variable);
+            return newState;
+        });
+    }
+}
+
+export const useThresholdUpdater = () => {
+    const { riskZones, setRiskZones } = useContext(RiskZonesContext);
+
+    return (sensorNode, variable, threshold) => {
+        const { criticalSpotId } = sensorNode;
+        let sensorNodeIndex = null;
+        let criticalSpotIndex = null;
+        let variableIndex = null;
+
+        const riskZoneIndex = riskZones.findIndex((riskZone) => {
+            criticalSpotIndex = riskZone.criticalSpots.findIndex((criticalSpot) => { 
+                return criticalSpot._id === criticalSpotId;
+            });
+
+            if (criticalSpotIndex !== -1) {
+                sensorNodeIndex = riskZone.criticalSpots[criticalSpotIndex].sensorNodes.findIndex((sensorNodeContext) => {
+                    return sensorNodeContext._id === sensorNode._id;
+                });
+                if (sensorNodeIndex !== -1) {
+                    variableIndex = riskZone.criticalSpots[criticalSpotIndex].sensorNodes[sensorNodeIndex].variables.findIndex((variableContext) => {
+                        return variableContext._id === variable._id;
+                    });
+                }
+                return true;
+            }
+
+            return false;
+        });
+        console.log('A punto de actualizar zona de riesgo.')
+        setRiskZones((prevState) => {
+            const newState = [...prevState];
+            newState[riskZoneIndex].criticalSpots[criticalSpotIndex].sensorNodes[sensorNodeIndex].variables[variableIndex].threshold = threshold;
+            console.log('Actualizando estado.')
             return newState;
         });
     }
