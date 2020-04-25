@@ -63,7 +63,6 @@ export const RiskZonesProvider = (props) => {
                 }
                 return composedRiskZone;
             });
-            console.log('RiskZonesAppData: ', riskZonesAppData);
             setRiskZones(riskZonesAppData);
         }
         getRiskZones();

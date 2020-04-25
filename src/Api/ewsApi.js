@@ -36,7 +36,6 @@ export default class EwsApi {
         
         const resultJson = await result.json();
         
-        console.log('Result json: ', resultJson);
         return resultJson;
     }
     
@@ -112,8 +111,6 @@ export default class EwsApi {
         
         if (result.status === 200) {
             const criticalSpot = resultJson.criticalSpot;
-            
-            console.log('Critical spot received: ', criticalSpot);
             return criticalSpot;
         } else throw new Error(`Error on request: ${result.status} with message: ${resultJson.message}`);
     }
@@ -131,7 +128,6 @@ export default class EwsApi {
         
         if (result.status === 200) {
             const { criticalSpots } = resultJson;
-            console.log(`CriticalSpots received: `, criticalSpots);
             return criticalSpots;
         } else throw new Error (`Error on request: ${result.status} with message: ${resultJson.message}`);
     }
@@ -154,7 +150,6 @@ export default class EwsApi {
         
         if (result.status === 200) {
             const { device } = resultJson;
-            console.log('Device added: ', device);
             return device;
         } else throw new Error(`Error occurred while addding a new sensor, status code ${result.status} with error message ${resultJson.message}`);
     }
@@ -178,7 +173,6 @@ export default class EwsApi {
         
         if (result.status === 200) {
             const { device } = resultJson;
-            console.log('Modified device: ', device);
             return device;
         } else throw new Error(`Error while adding a new variable, status code ${result.status} with error code ${resultJson.message}`);
     }
@@ -205,7 +199,6 @@ export default class EwsApi {
                 Authorization: `BEARER ${token}`
             }
         });
-        console.log('Response: ', devicesResponse);
         const devicesResponseJson = await devicesResponse.json();
         //console.log('Transformation: ', devicesResponseJson);
 
@@ -262,8 +255,6 @@ export default class EwsApi {
         if (upperBound) requestBody.upperBound = upperBound;
         if (lowerBound) requestBody.lowerBound = lowerBound;
         
-        console.log('Reuqest body to send: ', JSON.stringify(requestBody));
-        
         const result = await fetch(url + 'thresholds', {
             method: 'POST',
             headers: {
@@ -277,7 +268,6 @@ export default class EwsApi {
         
         if (result.status === 200) {
             const { threshold } = resultJson;
-            console.log('New threshold: ', threshold);
             return threshold;
         } else throw new Error(`Error while getting thresholds ${resultJson.message}`);
     }
