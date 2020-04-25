@@ -29,9 +29,15 @@ const useStyles = makeStyles({
     }
 });
 
-export default function VariableCard({ name, description, idSensor, type, handleOpenConfigureMenu }) {
+export default function VariableCard({ _id, name, description, idSensor, type, threshold, handleOpenConfigureMenu }) {
     const classes = useStyles();
-
+    let lowerBound = undefined, upperBound = undefined;
+    
+    if (threshold) {
+        if (threshold.upperBound) upperBound = threshold.upperBound;
+        if (threshold.lowerBound) lowerBound = threshold.lowerBound;
+    }
+    
     return (
         <Card className={classes.root}>
             <CardContent>
@@ -55,7 +61,7 @@ export default function VariableCard({ name, description, idSensor, type, handle
                             </Typography>
                         </Grid>
                         <Grid container item xs spacing={1} direction="column" justify='center' alignContent='center'>
-                            <Grid item xs><CheckBoxIcon color='primary'/></Grid>
+                            <Grid item xs>{lowerBound ? <CheckBoxIcon color='primary' /> : <CheckBoxOutlineBlankIcon color='primary' /> }</Grid>
                         </Grid>
                     </Grid>
                     <Grid container direction="row">
@@ -65,13 +71,13 @@ export default function VariableCard({ name, description, idSensor, type, handle
                             </Typography>
                         </Grid>
                         <Grid container item xs spacing={1} direction="column" justify='center' alignContent='center'>
-                            <Grid item xs><CheckBoxOutlineBlankIcon color='primary' /></Grid>
+                            <Grid item xs>{upperBound ? <CheckBoxIcon color='primary' /> : <CheckBoxOutlineBlankIcon color='primary' /> }</Grid>
                         </Grid>
                     </Grid>
                     <Grid container direction="column" alignItems='center'>
                         <Grid item xs>
                             <Typography className={classes.title} color="textSecondary">
-                            {'0.5 < X'}
+                            {lowerBound ? `${lowerBound} <` : '' } {!upperBound && !lowerBound ? '' : 'X'} {upperBound ? `< ${upperBound}` : ''}
                             </Typography>
                         </Grid>
                     </Grid>
@@ -83,7 +89,7 @@ export default function VariableCard({ name, description, idSensor, type, handle
             <CardActions>
                 <Grid container spacing={2} justify="center" direction="row">
                     <Grid item>
-                        <Button size="small" color="primary" onClick={handleOpenConfigureMenu}>
+                        <Button size="small" color="primary" onClick={() => (handleOpenConfigureMenu(_id))}>
                             Configurar
                         </Button>
                     </Grid>
