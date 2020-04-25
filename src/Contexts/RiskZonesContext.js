@@ -44,9 +44,13 @@ export const RiskZonesProvider = (props) => {
                             variables: composedVariables
                         }
                     });
+                    
+                    const sensorNodesForCriticalSpot = composedSensorNodes.filter((sensorNode) => 
+                        sensorNode.criticalSpotId === criticalSpot._id);
+                        
                     return {
                         ...criticalSpot,
-                        sensorNodes: composedSensorNodes
+                        sensorNodes: sensorNodesForCriticalSpot
                     }
                 });
 
@@ -59,7 +63,7 @@ export const RiskZonesProvider = (props) => {
                 }
                 return composedRiskZone;
             });
-            
+            console.log('RiskZonesAppData: ', riskZonesAppData);
             setRiskZones(riskZonesAppData);
         }
         getRiskZones();
