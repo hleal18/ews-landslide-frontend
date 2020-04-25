@@ -53,58 +53,6 @@ export default class VariableConfigureFormManager extends React.Component {
         }
     }
     
-    componentDidUpdate() {
-        // const { variables, variableId } = this.props;
-        
-        
-        // const variable = variables.find((variable) => variable._id === variableId);
-        // console.log('Variable existe: ', variable);
-        // // This conditions are necessary to avoid infinite state updates.
-        // if (variable && 
-        //     variable.threshold &&
-        //     variable.threshold.upperBound &&
-        //     this.state.input.upperBound === '') {
-        //     const { threshold } = variable;
-            
-        //     const upperBound = (threshold.upperBound) ? threshold.upperBound : '';
-        //     this.setState((prevState) => ({...prevState, input: {
-        //         ...prevState.input,
-        //         upperBound
-        //     }}));
-            
-        //     console.log('Variable superior con valor: ', variable);
-        // } else if (!variable && 
-        //     this.state.input.upperBound !== '') {
-        //         this.setState((prevState) => ({...prevState, input: {
-        //             ...prevState.input,
-        //             upperBound: ''
-        //         }}));
-        //     console.log('Variable superior sin valor: ', variable);
-        // }
-        // if (variable && 
-        //     variable.threshold &&
-        //     variable.threshold.lowerBound &&            
-        //     this.state.input.lowerBound === '') {
-        //     const { threshold } = variable;
-            
-        //     const lowerBound = (threshold.lowerBound) ? threshold.lowerBound : '';
-        //     this.setState((prevState) => ({...prevState, input: {
-        //         ...prevState.input,
-        //         lowerBound
-        //     }}));
-        //     console.log('Variable inferior con valor: ', variable);
-        // } else if (!variable && 
-        //     this.state.input.lowerBound !== '') {
-        //         this.setState((prevState) => ({...prevState, input: {
-        //             ...prevState.input,
-        //             lowerBound: ''
-        //         }}));
-        //     console.log('Variable inferior sin valor: ', variable);
-        // }
-    }
-    
-    compon
-    
     validateEmptyField = (field) => {
         if (typeof field !== 'string') throw new Error(`Field ${field} must be a string`);
         return field.length === 0 ? 'empty' : false;

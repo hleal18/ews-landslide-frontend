@@ -174,11 +174,10 @@ export const useThresholdUpdater = () => {
 
             return false;
         });
-        console.log('A punto de actualizar zona de riesgo.')
+        
         setRiskZones((prevState) => {
             const newState = [...prevState];
             newState[riskZoneIndex].criticalSpots[criticalSpotIndex].sensorNodes[sensorNodeIndex].variables[variableIndex].threshold = threshold;
-            console.log('Actualizando estado.')
             return newState;
         });
     }
