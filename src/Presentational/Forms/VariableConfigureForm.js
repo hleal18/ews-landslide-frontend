@@ -23,13 +23,12 @@ export default (props) => (
                         margin="dense"
                         size="small"
                         variant="outlined"
-                        id="inferior"
+                        id="lowerBound"
                         label="Inferior"
-                        required={true}
-                        value={props.input.name}
+                        value={props.input.lowerBound}
                         onChange={props.handleText}
-                        helperText={props.errorState.name}
-                        error={!!props.errorState.name}
+                        helperText={props.errorState.lowerBound}
+                        error={!!props.errorState.lowerBound}
                     />
                 </Grid>
                 <Grid item style={{
@@ -43,13 +42,12 @@ export default (props) => (
                         margin="dense"
                         size="small"
                         variant="outlined"
-                        id="superior"
+                        id="upperBound"
                         label="Superior"
-                        required={true}
-                        value={props.input.name}
+                        value={props.input.upperBound}
                         onChange={props.handleText}
-                        helperText={props.errorState.name}
-                        error={!!props.errorState.name}
+                        helperText={props.errorState.upperBound}
+                        error={!!props.errorState.upperBound}
                     />
                 </Grid>
 
