@@ -23,8 +23,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function DashboardFilters({ 
-    criticalPoints = emptyObject, 
+export default function DashboardFilters({
+    riskZones = emptyObject, 
+    criticalSpots = emptyObject, 
     devices = emptyObject, 
     variables = emptyObject,
     handleChange
@@ -36,17 +37,29 @@ export default function DashboardFilters({
             <AppBar position="static" className={classes.root} >
                 <Toolbar>
                     <Grid container direction="row">
-                        <Grid item container xs={4} justify="center">
+                        <Grid item container xs={3} justify="center">
+                            <SelectForm
+                                id={riskZones.id}
+                                label={riskZones.label}
+                                value={riskZones.value}
+                                names={riskZones.names}
+                                options={riskZones.options}
+                                handleChange={handleChange}
+                                disabled={riskZones.disabled}
+                            />
+                        </Grid>
+                        <Grid item container xs={3} justify="center">
                         <SelectForm 
-                            id={criticalPoints.id}
-                            label={criticalPoints.label}
-                            value={criticalPoints.value}
-                            names={criticalPoints.names}
-                            options={criticalPoints.options}                            
+                            id={criticalSpots.id}
+                            label={criticalSpots.label}
+                            value={criticalSpots.value}
+                            names={criticalSpots.names}
+                            options={criticalSpots.options}                            
                             handleChange={handleChange}
+                            disabled={criticalSpots.disabled}    
                         />
                         </Grid>                        
-                        <Grid item container xs={4} justify="center">
+                        <Grid item container xs={3} justify="center">
                         <SelectForm
                             id={devices.id}
                             label={devices.label}
@@ -54,9 +67,10 @@ export default function DashboardFilters({
                             names={devices.names}
                             options={devices.options}
                             handleChange={handleChange}
+                            disabled={devices.disabled}
                         />
                         </Grid>
-                        <Grid item container xs={4} justify="center">
+                        <Grid item container xs={3} justify="center">
                         <SelectForm 
                             id={variables.id}
                             label={variables.label}
@@ -64,6 +78,7 @@ export default function DashboardFilters({
                             names={variables.names}
                             options={variables.options}
                             handleChange={handleChange}
+                            disabled={variables.disabled}
                         />
                         </Grid>
                     </Grid>

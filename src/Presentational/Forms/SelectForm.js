@@ -21,6 +21,7 @@ export default function SelectForm({
     options = [],
     handleChange,
     fullWidth,
+    disabled = false,
     error = false
 }) {
     const classes = useStyles();
@@ -34,10 +35,11 @@ export default function SelectForm({
                 name={label}
                 fullWidth={fullWidth}
                 error={error}
+                disabled={disabled}
             >
                 {
                     names.map((name, ind) => (
-                        <MenuItem key={name} value={options[ind]} >
+                        <MenuItem key={options[ind]} value={options[ind]} >
                             {name}
                         </MenuItem>
                     ))
