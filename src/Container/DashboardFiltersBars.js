@@ -105,24 +105,23 @@ export default class DashboardFilters extends React.Component {
             this.setSelectedRiskZone(selectedRiskZone);
         } else if (id === 'devices' && value !== '') {
             const variables = this.findVariables(value);
-            const variablesNames = [];
-            const variablesOptions = [];
+            const variablesNames = variables.map((variable) => variable.name);
+            const variablesOptions = variables.map((variable) => variable._id);
             const selectedRiskZone = {...this.state.selectedRiskZone};
-            const currentCriticalSpotId = selectedRiskZone.criticalSpots[0]._id;
-            const currentSensorNode = this.getCurrentSensorNode(value, currentCriticalSpotId);
-            
-            console.log('CurrentSensorNode: ', currentSensorNode, 'for value: ', value);
+            const currentSensorNode = this.getCurrentSensorNode(value);
             
             selectedRiskZone.criticalSpots[0].sensorNodes = [currentSensorNode];
-            console.log('Selected riskZone: ', selectedRiskZone);
-            
-            variables.forEach((variable) => {
-                variablesNames.push(variable.name);
-                variablesOptions.push(variable._id);
-            });
 
             this.setSelection('devices', value);
             this.enableAndSetOptions('variables', variablesNames, variablesOptions);
+            this.setSelectedRiskZone(selectedRiskZone);
+        } else if (id === 'variables' && value !== '') {
+            const selectedRiskZone = {...this.state.selectedRiskZone};
+            const currentVariable = this.getCurrentVariable(value);
+            
+            selectedRiskZone.criticalSpots[0].sensorNodes[0].variables = [currentVariable];
+            
+            this.setSelection('variables', value);
             this.setSelectedRiskZone(selectedRiskZone);
         } else if (id === 'riskZones') {            
             this.setSelection('riskZones', value);
@@ -187,31 +186,22 @@ export default class DashboardFilters extends React.Component {
 
     getCurrentCriticalSpot(criticalSpotId) {
         const currentRiskzone = this.props.riskZones.find((riskZone) => riskZone._id === this.state.riskZones.value);
-        
         const currentCriticalSpot = currentRiskzone.criticalSpots.find((criticalSpot) => criticalSpot._id === criticalSpotId);
-        
         return {...currentCriticalSpot};
     }
     
     getCurrentSensorNode(sensorNodeId) {
-        // let currentSensorNode = undefined;
-        // const currentCriticalSpot = this.getCurrentCriticalSpot(criticalSpotId);
-        // console.log('CurrentCriticalSpot: ', currentCriticalSpot);
-        // currentSensorNode = currentCriticalSpot.sensorNodes.find((sensorNode) => 
-        //     sensorNode._id === sensorNodeId);
-            
-        // return currentSensorNode;
-        console.log('RiskZones: ', this.props.riskZones);
-        const currentRiskzone = this.props.riskZones.find((riskZone) =>
-            riskZone._id === this.state.riskZones.value);
-        console.log('CurrentRiskZone: ', currentRiskzone);
-        const currentCriticalSpot = currentRiskzone.criticalSpots.find((criticalSpot) =>
-            criticalSpot._id === this.state.criticalSpots.value);
-        console.log('Current CriticalSpot: ', currentCriticalSpot);
+        const currentCriticalSpot = this.getCurrentCriticalSpot(this.state.criticalSpots.value);
         const currentSensorNode = currentCriticalSpot.sensorNodes.find((sensorNode) =>
             sensorNode._id === sensorNodeId);
-        console.log('Current sensorNode: ', currentSensorNode);
-        return currentSensorNode;        
+        return {...currentSensorNode};        
+    }
+    
+    getCurrentVariable(variableId) {
+        const currentSensorNode = this.getCurrentSensorNode(this.state.devices.value);
+        const currentVariable = currentSensorNode.variables.find((variable) => 
+            variable._id === variableId);
+        return {...currentVariable};
     }
     
     findCriticalSpots(riskZoneId) {
