@@ -46,7 +46,26 @@ export default class DashboardFilters extends React.Component {
     }
 
     componentDidMount() {
+        if (this.props.riskZones &&
+            this.props.riskZones.length > 0 &&
+            this.state.riskZones.names.length === 1) {
+            const { riskZones } = this.props;
+            const riskZonesNames = [];
+            const riskZonesOptions = [];
 
+            riskZones.forEach((riskZone) => {
+                riskZonesNames.push(riskZone.name);
+                riskZonesOptions.push(riskZone._id);
+            });
+            
+            this.setState((prev) => ({
+                riskZones: {
+                    ...prev.riskZones,
+                    names: ['Todos', ...riskZonesNames],
+                    options: ['', ...riskZonesOptions]
+                }
+            }));
+        }
     }
 
     componentDidUpdate() {
