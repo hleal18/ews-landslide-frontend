@@ -13,6 +13,7 @@ import SignIn from './Container/SignInSide';
 import SignUp from './Container/SignUp';
 import DeviceCards from './Presentational/Info/DeviceCards';
 import Dashboard from './Dashboard2';
+import DashboardManager from './Container/DashboardManager'
 import DashboardFilters from './Container/DashboardFiltersBars';
 import { grey } from '@material-ui/core/colors';
 import RiskZonesCardsManager from './Container/RiskZoneCardsManager';
@@ -33,17 +34,7 @@ function App() {
                 <AuthProvider >
                     <RiskZonesProvider>
                         <Route path="/dashboard">
-                            <Grid container direction="column">
-                                <Grid item xs={12}>
-                                    <AppBar />
-                                    <Grid item xs={12}>
-                                        <DashboardFilters />
-                                    </Grid>
-                                </Grid>
-                                <Grid item xs color={grey[900]}>
-                                    <Dashboard />
-                                </Grid>
-                            </Grid>
+                            <DashboardManager />
                         </Route>
                         <Route path="/riskzones/:riskZoneId/criticalspots/:criticalSpotId/sensornodes/:sensorNodeId/variables" exact>
                             <Grid container direction="column">
@@ -81,15 +72,10 @@ function App() {
                                     <AppBar />
                                 </Grid>
                                 <Grid item xs>
-
                                     <RiskZonesCardsManager />
-
                                 </Grid>
                             </Grid>
                         </Route>
-
-
-
                         <Route path="/login" exact>
                             <ConditionalLogin />
                         </Route>
