@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import variablesDefinition from '../../lib/variablesDefinition';
+import { variablesDefinitionAsObject } from '../../lib/variablesDefinition';
 
 const useStyles = makeStyles({
     root: {
@@ -51,7 +51,7 @@ export default function VariableCard({ _id, name, description, idSensor, type, t
                     Identificación: {idSensor}
                 </Typography>
                 <Typography className={classes.secondTitle} color="textSecondary" >
-                    Tipo: {variablesDefinition[type]}
+                    Tipo: {variablesDefinitionAsObject[type]}
                 </Typography>
                 <Grid container spacing={0} direction="column" className={classes.pos}>
                     <Grid container direction="row">

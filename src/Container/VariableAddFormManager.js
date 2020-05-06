@@ -1,7 +1,7 @@
 import React from 'react';
 
 import VariableAddForm from '../Presentational/Forms/VariableAddForm';
-import variablesDefinition from '../lib/variablesDefinition';
+import { variablesDefinitionAsObject } from '../lib/variablesDefinition';
 import ewsApi from '../Api/ewsApi';
 
 export default class VariableConfigureFormManager extends React.Component {
@@ -77,7 +77,7 @@ export default class VariableConfigureFormManager extends React.Component {
                 }
                 
                 // Generate name based on idSensor and translation of variableType.
-                const name = variablesDefinition[variable] + ' ' + idSensor;
+                const name = variablesDefinitionAsObject[variable] + ' ' + idSensor;
                 this.setState({ isLoading: true });
                 
                 const sensorNode = await ewsApi.addVariable(

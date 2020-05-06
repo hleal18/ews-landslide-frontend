@@ -9,9 +9,16 @@
  * appropriate functionality and show appropriate menus.
  */
 
-export default {
+
+export const variablesDefinitionAsArrays = {
+    names: ['Humedad de Suelo', 'Inclinación', 'Nivel de Agua', 'Temperatura', 'Voltaje'],
+    values: ['soilMoisture', 'inclination', 'waterLevel', 'temperature', 'voltage']
+}
+
+export const variablesDefinitionAsObject = {
     soilMoisture: 'Humedad de Suelo',
     inclination: 'Inclinación',
     waterLevel: 'Nivel de Agua',
-    temperature: 'Temperatura'
-};
+    temperature: 'Temperatura',
+    voltage: 'Voltaje'
+}

@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Select from '../Forms/SelectForm';
+import { variablesDefinitionAsArrays } from '../../lib/variablesDefinition';
 
 export default (props) => (
     <div>
@@ -23,8 +24,8 @@ export default (props) => (
                         handleChange={props.handleChange}
                         id='select-variable-type'
                         label='Variables'
-                        names={['Humedad de Suelo', 'Inclinación']}
-                        options={['soilMoisture', 'inclination']}
+                        names={[...variablesDefinitionAsArrays.names]}
+                        options={[...variablesDefinitionAsArrays.values]}
                         fullWidth={true}
                         value={props.input.variable}
                         error={!!props.errorState.variable}
