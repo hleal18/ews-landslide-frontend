@@ -9,23 +9,10 @@ import Container from '@material-ui/core/Container';
 
 import Paper from '@material-ui/core/Paper';
 import LineChartStatic from './Presentational/Charts/LineChartStatic.js';
-import LineChartDynamic from './Presentational/Charts/LineChartDynamic.js';
 import AxisLineChartStatic from './Presentational/Charts/AxisLineChartStatic';
 import AuthContext from './Contexts/AuthContext';
 import ewsApi from './Api/ewsApi';
-
-import PaperSheet from './PaperSheet';
-
-// const useStyles = makeStyles((theme) => ({
-//     root: {
-//         flexGrow: 1,
-//     },
-//     paper: {
-//         padding: theme.spacing(2),
-//         textAlign: 'center',
-//         color: theme.palette.text.secondary,
-//     },
-// }));
+import { variablesDefinitionAsObject } from './lib/variablesDefinition';
 
 const styles = theme => ({
     root: {
@@ -131,10 +118,11 @@ class Dashboard extends React.Component {
     async queryVariables(varConf) {
         const variablesData = [];
         
-        //console.log('Varconf: ', varConf);
+        console.log('Varconf: ', varConf);
         let variables = [];
         try {
-            variables = (await ewsApi.getVariables(varConf.device, { idSensor: varConf.variableId, type: varConf.type, limit: 400 }, this.context.token)).variables_records.variables;
+            variables = (await ewsApi.getVariables(varConf.deviceName, { idSensor: varConf.variableId, type: varConf.type, limit: 400 }, this.context.token)).variables_records.variables;
+            console.log('Variables found: ', variables);
         } catch (e) { console.log(`Error: ${e.message}`); }
         for (const variable of variables) {
             variablesData.push({
@@ -197,9 +185,10 @@ class Dashboard extends React.Component {
                                                         {variable.deviceName}
                                                         {' '}
                                                         -
-                                                        {variable.type}
                                                         {' '}
-                                                        ({variable.variableId})
+                                                        {variablesDefinitionAsObject[variable.type]}
+                                                        {'-'}
+                                                        {variable.variableId}
                                                     </h3>
                                                 </Grid>
                                                 {
