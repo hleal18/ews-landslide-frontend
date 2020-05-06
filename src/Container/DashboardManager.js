@@ -9,9 +9,8 @@ import Dashboard from '../Dashboard2';
 import DashboardFilters from '../Container/DashboardFiltersBars';
 
 
-
-export default () => {
-    const { riskZones, setRiskZones } = useContext(RiskZonesContext);
+const DashboardManager= () => {
+    const { riskZones } = useContext(RiskZonesContext);
     const [selectedRiskZone, setSelectedRiskZone] = useState({});
     
     return (
@@ -33,3 +32,5 @@ export default () => {
         </div>
     )
 }
+
+export default DashboardManager;
