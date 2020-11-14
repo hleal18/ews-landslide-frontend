@@ -296,4 +296,21 @@ export default class EwsApi {
             return threshold;
         } else throw new Error(`Error while putting threshold of id ${thresholdId} with message ${resultJson.message}`);
     }
+
+    static async getVariablesInExcelFormat(token, deviceId, idSensor) {
+        const result = await fetch(`${url}variables/${deviceId}/${idSensor}/excel`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `BEARER ${token}`
+            }
+        });
+
+        const resultJson = await result.json();
+
+        if (result.status === 200) {
+            const { variables_records } = resultJson;
+            return variables_records.variables;
+        } else throw new Error(`Error while getting variables in excel format ${resultJson.message}`);
+    }
 }
