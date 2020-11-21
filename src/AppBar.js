@@ -28,7 +28,7 @@ const AppUpperBar = ({ routeToLogin, routeToDashboard, history }) => {
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>
-                        La Popita
+                        SAT - Monitoreo de Deslizamientos
                     </Typography>
                     <Button color="inherit" onClick={() => history.push('/dashboard')}>Dashboard</Button>
                     <Button color="inherit" onClick={() => history.push('/dashboard')}>Alertas</Button>
