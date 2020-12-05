@@ -42,7 +42,7 @@ const RiskZoneSelector = ({
     <Container maxWidth={false} style={{ marginTop: 25 }}>
       <Card className={classes.root}>
         <CardContent>
-          <Typography className={classes.title} color="textSecondary">
+          <Typography className={classes.title} color="textSecondary" style={{ marginBottom: "15px" }}>
             Seleccione la zona de riesgo:
             {/* <Typography
             variant="h5"

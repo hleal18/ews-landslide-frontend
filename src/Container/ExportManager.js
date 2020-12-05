@@ -18,35 +18,32 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const createWorkbooksForRiskZone = async (riskZone, token) => {
-  console.log("Handling click");
 
   const workbooks = [];
 
   for (const cs of riskZone.criticalSpots) {
     for (const dv of cs.sensorNodes) {
       const variablesResult = await ewsApi.getVariablesInExcelFormat(token, dv.name);
-      console.log("Result: ", variablesResult);
-      console.log("Device: ", dv.name);
       if (variablesResult.length === 0) continue;
 
       const workbook = xlsx.utils.book_new();
 
       for (const varResult of variablesResult) {
+        
         const newsheet = xlsx.utils.json_to_sheet([
-          ['fecha', 'valor registrado'],
-          ...varResult.variables
-        ]);
+          varResult.variables[0]?.length === 3
+            ? ["fecha", "x", "y"]
+            : ["fecha", "valor registrado"],
+          ...varResult.variables,
+        ], { skipHeader: true });
 
         xlsx.utils.book_append_sheet(workbook, newsheet, varResult.name);
       }
 
-      console.log("sheets", workbook.Sheets);
       workbooks.push({name: `${cs.name} - ${dv.name}.xlsx`, workbook });
-      console.log('Workbook added for: ', dv.name);
     }
   }
 
-  console.log("Numver of workbooks: ", workbooks.length);
 
   const zip = new JSZip();
 
@@ -70,7 +67,6 @@ const ExportManager = ({}) => {
   const { riskZones, setRiskZone } = useContext(RiskZonesContext);
   const { token } = useContext(AuthContext);
   const classes = useStyles();
-  const [variables, setVariables] = useState([]);
 
   const [currentRiskZoneId, setCurrentRiskZoneId] = useState("");
 
