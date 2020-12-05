@@ -9,6 +9,11 @@ import {
     Tooltip
 } from "recharts";
 
+/**
+ * 
+ * name: date string,
+ * measure: number 
+ */
 export default function LineChartStatic({ data }) {
     return (
         // width should be in 99%, so that the responsive container
@@ -19,11 +24,17 @@ export default function LineChartStatic({ data }) {
         <ResponsiveContainer aspect={1.6} width='99%'>
             <LineChart data={data} margin={{
                 top: 30, right: 30, left: 20, bottom: 5,
-            }} >
-                <CartesianGrid strokeDasharray="3 3" />
+            }} width='100%'>
+                <CartesianGrid strokeDasharray="1 6" />
 
-                <XAxis dataKey="name" />
-                <YAxis />
+                <XAxis 
+                    dataKey="name" 
+                    interval="preserveStartEnd"
+                />
+                <YAxis
+                    interval="preserveStartEnd" 
+ 
+                />
                 <Tooltip />
                 <Line
                     type="monotone"

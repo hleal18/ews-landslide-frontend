@@ -1,8 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useMemo } from "react";
 import RiskZonesContext from "../Contexts/RiskZonesContext";
 import AuthContext from "../Contexts/AuthContext";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core"
+import RiskZoneSelector from "../Presentational/Export/RiskZoneSelector";
 
 import ewsApi from "../Api/ewsApi";
 
@@ -71,20 +72,27 @@ const ExportManager = ({}) => {
   const classes = useStyles();
   const [variables, setVariables] = useState([]);
 
+  const [currentRiskZoneId, setCurrentRiskZoneId] = useState("");
+
+  const riskZoneOptions = useMemo(() => [...riskZones.map((rz) => ({ id: rz._id, name: rz.name }))], [
+    riskZones,
+  ]);
 
   const handleClick = async () => {
-    const riskZone = riskZones.find((rz) => rz.name === 'Prueba final');
-
-    if (!riskZone) throw new Error('Un error buscando la zona de riesgo');
-    createWorkbooksForRiskZone(riskZone, token);
+    if (currentRiskZoneId === "") return;
+    const rzToExport = riskZones.find((rz) => rz._id === currentRiskZoneId);
+    if (!rzToExport) return;
+    createWorkbooksForRiskZone(rzToExport, token);
   }
 
   return (
     <div className={classes.root}>
-      <Button color="primary" type="primary" onClick={handleClick}>
-        exportar datos
-      </Button>
-      {variables.length > 0 && variables.map((val) => <p>{val[0]} - {val[1]}</p>)}
+      <RiskZoneSelector
+        riskZoneOptions={riskZoneOptions}
+        currentId={currentRiskZoneId}
+        handleChange={(v) => setCurrentRiskZoneId(v.target.value)}
+        handleClick={handleClick}
+      />
     </div>
   );
 };

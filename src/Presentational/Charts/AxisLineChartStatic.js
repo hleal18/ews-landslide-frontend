@@ -12,6 +12,10 @@ import {
 
 // Data should be an array of objects, where each one should contain:
 // {timestamp: Date, x: number, y: number, z: numer}
+/**
+ * 
+ *  
+ */
 export default function AxisLineChartStatic({ data }) {
     console.log('Data: ', data);
     return (
@@ -25,8 +29,8 @@ export default function AxisLineChartStatic({ data }) {
                 top: 30, right: 30, left: 20, bottom: 5,
             }}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="timestamp" />
-                <YAxis domain={[-15, 15]} />
+                <XAxis dataKey="timestamp" interval="preserveStartEnd" />
+                <YAxis domain={[-15, 15]} interval="preserveStartEnd" />
                 <Tooltip />
                 <Line
                     type="monotone"
@@ -42,15 +46,6 @@ export default function AxisLineChartStatic({ data }) {
                     dataKey="y"
                     dot={false}
                     stroke="#8884d8"
-                    activeDot={{ r: 8 }}
-                    isAnimationActive={false}
-                    connectNulls={true}
-                />
-                <Line
-                    type="monotone"
-                    dataKey="z"
-                    stroke="#7DC4FF"
-                    dot={false}
                     activeDot={{ r: 8 }}
                     isAnimationActive={false}
                     connectNulls={true}
