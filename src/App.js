@@ -22,6 +22,7 @@ import DeviceCardsManager from './Container/DeviceCardsManager';
 import VariableCardsManager from './Container/VariableCardsManager';
 import ConditionalLogin from './ConditionalLogin';
 import ExportManager from './Container/ExportManager';
+import AlertsManager from './Container/AlertsManager';
 
 // Contexts
 import { AuthProvider, AuthConsumer, useAuthenticated } from './Contexts/AuthContext';
@@ -41,6 +42,16 @@ function App() {
                                 </Grid>
                                 <Grid item xs>
                                     <ExportManager />
+                                </Grid>
+                            </Grid>
+                        </Route>
+                        <Route path="/alerts">
+                            <Grid container direction="column">
+                                <Grid item xs>
+                                    <AppBar />
+                                </Grid>
+                                <Grid item xs>
+                                    <AlertsManager />
                                 </Grid>
                             </Grid>
                         </Route>
