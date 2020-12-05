@@ -32,7 +32,6 @@ const AppUpperBar = ({ routeToLogin, routeToDashboard, history }) => {
                     </Typography>
                     <Button color="inherit" onClick={() => history.push('/dashboard')}>Dashboard</Button>
                     <Button color="inherit" onClick={() => history.push('/alerts')}>Alertas</Button>
-                    <Button color="inherit" onClick={() => history.push('/dashboard')}>Umbrales</Button>
                     <Button color="inherit" onClick={() => history.push('/export')}>Exportar</Button>
                     <Button color="inherit" onClick={() => history.push('/riskzones')}>Zonas de Estudio</Button>
                 </Toolbar>
