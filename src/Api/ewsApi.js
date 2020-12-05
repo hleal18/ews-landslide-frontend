@@ -313,4 +313,21 @@ export default class EwsApi {
             return variables_records.variables;
         } else throw new Error(`Error while getting variables in excel format ${resultJson.message}`);
     }
+
+    static async getAlerts(token) {
+        const result = await fetch(`${url}alerts`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `BEARER ${token}`
+            }
+        });
+
+        const resultJson = await result.json();
+
+        if (result.status === 200) {
+            const { alerts } = resultJson;
+            return alerts;
+        } else throw new Error(`Error while fetching alerts: ${resultJson.message}`);
+    }
 }
