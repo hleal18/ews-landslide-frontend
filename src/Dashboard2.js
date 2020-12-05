@@ -93,7 +93,7 @@ class Dashboard extends React.Component {
         const suitableValues = [];
         for (const value of values) {
             suitableValues.push({
-                name: value.timestamp,
+                name: new Date(value.timestamp).toLocaleString(),
                 measure: value.value,
             });
         }
@@ -107,7 +107,7 @@ class Dashboard extends React.Component {
         const suitableValues = [];
         values.forEach(({ timestamp, value: { x, y, z } }) => {
             suitableValues.push({
-                timestamp, x, y, z,
+                timestamp: new Date(timestamp).toLocaleString(), x, y, z,
             });
         });
 
