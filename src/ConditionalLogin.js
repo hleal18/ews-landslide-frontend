@@ -16,7 +16,7 @@ export default () => {
                             context => <SignIn context={context} />
                         }
                     </AuthConsumer> :
-                    <Redirect to='/dashboard' />
+                    <Redirect to='/riskzones' />
             }
         </div>
     )

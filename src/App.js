@@ -11,6 +11,7 @@ import './App.css';
 import AppBar from './AppBar';
 import SignIn from './Container/SignInSide';
 import SignUp from './Container/SignUp';
+import Signout from './Signout';
 import DeviceCards from './Presentational/Info/DeviceCards';
 import Dashboard from './Dashboard2';
 import DashboardManager from './Container/DashboardManager'
@@ -28,6 +29,7 @@ import AlertsManager from './Container/AlertsManager';
 import { AuthProvider, AuthConsumer, useAuthenticated } from './Contexts/AuthContext';
 import { UserProvider, UserConsumer } from './Contexts/UserContext';
 import { RiskZonesProvider, RiskZonesConsumer } from './Contexts/RiskZonesContext';
+import AuthTransition from './AuthTransition';
 
 function App() {
     return (
@@ -103,6 +105,9 @@ function App() {
                         </Route>
                         <Route path="/signup" exact>
                             <SignUp />
+                        </Route>
+                        <Route path="/signout" exact>
+                            <Signout />
                         </Route>
                         <Route path="/" exact>
                             <ConditionalLogin />

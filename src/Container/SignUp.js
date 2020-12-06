@@ -2,6 +2,7 @@ import React from 'react';
 import SignUpPresentation from '../Presentational/Forms/SignUp';
 import EwsApi from '../Api/ewsApi';
 import { Redirect } from 'react-router-dom';
+import AuthTransition from '../AuthTransition';
 
 class SignUp extends React.Component {
   constructor(props) {
@@ -40,7 +41,8 @@ class SignUp extends React.Component {
         submitErrorMessage: undefined,
         submitErrorOpen: false  
       },
-      redirect: false
+      redirect: false,
+      token: undefined
     };
   }
 
@@ -129,8 +131,8 @@ class SignUp extends React.Component {
         
         this.setState({ isLoading: true });
         const result = await EwsApi.signUp(firstName, lastName, email, password);
-        this.setState({ isLoading: false });
         if (result.message) {
+          this.setState({ isLoading: false });
             console.log('Error: ', result.message);
             this.setState({ 
             submitError: { 
@@ -138,9 +140,15 @@ class SignUp extends React.Component {
             }});
         }
         else {
+          const authres = await EwsApi.login(email, password);
+
+          if (!authres.message) {
+            this.setState({ token: authres.auth.token });
+          }
            console.log(`Autneticacion exitosa: ${result.user}`);
            console.log(`Redireccionando`);
            this.setState({redirect: true});
+           this.setState({ isLoading: false });
         }
     }
   }
@@ -158,18 +166,22 @@ class SignUp extends React.Component {
     
     const errorMessage = this.errorMessage;
     return (
-        <div>
-        { this.state.redirect && <Redirect to='/dashboard'/> }
-        <SignUpPresentation 
-            input = {input}
-            isLoading={isLoading}
-            errorState = {errorState}
-            errorMessage = {errorMessage}
-            submitErrorMessage = {submitErrorMessage}
-            submitErrorOpen = {submitErrorOpen}
-            handleChange = {this.handleChange}
-            handleSubmit = {this.handleSubmit}
-            handleClickSubmitError = {this.handleClickSubmitError}
+      <div>
+        {this.state.redirect && (
+          <AuthTransition
+            token={this.state.token}
+          />
+        )}
+        <SignUpPresentation
+          input={input}
+          isLoading={isLoading}
+          errorState={errorState}
+          errorMessage={errorMessage}
+          submitErrorMessage={submitErrorMessage}
+          submitErrorOpen={submitErrorOpen}
+          handleChange={this.handleChange}
+          handleSubmit={this.handleSubmit}
+          handleClickSubmitError={this.handleClickSubmitError}
         />
       </div>
     );

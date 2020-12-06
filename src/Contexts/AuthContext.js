@@ -27,6 +27,17 @@ export const useAuthenticated = () => {
     return (!token || token === 'null') ? false : true;
 }
 
+export const useSetToken = (token) => {
+    const { setToken } = useContext(AuthContext);
+    setToken(token);
+}
+
+export const useUnauthenticate = () => {
+    const { setToken } = useContext(AuthContext);
+    localStorage.removeItem('token');
+    setToken(undefined);
+}
+
 export const AuthConsumer = AuthContext.Consumer;
 
 export default AuthContext;

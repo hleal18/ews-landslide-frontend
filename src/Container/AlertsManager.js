@@ -74,6 +74,7 @@ export default () => {
 
     transformAlerts();
   }, [riskZones, token]);
+
   return (
     <div>
       <AlertsTable alerts={transformedAlerts} />

@@ -5,6 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router-dom';
+import { useUnauthenticate } from './Contexts/AuthContext';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -24,19 +25,36 @@ const AppUpperBar = ({ routeToLogin, routeToDashboard, history }) => {
     //console.log('History from appbar: ', history);
 
     return (
-        <div className={classes.root}>
-            <AppBar position="static">
-                <Toolbar>
-                    <Typography variant="h6" className={classes.title}>
-                        SAT - Monitoreo de Deslizamientos
-                    </Typography>
-                    <Button color="inherit" onClick={() => history.push('/dashboard')}>Dashboard</Button>
-                    <Button color="inherit" onClick={() => history.push('/alerts')}>Alertas</Button>
-                    <Button color="inherit" onClick={() => history.push('/export')}>Exportar</Button>
-                    <Button color="inherit" onClick={() => history.push('/riskzones')}>Zonas de Estudio</Button>
-                </Toolbar>
-            </AppBar>
-        </div>
+      <div className={classes.root}>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant="h6" className={classes.title}>
+              SAT - Monitoreo de Deslizamientos
+            </Typography>
+            <Button color="inherit" onClick={() => history.push("/dashboard")}>
+              Dashboard
+            </Button>
+            <Button color="inherit" onClick={() => history.push("/alerts")}>
+              Alertas
+            </Button>
+            <Button color="inherit" onClick={() => history.push("/export")}>
+              Exportar
+            </Button>
+            <Button color="inherit" onClick={() => history.push("/riskzones")}>
+              Zonas de Estudio
+            </Button>
+            <Button
+              style={{ marginLeft: "15px" }}
+              color="inherit"
+              onClick={() => {
+                history.push("/signout");
+              }}
+            >
+              Cerrar Sesion
+            </Button>
+          </Toolbar>
+        </AppBar>
+      </div>
     );
 }
 

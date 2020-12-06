@@ -8,15 +8,22 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
+import CardContent from "@material-ui/core/CardContent";
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
+  title: {
+    fontSize: 20,
+    justifyContent: "center"
+  }
 });
 
 const getLocalDate = timestamp => `${new Date(timestamp).toLocaleDateString('co-CO')} - ${new Date(timestamp).toLocaleTimeString('co-CO')}`;
-  
+
 
 const AlertsTable = ({ alerts = [] }) => {
   const classes = useStyles();
@@ -24,13 +31,17 @@ const AlertsTable = ({ alerts = [] }) => {
   // 9 columnas
   return (
     <div>
-      {alerts.length === 0 ? (
-        <p>No hay alertas registradas</p>
-      ) : (
-        <Container maxWidth={false} style={{ marginTop: 25 }}>
-          <TableContainer
-            component={Paper}
-          >
+      <Container maxWidth={false} style={{ marginTop: 25 }}>
+        {alerts.length === 0 ? (
+          <Card>
+            <CardContent>
+              <Typography className={classes.title} color="textPrimary"  style={{ marginBottom: "15px" }}>
+                No hay zonas de riesgo con alertas.
+              </Typography>
+            </CardContent>
+          </Card>
+        ) : (
+          <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
                 <TableRow>
@@ -58,14 +69,16 @@ const AlertsTable = ({ alerts = [] }) => {
                     <TableCell align="center">{alert.variableValue}</TableCell>
                     <TableCell align="center">{alert.thresholdValue}</TableCell>
                     <TableCell align="center">{alert.notified}</TableCell>
-                    <TableCell align="center">{getLocalDate(alert.timestamp)}</TableCell>
+                    <TableCell align="center">
+                      {getLocalDate(alert.timestamp)}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
-        </Container>
-      )}
+        )}
+      </Container>
     </div>
   );
 }
