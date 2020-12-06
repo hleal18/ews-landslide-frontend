@@ -33,7 +33,7 @@ export default function LineChartStatic({ data }) {
                 />
                 <YAxis
                     interval="preserveStartEnd" 
- 
+                    domain={[0, 100]}
                 />
                 <Tooltip />
                 <Line

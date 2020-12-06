@@ -17,7 +17,7 @@ import {
  *  
  */
 export default function AxisLineChartStatic({ data }) {
-    console.log('Data: ', data);
+    // console.log('Data: ', data);
     return (
         // width should be in 99%, so that the responsive container
         // resizes the chart component accordingly. Otherwise

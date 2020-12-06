@@ -13,6 +13,8 @@ import AxisLineChartStatic from './Presentational/Charts/AxisLineChartStatic';
 import AuthContext from './Contexts/AuthContext';
 import ewsApi from './Api/ewsApi';
 import { variablesDefinitionAsObject } from './lib/variablesDefinition';
+import { FilterTiltShiftSharp } from '@material-ui/icons';
+import moment from 'moment';
 
 const styles = theme => ({
     root: {
@@ -35,7 +37,8 @@ class Dashboard extends React.Component {
             entriesCount: 0,
             variablesConfig: [],
             variablesData: {},
-            selectedDates: [],
+            selectedDates: {},
+            dateUpdate: undefined
         };
     }
 
@@ -56,6 +59,14 @@ class Dashboard extends React.Component {
             for (const varConf of this.state.variablesConfig) {
                 await this.queryVariables(varConf);
             }
+        } else if (this.state.dateUpdate && this.state.dateUpdate.deviceName && this.state.dateUpdate.variableId) {
+            const curVarConf = this.state.variablesConfig.find(
+              (vc) =>
+                vc.deviceName === this.state.dateUpdate.deviceName &&
+                vc.variableId === this.state.dateUpdate.variableId
+            );
+            await this.queryVariables(curVarConf);
+            this.setState({ dateUpdate: undefined });
         }
 
     }
@@ -70,7 +81,6 @@ class Dashboard extends React.Component {
                 devices = this.props.selectedRiskZone.criticalSpots.reduce((prev, curr) => [...prev, ...curr.sensorNodes], []);
             }
         } catch(e) { console.log(`Error ${e.message}`); }
-        
         
         //console.log('Vars2: ');
         const variablesConfig = [];
@@ -93,7 +103,7 @@ class Dashboard extends React.Component {
         const suitableValues = [];
         for (const value of values) {
             suitableValues.push({
-                name: new Date(value.timestamp).toLocaleString(),
+                name: value.timestamp,
                 measure: value.value,
             });
         }
@@ -107,7 +117,10 @@ class Dashboard extends React.Component {
         const suitableValues = [];
         values.forEach(({ timestamp, value: { x, y, z } }) => {
             suitableValues.push({
-                timestamp: new Date(timestamp).toLocaleString(), x, y, z,
+              timestamp: timestamp,
+              x,
+              y,
+              z,
             });
         });
 
@@ -121,12 +134,36 @@ class Dashboard extends React.Component {
         // console.log('Varconf: ', varConf);
         let variables = [];
         try {
-            variables = (await ewsApi.getVariables(varConf.deviceName, { idSensor: varConf.variableId, type: varConf.type, limit: 400 }, this.context.token)).variables_records.variables;
+            let startDate;
+            let endDate;
+            if (
+              this.state.selectedDates[varConf.deviceName] &&
+              this.state.selectedDates[varConf.deviceName][varConf.variableId]
+            ) {
+                const currentDate = this.state.selectedDates[varConf.deviceName][varConf.variableId];
+                if (currentDate.start) startDate = new Date(currentDate.start).toUTCString();
+                if (currentDate.end) endDate = new Date(currentDate.end).toUTCString();
+                console.log('StartDate', startDate);
+                console.log('EndDate', endDate);
+            }
+            variables = (
+              await ewsApi.getVariables(
+                varConf.deviceName,
+                {
+                  idSensor: varConf.variableId,
+                  type: varConf.type,
+                  limit: 1500,
+                  ...(startDate && { start: startDate }),
+                  ...(endDate && { end: endDate })
+                },
+                this.context.token
+              )
+            ).variables_records.variables;
             // console.log('Variables found: ', variables);
         } catch (e) { console.log(`Error: ${e.message}`); }
         for (const variable of variables) {
             variablesData.push({
-                timestamp: variable.timestamp,
+                timestamp: new Date(variable.timestamp).toLocaleString(),
                 value: variable.value,
             });
         }
@@ -147,16 +184,19 @@ class Dashboard extends React.Component {
     handleDateChange(event) {
         console.log('Event: ', event);
         this.setState((state, props) => {
-            const { date, start, index } = event;
+            const { date, start, deviceName, variableId } = event;
             const { selectedDates } = state;
-            selectedDates[index] = (start) ? {
-                ...selectedDates[index],
-                start: date,
-            } : { ...selectedDates[index], end: date };
+            
+            if (!selectedDates[deviceName]) selectedDates[deviceName] = [];
+
+            selectedDates[deviceName][variableId] = (start) ? {
+                ...selectedDates[deviceName][variableId],
+                start: moment(date).startOf('day'),
+            } : { ...selectedDates[deviceName][variableId], end: moment(date).endOf('day') };
 
             console.log('Modified array: ', selectedDates);
 
-            return { ...state, selectedDates };
+            return { ...state, selectedDates, dateUpdate: { deviceName, variableId } };
         });
     }
     
@@ -174,8 +214,15 @@ class Dashboard extends React.Component {
                                 const variableFromDevice = this.state.variablesData[variable.device];
                                 const values = (variableFromDevice && variableFromDevice[variable.variableId])
                                     ? variableFromDevice[variable.variableId] : [];
-                                const dateState = this.state.selectedDates[index];
-                                if (values.length === 0) return ('');
+                                let dateState = {
+                                    start: values[0] ? moment(new Date(values[0].timestamp)).startOf('day') : moment().startOf('day'),
+                                }
+                                if (this.state.selectedDates[variable.deviceName] && this.state.selectedDates[variable.deviceName][variable.variableId]) {
+                                    if (this.state.selectedDates[variable.deviceName][variable.variableId].start)
+                                        dateState.start = this.state.selectedDates[variable.deviceName][variable.variableId].start;
+                                    if (this.state.selectedDates[variable.deviceName][variable.variableId])
+                                        dateState.end = this.state.selectedDates[variable.deviceName][variable.variableId].end;
+                                }
                                 return (
                                     <Grid item xs={12} sm={12} md={8} lg={6} xl={6} key={index}>
                                         <Paper>
@@ -191,8 +238,9 @@ class Dashboard extends React.Component {
                                                         {variable.variableId}
                                                     </h3>
                                                 </Grid>
+                                                {/* { values.length === 0 && <p>No hay valores</p> } */}
                                                 {
-                                                    values.length > 0
+                                                    values.length >= 0
                                                     && (
                                                         <div>
                                                             <Grid item   >
@@ -210,12 +258,14 @@ class Dashboard extends React.Component {
                                                                             id={`date-picker-dialog${index}${1}`}
                                                                             label="Fecha inicial"
                                                                             format="dd/MM/yyyy"
-                                                                            value={(dateState && dateState.start) ? dateState.start : undefined}
+                                                                            value={(dateState && dateState.start) ? dateState.start :  moment().startOf('day') }
                                                                             onChange={(date) => {
                                                                                 this.handleDateChange({
                                                                                     date,
                                                                                     start: true,
                                                                                     index,
+                                                                                    deviceName: variable.deviceName,
+                                                                                    variableId: variable.variableId
                                                                                 });
                                                                             }}
                                                                             KeyboardButtonProps={{
@@ -229,12 +279,14 @@ class Dashboard extends React.Component {
                                                                             id={`date-picker-dialog${index}`}
                                                                             label="Fecha final"
                                                                             format="dd/MM/yyyy"
-                                                                            value={(dateState && dateState.end) ? dateState.end : undefined}
+                                                                            value={(dateState && dateState.end) ? dateState.end : moment().endOf('day')}
                                                                             onChange={(date) => {
                                                                                 this.handleDateChange({
                                                                                     date,
                                                                                     start: false,
                                                                                     index,
+                                                                                    deviceName: variable.deviceName,
+                                                                                    variableId: variable.variableId
                                                                                 });
                                                                             }}
                                                                             KeyboardButtonProps={{
