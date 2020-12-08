@@ -95,13 +95,13 @@ export default function DeviceCard({ name, description, redirect, variables }) {
                     <Chip label={varType} size="small" />
                   </Grid>
                 ))}
-                <Grid item xs>
+                {/* <Grid item xs>
                   <Chip label="Humedad de suelo x1" size="small" />
                 </Grid>
                 <Grid item xs>
                   {" "}
                   <Chip label="Inclinación x2" size="small" />
-                </Grid>
+                </Grid> */}
               </Grid>
             </Grid>
           )}
