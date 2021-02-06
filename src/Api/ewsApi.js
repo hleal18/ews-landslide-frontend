@@ -1,4 +1,6 @@
-const url = 'http://localhost:3002/api/';
+// const url = 'http://localhost:3002/api/';
+// const url = 'http://sat.api.semard.com.co/api/';
+const url = `http://${process.env.REACT_APP_API}/api/`;
 
 export default class EwsApi {
 
