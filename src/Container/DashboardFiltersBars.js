@@ -10,33 +10,33 @@ export default class DashboardFilters extends React.Component {
             riskZones: {
                 label: 'Zonas de Riesgo',
                 id: 'riskZones',
-                value: '',
+                value: 'all',
                 names: ['Todos'],
-                options: [''],
+                options: ['all'],
                 disabled: false
             },
             criticalSpots: {
                 label: 'Puntos Críticos',
                 id: 'criticalSpots',
-                value: '',
+                value: 'all',
                 names: ['Todos'],
-                options: [''],
+                options: ['all'],
                 disabled: true
             },
             devices: {
                 label: 'Dispositivos',
                 id: 'devices',
-                value: '',
+                value: 'all',
                 names: ['Todos'],
-                options: [''],
+                options: ['all'],
                 disabled: true
             },
             variables: {
                 label: 'Variables',
                 id: 'variables',
-                value: '',
+                value: 'all',
                 names: ['Todos'],
-                options: [''],
+                options: ['all'],
                 disabled: true
             },
             selectedRiskZone: {
@@ -62,7 +62,7 @@ export default class DashboardFilters extends React.Component {
                 riskZones: {
                     ...prev.riskZones,
                     names: ['Todos', ...riskZonesNames],
-                    options: ['', ...riskZonesOptions]
+                    options: ['all', ...riskZonesOptions]
                 }
             }));
         }
@@ -85,7 +85,7 @@ export default class DashboardFilters extends React.Component {
                 riskZones: {
                     ...prev.riskZones,
                     names: ['Todos', ...riskZonesNames],
-                    options: ['', ...riskZonesOptions]
+                    options: ['all', ...riskZonesOptions]
                 }
             }));
         }
@@ -95,8 +95,10 @@ export default class DashboardFilters extends React.Component {
         const value = e.target.value;
         const id = e.target.id;
 
-        if (id === 'riskZones' && value !== '') {
+        if (id === 'riskZones') {
+            console.log('Riskzone value: ', value);
             const criticalSpots = this.findCriticalSpots(value);
+            console.log('Criticalspots found: ', criticalSpots);
             const criticalSpotsNames = criticalSpots.map((criticalSpot) => criticalSpot.name);
             const criticalSpotsOptions = criticalSpots.map((criticalSpot) => criticalSpot._id);
             const selectedRiskZone = {...this.props.riskZones.find((riskZone) => riskZone._id === value)};
@@ -106,7 +108,7 @@ export default class DashboardFilters extends React.Component {
             this.disableAndCleanSelect('devices');
             this.disableAndCleanSelect('variables');
             this.setSelectedRiskZone(selectedRiskZone);
-        } else if (id === 'criticalSpots' && value !== '') {
+        } else if (id === 'criticalSpots' && value !== 'all') {
             const devices = this.findSensorNodes(value);
 
             const devicesNames = devices.map((device) => device.name);
@@ -122,7 +124,7 @@ export default class DashboardFilters extends React.Component {
             this.enableAndSetOptions('devices', devicesNames, devicesOptions);
             this.disableAndCleanSelect('variables');
             this.setSelectedRiskZone(selectedRiskZone);
-        } else if (id === 'devices' && value !== '') {
+        } else if (id === 'devices' && value !== 'all') {
             const variables = this.findVariables(value);
             const variablesNames = variables.map((variable) => variable.name);
             const variablesOptions = variables.map((variable) => variable._id);
@@ -134,7 +136,7 @@ export default class DashboardFilters extends React.Component {
             this.setSelection('devices', value);
             this.enableAndSetOptions('variables', variablesNames, variablesOptions);
             this.setSelectedRiskZone(selectedRiskZone);
-        } else if (id === 'variables' && value !== '') {
+        } else if (id === 'variables' && value !== 'all') {
             const selectedRiskZone = {...this.state.selectedRiskZone};
             const currentVariable = this.getCurrentVariable(value);
             
@@ -142,18 +144,33 @@ export default class DashboardFilters extends React.Component {
             
             this.setSelection('variables', value);
             this.setSelectedRiskZone(selectedRiskZone);
-        } else if (id === 'riskZones') {            
+        } else if (id === 'riskZones') {  
+            console.log('Values for riskzones todos: ', value);
             this.setSelection('riskZones', value);
             this.disableAndCleanSelect('criticalSpots')
             this.disableAndCleanSelect('devices')
             this.disableAndCleanSelect('variables')
         } else if (id === 'criticalSpots') {
+            const selectedRiskZoneId = this.state.selectedRiskZone._id;
+            this.setSelectedRiskZone(this.props.riskZones.find((riskZone) => riskZone._id === selectedRiskZoneId));
             this.setSelection('criticalSpots', value);
             this.disableAndCleanSelect('devices')
             this.disableAndCleanSelect('variables')
         } else if (id === 'devices') {
+            const selectedRiskZone = {...this.state.selectedRiskZone};
+            const criticalSpotId = selectedRiskZone.criticalSpots[0]._id;
+            const devices = this.findSensorNodes(criticalSpotId);
+            selectedRiskZone.criticalSpots[0].sensorNodes = [...devices];
+            this.setSelectedRiskZone(selectedRiskZone)
             this.setSelection('devices', value);
             this.disableAndCleanSelect('variables')
+        } else if (id === 'variables') {
+            const selectedRiskZone = {...this.state.selectedRiskZone};
+            const deviceId = selectedRiskZone.criticalSpots[0].sensorNodes[0]._id;
+            const variables = this.findVariables(deviceId);
+            selectedRiskZone.criticalSpots[0].sensorNodes[0].variables = [...variables];
+            this.setSelectedRiskZone(selectedRiskZone);
+            this.setSelection('variables', value);
         } else {
             this.setState((prev) => ({
                 [id]: {
@@ -185,9 +202,9 @@ export default class DashboardFilters extends React.Component {
         this.setState((prev) => ({
             [attributeName]: {
                 ...prev[attributeName],
-                value: '',
+                value: 'all',
                 names: ['Todos', ...attributeNames],
-                options: ['', ...attributeOptions],
+                options: ['all', ...attributeOptions],
                 disabled: false
             }
         }));
@@ -197,7 +214,7 @@ export default class DashboardFilters extends React.Component {
         this.setState((prev) => ({
             [attributeName]: {
                 ...prev[attributeName],
-                value: '',
+                value: 'all',
                 disabled: true
             }
         }));
