@@ -10,33 +10,33 @@ export default class DashboardFilters extends React.Component {
             riskZones: {
                 label: 'Zonas de Riesgo',
                 id: 'riskZones',
-                value: 'all',
-                names: ['Todos'],
-                options: ['all'],
+                value: '',
+                names: [''],
+                options: [''],
                 disabled: false
             },
             criticalSpots: {
                 label: 'Puntos Críticos',
                 id: 'criticalSpots',
-                value: 'all',
+                value: '',
                 names: ['Todos'],
-                options: ['all'],
+                options: [''],
                 disabled: true
             },
             devices: {
                 label: 'Dispositivos',
                 id: 'devices',
-                value: 'all',
+                value: '',
                 names: ['Todos'],
-                options: ['all'],
+                options: [''],
                 disabled: true
             },
             variables: {
                 label: 'Variables',
                 id: 'variables',
-                value: 'all',
+                value: '',
                 names: ['Todos'],
-                options: ['all'],
+                options: [''],
                 disabled: true
             },
             selectedRiskZone: {
@@ -61,8 +61,8 @@ export default class DashboardFilters extends React.Component {
             this.setState((prev) => ({
                 riskZones: {
                     ...prev.riskZones,
-                    names: ['Todos', ...riskZonesNames],
-                    options: ['all', ...riskZonesOptions]
+                    names: [...riskZonesNames],
+                    options: [...riskZonesOptions]
                 }
             }));
         }
@@ -84,8 +84,8 @@ export default class DashboardFilters extends React.Component {
             this.setState((prev) => ({
                 riskZones: {
                     ...prev.riskZones,
-                    names: ['Todos', ...riskZonesNames],
-                    options: ['all', ...riskZonesOptions]
+                    names: [...riskZonesNames],
+                    options: [...riskZonesOptions]
                 }
             }));
         }
@@ -108,7 +108,7 @@ export default class DashboardFilters extends React.Component {
             this.disableAndCleanSelect('devices');
             this.disableAndCleanSelect('variables');
             this.setSelectedRiskZone(selectedRiskZone);
-        } else if (id === 'criticalSpots' && value !== 'all') {
+        } else if (id === 'criticalSpots' && value !== '') {
             const devices = this.findSensorNodes(value);
 
             const devicesNames = devices.map((device) => device.name);
@@ -124,7 +124,7 @@ export default class DashboardFilters extends React.Component {
             this.enableAndSetOptions('devices', devicesNames, devicesOptions);
             this.disableAndCleanSelect('variables');
             this.setSelectedRiskZone(selectedRiskZone);
-        } else if (id === 'devices' && value !== 'all') {
+        } else if (id === 'devices' && value !== '') {
             const variables = this.findVariables(value);
             const variablesNames = variables.map((variable) => variable.name);
             const variablesOptions = variables.map((variable) => variable._id);
@@ -136,7 +136,7 @@ export default class DashboardFilters extends React.Component {
             this.setSelection('devices', value);
             this.enableAndSetOptions('variables', variablesNames, variablesOptions);
             this.setSelectedRiskZone(selectedRiskZone);
-        } else if (id === 'variables' && value !== 'all') {
+        } else if (id === 'variables' && value !== '') {
             const selectedRiskZone = {...this.state.selectedRiskZone};
             const currentVariable = this.getCurrentVariable(value);
             
@@ -202,9 +202,9 @@ export default class DashboardFilters extends React.Component {
         this.setState((prev) => ({
             [attributeName]: {
                 ...prev[attributeName],
-                value: 'all',
+                value: '',
                 names: ['Todos', ...attributeNames],
-                options: ['all', ...attributeOptions],
+                options: ['', ...attributeOptions],
                 disabled: false
             }
         }));
@@ -214,7 +214,7 @@ export default class DashboardFilters extends React.Component {
         this.setState((prev) => ({
             [attributeName]: {
                 ...prev[attributeName],
-                value: 'all',
+                value: '',
                 disabled: true
             }
         }));
