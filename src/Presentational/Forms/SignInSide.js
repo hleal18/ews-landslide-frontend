@@ -150,7 +150,7 @@ export default function SignInSide(props) {
                   financiado por la convocatoria para proyectos de investigación
                   de semilleros de la Universidad de Cartagena del año 2018.{" "}
                   <br />
-                  <b>Por la tesis del estudiante</b>: Humberto Leal Betancur y
+                  <b>Por la tesis de los estudiantes</b>: Humberto Leal Betancur y
                   Rafael Mendoza Rodríguez. <br />
                   <b>Tesis dirigida por el profesor</b>: Amaury Cabarcas Alvarez
                 </Typography>
