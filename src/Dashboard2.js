@@ -144,7 +144,7 @@ class Dashboard extends React.Component {
     // console.log('Varconf: ', varConf);
     let variables = [];
     try {
-      let startDate;
+      let startDate = moment().subtract(6, 'months');
       let endDate;
       if (
         this.state.selectedDates[varConf.deviceName] &&
@@ -165,7 +165,7 @@ class Dashboard extends React.Component {
           {
             idSensor: varConf.variableId,
             type: varConf.type,
-            limit: 1500,
+            limit: 10000,
             ...(startDate && { start: startDate }),
             ...(endDate && { end: endDate }),
           },
@@ -272,8 +272,10 @@ class Dashboard extends React.Component {
                   let dateState = {
                     start: values[0]
                       ? moment(new Date(values[0].timestamp)).startOf("day")
-                      : moment().startOf("day"),
+                      : moment().subtract(6, 'months'),
                   };
+                  console.log('Default dateState:', dateState);
+                  console.log('Values[0]', values[0]);
                   if (
                     this.state.selectedDates[variable.deviceName] &&
                     this.state.selectedDates[variable.deviceName][
@@ -284,18 +286,20 @@ class Dashboard extends React.Component {
                       this.state.selectedDates[variable.deviceName][
                         variable.variableId
                       ].start
-                    )
+                    ) {
                       dateState.start = this.state.selectedDates[
                         variable.deviceName
                       ][variable.variableId].start;
+                    }
                     if (
                       this.state.selectedDates[variable.deviceName][
                         variable.variableId
-                      ]
-                    )
+                      ].end
+                    ) {
                       dateState.end = this.state.selectedDates[
                         variable.deviceName
                       ][variable.variableId].end;
+                    }
                   }
                   return (
                     <Grid item xs={12} sm={12} md={8} lg={6} xl={6} key={index}>
@@ -347,7 +351,7 @@ class Dashboard extends React.Component {
                                       value={
                                         dateState && dateState.start
                                           ? dateState.start
-                                          : moment().startOf("day")
+                                          : moment().subtract(6, 'months')
                                       }
                                       onChange={(date) => {
                                         this.handleDateChange({
