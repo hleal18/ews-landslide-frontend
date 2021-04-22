@@ -305,9 +305,7 @@ class Dashboard extends React.Component {
                       ? variableFromDevice[variable.variableId]
                       : [];
                   let dateState = {
-                    start: values[0]
-                      ? moment(new Date(values[0].timestamp)).startOf("day")
-                      : moment().subtract(6, "months"),
+                    start: null,
                   };
 
                   // console.log("Default dateState:", dateState);
@@ -387,7 +385,7 @@ class Dashboard extends React.Component {
                                       value={
                                         dateState && dateState.start
                                           ? dateState.start
-                                          : moment().subtract(6, "months")
+                                          : null
                                       }
                                       onChange={(date) => {
                                         this.handleDateChange({
