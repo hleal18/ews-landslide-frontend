@@ -46,6 +46,10 @@ class Dashboard extends React.Component {
   }
 
   async componentDidMount() {
+    // console.log(
+    //   "Component didmount selectedRiskzone: ",
+    //   this.props.selectedRiskZone
+    // );
     this.setState({ selectedRiskZone: this.props.selectedRiskZone });
     await this.updateDeviceWithVariables();
     //console.log('Recorriendo: ');
@@ -55,6 +59,10 @@ class Dashboard extends React.Component {
   }
 
   async componentDidUpdate() {
+    // console.log(
+    //   "Component did update, selected riskzone from state: ",
+    //   this.state.selectedRiskZone
+    // );
     if (this.state.selectedRiskZone !== this.props.selectedRiskZone) {
       this.setState({ selectedRiskZone: this.props.selectedRiskZone });
       await this.updateDeviceWithVariables();
@@ -107,6 +115,7 @@ class Dashboard extends React.Component {
       }
     }
 
+    // console.log("variablesConfig:", variablesConfig);
     this.setState({ variablesConfig });
   }
 
@@ -144,7 +153,7 @@ class Dashboard extends React.Component {
     // console.log('Varconf: ', varConf);
     let variables = [];
     try {
-      let startDate = moment().subtract(6, 'months');
+      let startDate = moment().subtract(6, "months");
       let endDate;
       if (
         this.state.selectedDates[varConf.deviceName] &&
@@ -156,8 +165,8 @@ class Dashboard extends React.Component {
         if (currentDate.start)
           startDate = new Date(currentDate.start).toUTCString();
         if (currentDate.end) endDate = new Date(currentDate.end).toUTCString();
-        console.log("StartDate", startDate);
-        console.log("EndDate", endDate);
+        // console.log("StartDate", startDate);
+        // console.log("EndDate", endDate);
       }
       variables = (
         await ewsApi.getVariables(
@@ -197,7 +206,7 @@ class Dashboard extends React.Component {
   }
 
   handleDateChange(event) {
-    console.log("Event: ", event);
+    // console.log("Event: ", event);
     this.setState((state, props) => {
       const { date, start, deviceName, variableId } = event;
       const { selectedDates } = state;
@@ -214,7 +223,7 @@ class Dashboard extends React.Component {
             end: moment(date).endOf("day"),
           };
 
-      console.log("Modified array: ", selectedDates);
+      // console.log("Modified array: ", selectedDates);
 
       return {
         ...state,
@@ -226,8 +235,8 @@ class Dashboard extends React.Component {
 
   render() {
     const { classes } = this.props;
-    console.log("Dashboard selected riskzone: ", this.props.selectedRiskZone);
-    if (!this.props.selectedRiskZone.criticalSpots) console.log("Empty object");
+    // console.log("Dashboard selected riskzone: ", this.props.selectedRiskZone);
+    // if (!this.props.selectedRiskZone.criticalSpots) console.log("Empty object");
     return (
       <div>
         {!this.props.selectedRiskZone.criticalSpots ? (
@@ -240,9 +249,35 @@ class Dashboard extends React.Component {
                 justify="center"
                 alignItems="center"
               >
-                <Grid item alignItems='centered'>
-                  <Typography component="h1" variant="h3" style={{ color: '#A1A1A1' }}>
+                <Grid item alignItems="centered">
+                  <Typography
+                    component="h1"
+                    variant="h3"
+                    style={{ color: "#A1A1A1" }}
+                  >
                     Seleccione filtros para observar datos.
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Container>
+          </div>
+        ) : this.state.variablesConfig.length === 0 ? (
+          <div className={classes.root}>
+            <Container maxWidth={false}>
+              <Grid
+                container
+                spacing={3}
+                direction="row"
+                justify="center"
+                alignItems="center"
+              >
+                <Grid item alignItems="centered">
+                  <Typography
+                    component="h1"
+                    variant="h3"
+                    style={{ color: "#A1A1A1" }}
+                  >
+                    Aun no hay datos para mostrar
                   </Typography>
                 </Grid>
               </Grid>
@@ -272,10 +307,11 @@ class Dashboard extends React.Component {
                   let dateState = {
                     start: values[0]
                       ? moment(new Date(values[0].timestamp)).startOf("day")
-                      : moment().subtract(6, 'months'),
+                      : moment().subtract(6, "months"),
                   };
-                  console.log('Default dateState:', dateState);
-                  console.log('Values[0]', values[0]);
+
+                  // console.log("Default dateState:", dateState);
+                  // console.log("Values[0]", values[0]);
                   if (
                     this.state.selectedDates[variable.deviceName] &&
                     this.state.selectedDates[variable.deviceName][
@@ -351,7 +387,7 @@ class Dashboard extends React.Component {
                                       value={
                                         dateState && dateState.start
                                           ? dateState.start
-                                          : moment().subtract(6, 'months')
+                                          : moment().subtract(6, "months")
                                       }
                                       onChange={(date) => {
                                         this.handleDateChange({
