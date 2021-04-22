@@ -46,9 +46,13 @@ export default class DashboardFilters extends React.Component {
     }
 
     componentDidMount() {
+        // console.log('componentDidMount this.state.riskZones.names.length', this.state.riskZones.names.length);
+        // console.log('componentDidMount this.state.riskZones.names', this.state.riskZones.names);
+
         if (this.props.riskZones &&
             this.props.riskZones.length > 0 &&
-            this.state.riskZones.names.length === 1) {
+            this.state.riskZones.names.length === 1 &&
+            this.state.riskZones.names[0] === '') {
             const { riskZones } = this.props;
             const riskZonesNames = [];
             const riskZonesOptions = [];
@@ -69,10 +73,14 @@ export default class DashboardFilters extends React.Component {
     }
 
     componentDidUpdate() {
+        // console.log('componentDidUpdate this.state.riskZones.names.length', this.state.riskZones.names.length);
+        // console.log('componentDidUpdate this.state.riskZones.names', this.state.riskZones.names);
         if (this.props.riskZones &&
             this.props.riskZones.length > 0 &&
-            this.state.riskZones.names.length === 1) {
+            this.state.riskZones.names.length === 1 &&
+            this.state.riskZones.names[0] === '') {
             const { riskZones } = this.props;
+            // console.log('Dashboard filters - componentDidUpdate - Riskzones: ', riskZones);
             const riskZonesNames = [];
             const riskZonesOptions = [];
 
@@ -96,9 +104,9 @@ export default class DashboardFilters extends React.Component {
         const id = e.target.id;
 
         if (id === 'riskZones') {
-            console.log('Riskzone value: ', value);
+            // console.log('Riskzone value: ', value);
             const criticalSpots = this.findCriticalSpots(value);
-            console.log('Criticalspots found: ', criticalSpots);
+            // console.log('Criticalspots found: ', criticalSpots);
             const criticalSpotsNames = criticalSpots.map((criticalSpot) => criticalSpot.name);
             const criticalSpotsOptions = criticalSpots.map((criticalSpot) => criticalSpot._id);
             const selectedRiskZone = {...this.props.riskZones.find((riskZone) => riskZone._id === value)};
