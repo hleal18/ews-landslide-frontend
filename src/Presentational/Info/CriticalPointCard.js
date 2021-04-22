@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -8,7 +8,9 @@ import Chip from "@material-ui/core/Chip";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
+import CriticalPointWatchMap from "./CriticalPointWatchMap";
 import { variablesDefinitionAsObject } from "../../lib/variablesDefinition";
+
 
 const useStyles = makeStyles({
   root: {
@@ -31,15 +33,18 @@ export default function CriticalPointCard({
   name,
   description,
   sensorNodes,
+  handleOpenWatchMap,
+  _id
 }) {
   const classes = useStyles();
   const variablesMetadata = new Set();
   const variablesMetadataArr = [];
+  // const [showMap, setShowMap] = useState(false);
 
   sensorNodes.forEach(({ variables }) =>
     variables.forEach(({ type }) => {
-      console.log("Variablesdefinition: ", variablesDefinitionAsObject[type]);
-      console.log("Setsize: ", variablesMetadata.size);
+      // console.log("Variablesdefinition: ", variablesDefinitionAsObject[type]);
+      // console.log("Setsize: ", variablesMetadata.size);
       // if (!variablesMetadata.has(variablesDefinitionAsObject[type])) {
       variablesMetadata.add(String(variablesDefinitionAsObject[type]));
       // variablesMetadataArr.push(variablesDefinitionAsObject[type]);
@@ -105,7 +110,11 @@ export default function CriticalPointCard({
           >
             Ver Nodos
           </Button>
-          <Button size="small" color="primary">
+          <Button
+            size="small"
+            color="primary"
+            onClick={(e) => handleOpenWatchMap({ ...e, _id })}
+          >
             Ver Mapa
           </Button>
         </Grid>
