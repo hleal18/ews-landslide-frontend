@@ -6,16 +6,20 @@ import Typography from '@material-ui/core/Typography';
 
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { variablesDefinitionsAsObjectWithUnits } from '../../lib/variablesDefinition';
 
-export default (props) => (
-    <div>
+export default (props) => {
+    const currentVariable = props.variables.find((v) => v._id === props.variableId);
+    return <div>
         <DialogForm
             contextText='Introduzca los umbrales deseados'
+            title={currentVariable?.name}
             showDialog={props.showDialog}
             handleClose={props.handleClose}
             handleSubmit={props.handleSubmit}
             maxWidth='md'
-        >
+            >
+            {props.showDialog && console.log('Props thresholds: ', props)}
             <Grid container justify='center' direction='row' spacing={3}>
                 <Grid item >
                     <TextField
@@ -24,7 +28,7 @@ export default (props) => (
                         size="small"
                         variant="outlined"
                         id="lowerBound"
-                        label="Inferior"
+                        label="Umbral Inferior"
                         value={props.input.lowerBound}
                         onChange={props.handleText}
                         helperText={props.errorState.lowerBound}
@@ -35,7 +39,7 @@ export default (props) => (
                     display: 'flex',
                     alignItems: 'center'
                 }}>
-                    <Typography component='p' color='textPrimary' >  {'<'} <i> X </i> {'<'} </Typography>
+                    <Typography component='p' color='textPrimary' >  {'<   '} <i> {variablesDefinitionsAsObjectWithUnits[currentVariable?.type]} </i> {'   <'} </Typography>
                 </Grid>
                 <Grid item >
                     <TextField
@@ -43,7 +47,7 @@ export default (props) => (
                         size="small"
                         variant="outlined"
                         id="upperBound"
-                        label="Superior"
+                        label="Umbral Superior"
                         value={props.input.upperBound}
                         onChange={props.handleText}
                         helperText={props.errorState.upperBound}
@@ -63,4 +67,4 @@ export default (props) => (
             }
         </DialogForm>
     </div>
-);
+};
