@@ -9,6 +9,10 @@ export default class VariableConfigureFormManager extends React.Component {
         this.errorMessage = {
             empty: {
                 upperBound: 'Nombre del punto crítico no debe estar vacío'
+            },
+            valuesNotValid: {
+                upperBound: 'Valor debe ser mayor que umbral inferior',
+                lowerBound: 'Valor debe ser menor que umbral superior'
             }
         }
         
@@ -70,12 +74,25 @@ export default class VariableConfigureFormManager extends React.Component {
         
         return results;
     }
+
+    validateUpperBoundNotLessThanLowerBound = ({ upperBound, lowerBound }) => {
+        const results = {
+            upperBound: undefined,
+            lowerBound: undefined,
+        }
+        if (upperBound < lowerBound) {
+            return { upperBound: this.errorMessage.valuesNotValid.upperBound, lowerBound: this.errorMessage.valuesNotValid.lowerBound }
+        }
+
+        return results;
+    }
     
     handleSubmit = async () => {
         const { input } = this.state;
         const { upperBound, lowerBound } = input;
         const { token, variables, variableId, sensorNode } = this.props;
-        const validationResults = this.validateFields({ upperBound, lowerBound });
+
+        const validationResults = this.validateUpperBoundNotLessThanLowerBound({ upperBound, lowerBound });
         
         this.setState({ errorState: {...validationResults} });
         
