@@ -14,7 +14,7 @@ import LineChartStatic from "./Presentational/Charts/LineChartStatic.js";
 import AxisLineChartStatic from "./Presentational/Charts/AxisLineChartStatic";
 import AuthContext from "./Contexts/AuthContext";
 import ewsApi from "./Api/ewsApi";
-import { variablesDefinitionAsObject } from "./lib/variablesDefinition";
+import { variablesDefinitionAsObject, getUnitFromVariableType } from "./lib/variablesDefinition";
 import { FilterTiltShiftSharp } from "@material-ui/icons";
 import moment from "moment";
 import { Typography } from "@material-ui/core";
@@ -335,17 +335,25 @@ class Dashboard extends React.Component {
                       ][variable.variableId].end;
                     }
                   }
+
+                  const units = `(${getUnitFromVariableType(variable.type)})`;
+                  const showUnits = units.length > 2 ? true : false;
                   return (
-                    <Grid item xs={12} sm={12} md={8} lg={6} xl={6} key={index}>
+                    <Grid item xs={12} sm={10} md={8} lg={6} xl={6} key={index}>
                       <Paper>
                         <Grid container direction="column" alignItems="center">
                           <Grid item xs={12}>
-                            <h3 className={classes.cardTitle}>
-                              {variable.deviceName} -{" "}
-                              {variablesDefinitionAsObject[variable.type]}
-                              {"-"}
+                            <p style={{fontSize:"16px"}}>
+                              <b>Nodo sensor:</b> {variable.deviceName} 
+                              {/* -{" "} */}
+                              {"  "}
+                              <b>Variable:</b> {variablesDefinitionAsObject[variable.type]}
+                              {/* {"-"} */}
+                              {"  "}
                               {variable.variableId}
-                            </h3>
+                              {"  "}
+                              {showUnits && units}
+                            </p>
                           </Grid>
                           {/* { values.length === 0 && <p>No hay valores</p> } */}
                           {values.length >= 0 && (
