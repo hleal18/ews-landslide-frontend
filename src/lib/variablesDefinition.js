@@ -9,11 +9,30 @@
  * appropriate functionality and show appropriate menus.
  */
 
+ export const variablesDefinitionsAsObjectWithUnits = {
+    soilMoisture: 'Humedad de Suelo (%)',
+    inclination: 'Inclinación (°)',
+    waterLevel: 'Nivel de Agua (mm)',
+    temperature: 'Temperatura (°C)',
+    voltage: 'Voltaje (V)'
+}
 
 export const variablesDefinitionAsArrays = {
-    names: ['Humedad de Suelo', 'Inclinación', 'Nivel de Agua', 'Temperatura', 'Voltaje'],
-    values: ['soilMoisture', 'inclination', 'waterLevel', 'temperature', 'voltage']
-}
+  names: [
+    variablesDefinitionsAsObjectWithUnits.soilMoisture,
+    variablesDefinitionsAsObjectWithUnits.inclination,
+    variablesDefinitionsAsObjectWithUnits.waterLevel,
+    variablesDefinitionsAsObjectWithUnits.temperature,
+    variablesDefinitionsAsObjectWithUnits.voltage,
+  ],
+  values: [
+    "soilMoisture",
+    "inclination",
+    "waterLevel",
+    "temperature",
+    "voltage",
+  ],
+};
 
 export const variablesDefinitionAsObject = {
     soilMoisture: 'Humedad de Suelo',
@@ -21,4 +40,15 @@ export const variablesDefinitionAsObject = {
     waterLevel: 'Nivel de Agua',
     temperature: 'Temperatura',
     voltage: 'Voltaje'
+}
+
+export const getUnitFromVariableType = (variableType) => {
+    switch(variableType) {
+        case 'soilMoisture': return '%';
+        case 'inclination': return '°';
+        case 'waterLevel': return 'mm';
+        case 'temperature': return '°C';
+        case 'voltage': return 'V';
+        default: return '';
+    }
 }
