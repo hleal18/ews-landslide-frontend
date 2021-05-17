@@ -51,7 +51,7 @@ const AlertsTable = ({ alerts = [] }) => {
                   <TableCell align="center">Variable</TableCell>
                   <TableCell align="center">Valor Registrado</TableCell>
                   <TableCell align="center">Umbral</TableCell>
-                  <TableCell align="center">Email Notificado</TableCell>
+                  <TableCell align="center">Correos Notificados</TableCell>
                   <TableCell align="center">Fecha</TableCell>
                 </TableRow>
               </TableHead>
@@ -68,7 +68,7 @@ const AlertsTable = ({ alerts = [] }) => {
                     <TableCell align="center">{alert.variableName}</TableCell>
                     <TableCell align="center">{alert.variableValue}</TableCell>
                     <TableCell align="center">{alert.thresholdValue}</TableCell>
-                    <TableCell align="center">{alert.notified}</TableCell>
+                    <TableCell align="center">{alert.notified.join(', ')}</TableCell>
                     <TableCell align="center">
                       {getLocalDate(alert.timestamp)}
                     </TableCell>
