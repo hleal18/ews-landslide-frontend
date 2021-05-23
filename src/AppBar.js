@@ -43,6 +43,9 @@ const AppUpperBar = ({ routeToLogin, routeToDashboard, history }) => {
             <Button color="inherit" onClick={() => history.push("/riskzones")}>
               Zonas de Riesgo
             </Button>
+            <Button color="inherit" onClick={() => history.push("/user")}>
+              Usuario
+            </Button>
             <Button
               style={{ marginLeft: "15px" }}
               color="inherit"
