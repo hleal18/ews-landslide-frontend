@@ -332,4 +332,23 @@ export default class EwsApi {
             return alerts;
         } else throw new Error(`Error while fetching alerts: ${resultJson.message}`);
     }
+
+    static async patchUser(token, user) {
+        const result = await fetch(`${url}users`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `BEARER ${token}`,
+            },
+            body: JSON.stringify(user),
+        });
+
+        const resultJson = await result.json();
+
+        if (result.status === 200) {
+            const { user } = resultJson;
+            console.log('Updated user: ', user);
+            return user;
+        } else throw new Error(`Error while updating user: ${resultJson.message}`);
+    }
 }
