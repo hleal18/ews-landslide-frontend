@@ -23,7 +23,7 @@
         "react-vis": "^1.11.7",
         "recharts": "^2.0.0-beta.1",
         "styled-components": "^5.0.1",
-        "xlsx": "^0.16.7"
+        "xlsx": "^0.17.0"
     },
     "scripts": {
         "start": "REACT_APP_API='localhost:3002' react-scripts start",
