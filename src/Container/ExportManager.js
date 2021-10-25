@@ -38,7 +38,7 @@ const createWorkbooksForRiskZone = async (riskZone, token) => {
           // console.log('NewDataArray', newDataArray);
           const momentObj = moment(moment(newDataArray[0]).toLocaleString());
           // console.log('MomentObj:' , momentObj.toLocaleString());
-          newDataArray[0] = momentObj.format('DD/MM/YYYY, h:mm:ss A');
+          newDataArray[0] = momentObj.subtract(7, 'hours').format('DD/MM/YYYY, h:mm:ss A');
           return newDataArray;
         })
         console.dir(varResult.variables, { depth: null });
