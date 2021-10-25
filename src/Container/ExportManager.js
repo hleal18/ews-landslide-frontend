@@ -3,6 +3,7 @@ import RiskZonesContext from "../Contexts/RiskZonesContext";
 import AuthContext from "../Contexts/AuthContext";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core"
+import moment from 'moment';
 import RiskZoneSelector from "../Presentational/Export/RiskZoneSelector";
 
 import ewsApi from "../Api/ewsApi";
@@ -29,12 +30,23 @@ const createWorkbooksForRiskZone = async (riskZone, token) => {
       const workbook = xlsx.utils.book_new();
 
       for (const varResult of variablesResult) {
-        
+        // console.log('VarResult variables: ');
+        // console.log('transforming variables to locale time');
+        //[[date, value1, value2?], [date,value1,value2]]
+        const transformedVariables = varResult.variables.map((dataArray) => {
+          const newDataArray = [...dataArray];
+          // console.log('NewDataArray', newDataArray);
+          const momentObj = moment(newDataArray[0]);
+          // console.log('MomentObj:' , momentObj.toLocaleString());
+          newDataArray[0] = momentObj.format('DD/MM/YYYY, h:mm:ss A');
+          return newDataArray;
+        })
+        console.dir(varResult.variables, { depth: null });
         const newsheet = xlsx.utils.json_to_sheet([
           varResult.variables[0]?.length === 3
             ? ["fecha", "x", "y"]
             : ["fecha", "valor registrado"],
-          ...varResult.variables,
+          ...transformedVariables,
         ], { skipHeader: true });
 
         xlsx.utils.book_append_sheet(workbook, newsheet, varResult.name);
