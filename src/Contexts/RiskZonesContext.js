@@ -75,6 +75,29 @@ export const RiskZonesProvider = (props) => {
     )
 }
 
+
+export const useRiskZoneNotificationSettingsUpdater = () => {
+    const { riskZones, setRiskZones } = useContext(RiskZonesContext);
+
+    return (riskZoneId, notificationsEnabled) => {
+        const riskZoneIndex = riskZones.findIndex(
+            (riskZone) => riskZone._id === riskZoneId
+        );
+        console.log("Riskzone idnex found: ", riskZoneIndex);
+
+        if (riskZoneIndex !== -1) {
+            setRiskZones((prevState) => {
+                const newState = [...prevState];
+                newState[riskZoneIndex].notificationsEnabled =
+                    notificationsEnabled;
+                return newState;
+            });
+        } else {
+            console.log("Risk zone couldnt be updated, index not valid");
+        }
+    }
+}
+
 export const useCriticalSpotUpdater = () => {
     const { riskZones, setRiskZones } = useContext(RiskZonesContext);
 
