@@ -1,9 +1,8 @@
 import React from "react";
 
 import DialogForm from "./DialogForm";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import Checkbox from "@material-ui/core/Checkbox";
+import Switch from '@material-ui/core/Switch';
+
 
 import Grid from "@material-ui/core/Grid";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -31,14 +30,13 @@ const RiskZoneConfigForm = (props) => {
                 >
                     <Grid item>Activar notificaciones</Grid>
                     <Grid item>
-                        <Checkbox
+                        <Switch
                             checked={props.notificationsEnabled}
                             onChange={props.handleCheckBox}
                             color="primary"
                         >
-                            {" "}
-                            Notificaciones{" "}
-                        </Checkbox>
+                            Notifications
+                        </Switch>
                     </Grid>
                 </Grid>
                 {props.isLoading && (
