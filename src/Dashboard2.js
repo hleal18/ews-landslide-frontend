@@ -14,7 +14,7 @@ import LineChartStatic from "./Presentational/Charts/LineChartStatic.js";
 import AxisLineChartStatic from "./Presentational/Charts/AxisLineChartStatic";
 import AuthContext from "./Contexts/AuthContext";
 import ewsApi from "./Api/ewsApi";
-import { variablesDefinitionAsObject, getUnitFromVariableType } from "./lib/variablesDefinition";
+import { variablesDefinitionAsObject, getUnitFromVariableType, variablesDefinitionsAsObjectWithUnits } from "./lib/variablesDefinition";
 import { FilterTiltShiftSharp } from "@material-ui/icons";
 import moment from "moment";
 import { Typography } from "@material-ui/core";
@@ -368,12 +368,15 @@ class Dashboard extends React.Component {
                                     data={this.transformValuesToStaticChart(
                                       values
                                     )}
+                                    variableNameWithUnit={variablesDefinitionsAsObjectWithUnits[variable.type]}
+                                    
                                   />
                                 ) : (
                                   <AxisLineChartStatic
                                     data={this.transformValuesToAxisStaticChart(
                                       values
                                     )}
+                                    variableNameWithUnit={variablesDefinitionsAsObjectWithUnits[variable.type]}
                                   />
                                 )}
                               </Grid>
