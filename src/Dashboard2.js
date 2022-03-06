@@ -153,7 +153,7 @@ class Dashboard extends React.Component {
     // console.log('Varconf: ', varConf);
     let variables = [];
     try {
-      let startDate = moment().subtract(6, "months");
+      let startDate = moment().subtract(6, "years");
       let endDate;
       if (
         this.state.selectedDates[varConf.deviceName] &&
